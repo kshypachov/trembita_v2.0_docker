@@ -3,5 +3,5 @@ name: my-app
 version: 0.1.0
 dependencies:
   - name: postgresql
-    version: 12.5.7   # зависит от Bitnami
+    version: 16.0.0   # зависит от Bitnami
     repository: https://charts.bitnami.com/bitnami
