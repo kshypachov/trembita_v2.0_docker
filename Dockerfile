@@ -37,8 +37,6 @@ RUN echo "deb http://192.168.99.189/graylog jammy main" | tee -a /etc/apt/source
 
 ADD ["$REPO_KEY","/tmp/repokey.gpg"]
 RUN apt-key add '/tmp/repokey.gpg'
-RUN echo "LC_ALL=en_US.UTF-8" >>/etc/environment
-RUN locale-gen en_US.UTF-8
 
 RUN echo "uxp-proxy uxp-common/username string uxpadmin" | debconf-set-selections
 RUN echo "uxp-identity-provider-rest-api  uxp-identity-provider/password  password uxpadminp" | debconf-set-selections
@@ -56,23 +54,19 @@ RUN printf  '#!/bin/sh\nexit 101\n' > /usr/sbin/policy-rc.d && chmod +x /usr/sbi
     && printf '#!/bin/sh\nexit 0\n' > /bin/systemctl && chmod +x /bin/systemctl
 
 RUN pg_ctlcluster 16 main start \
-    && nginx -g 'daemon on;' \
-#    && sleep 5 \
     && apt-get -qq update \
     && apt-get -qq -y --no-install-recommends install uxp-securityserver-trembita  \
+    && pg_ctlcluster 16 main stop \
     && apt-get clean  \
     && rm -rf /var/lib/apt/lists/* \
     && wait
 
 COPY ss_trembita.conf /etc/supervisor/supervisord.conf
+COPY entrypoint.sh /root/entrypoint.sh
+RUN chmod +x /root/entrypoint.sh
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/root/entrypoint.sh"]
 
-#VOLUME ["/etc/uxp", "/var/lib/uxp", "/var/lib/postgresql/16/main/", "/var/log/uxp/"]
-VOLUME ["/etc/uxp", "/var/lib/uxp"]
-EXPOSE 4000 5500 5577 5599 443 80
+VOLUME ["/etc/uxp", "/var/lib/uxp", "/var/lib/postgresql/16/main/", "/var/log/"]
 
-#RUN apt-get -qq update \
-#    && apt-get -y --no-install-recommends install uxp-securityserver-trembita \
-#    && apt-get clean  \
-#    && rm -rf /var/lib/apt/lists/*
+EXPOSE 4000 5500 5577 5599 443 80 5432
