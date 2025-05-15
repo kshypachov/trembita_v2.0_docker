@@ -157,10 +157,10 @@ postgresql:
     pgHbaConfiguration: |
       host all all all scram-sha-256
 
-  persistence:
-    enabled: true
-    size: 1Gi
-    storageClass: ""
+#  persistence:
+#    enabled: true
+#    size: 1Gi
+#    storageClass: ""
 
   initJob:
     containerImageName: kshypachov/trembita_ss_v1.22.6-pg-init

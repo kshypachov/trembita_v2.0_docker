@@ -1,31 +1,31 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: {{ include "trembita-1-22-6-ss.name" . }}-postgres
-  template:
-    metadata:
-      labels:
-        app: {{ include "trembita-1-22-6-ss.name" . }}-postgres
-    spec:
-      containers:
-        - name: {{ .Values.postgresql.containerName }}
-          image: {{ .Values.postgresql.image }}
-          env:
-            {{- range .Values.postgresql.env }}
-            - name: {{ .name }}
-              value: {{ .value | quote }}
-            {{- end }}
-          ports:
-            - containerPort: {{ .Values.postgresql.port }}
-          volumeMounts:
-            - name: pgdata
-              mountPath: /var/lib/postgresql/data
-      volumes:
-        - name: pgdata
-          persistentVolumeClaim:
-            claimName: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres-pvc
+{{/*apiVersion: apps/v1*/}}
+{{/*kind: Deployment*/}}
+{{/*metadata:*/}}
+{{/*  name: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres*/}}
+{{/*spec:*/}}
+{{/*  replicas: 1*/}}
+{{/*  selector:*/}}
+{{/*    matchLabels:*/}}
+{{/*      app: {{ include "trembita-1-22-6-ss.name" . }}-postgres*/}}
+{{/*  template:*/}}
+{{/*    metadata:*/}}
+{{/*      labels:*/}}
+{{/*        app: {{ include "trembita-1-22-6-ss.name" . }}-postgres*/}}
+{{/*    spec:*/}}
+{{/*      containers:*/}}
+{{/*        - name: {{ .Values.postgresql.containerName }}*/}}
+{{/*          image: {{ .Values.postgresql.image }}*/}}
+{{/*          env:*/}}
+{{/*            {{- range .Values.postgresql.env }}*/}}
+{{/*            - name: {{ .name }}*/}}
+{{/*              value: {{ .value | quote }}*/}}
+{{/*            {{- end }}*/}}
+{{/*          ports:*/}}
+{{/*            - containerPort: {{ .Values.postgresql.port }}*/}}
+{{/*          volumeMounts:*/}}
+{{/*            - name: pgdata*/}}
+{{/*              mountPath: /var/lib/postgresql/data*/}}
+{{/*      volumes:*/}}
+{{/*        - name: pgdata*/}}
+{{/*          persistentVolumeClaim:*/}}
+{{/*            claimName: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres-pvc*/}}
