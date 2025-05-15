@@ -229,4 +229,34 @@ trembita_app_db_config:
   - name: OPMONITOR_ADMIN_DB_PASS
     value: opmonitor_adminp
 
+trembita_config:
+
+  ss_to_db_access:
+    PGPORT: 5432
+    PGROOT_USER: postgres
+    PGROOT_PASSWORD: mysecretpassword
+    SERVERCONF_DB_USER: serverconf
+    SERVERCONF_DB_PASS: serverconfp
+    MESSAGELOG_DB_USER: messagelog
+    MESSAGELOG_DB_PASS: messagelogp
+    IDENTITY_DB_USER: identityprovider
+    IDENTITY_DB_PASS: identityproviderp
+    OPMONITOR_DB_USER: opmonitor
+    OPMONITOR_DB_PASS: opmonitorp
+    OPMONITOR_ADMIN_DB_USER: opmonitor_admin
+    PMONITOR_ADMIN_DB_PASS: opmonitor_adminp
+
+
+  web_ui_access:
+
+  internal_api_access:
+
+  external_api_access:
+
+
+
+
+
+
+
 
