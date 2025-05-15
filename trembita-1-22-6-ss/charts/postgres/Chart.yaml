@@ -1,5 +1,5 @@
 apiVersion: v2
-name: my-app
+name: postgress-app
 version: 0.1.0
 dependencies:
   - name: postgresql

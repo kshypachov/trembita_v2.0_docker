@@ -1,0 +1,13 @@
+postgresql:
+  auth:
+    username: serverconf
+    password: changeme
+    database: serverconf
+    postgresPassword: rootpassword
+
+  fullnameOverride: my-postgres        # Упростим имя Kubernetes Service
+  primary:
+    extendedConfiguration: |
+      listen_addresses = '*'
+    pgHbaConfiguration: |
+      host all all all scram-sha-256
