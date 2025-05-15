@@ -145,8 +145,9 @@ postgresql:
     pullSecrets: [ ]
 
   auth:
-    username: postgres
-    password: mysecretpassword
+    postgresPassword: mysecretpassword
+#    username: postgres
+#    password: mysecretpassword
 #    database: postgres
 #    postgresPassword: rootpassword
 
