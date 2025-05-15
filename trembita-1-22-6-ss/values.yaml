@@ -148,6 +148,9 @@ auth:
   password: serverconfp
   database: testDB
 
+  adminPasswordKey: POSTGRES_PASSWORD
+  userPasswordKey: APP_DB_PASSWORD
+
 passwordUpdateJob:
   enabled: true
 
@@ -166,6 +169,12 @@ postgresql:
     username: serverconf
     password: serverconfp
     database: testDB
+
+
+    adminPasswordKey: POSTGRES_PASSWORD
+    userPasswordKey: APP_DB_PASSWORD
+
+
 
   passwordUpdateJob:
     enabled: true
