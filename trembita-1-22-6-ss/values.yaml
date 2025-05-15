@@ -140,7 +140,7 @@ tolerations: []
 affinity: {}
 
 postgresql:
-  image: postgres:15
+  image: postgres:16
   username: postgres
   password: mysecretpassword
   database: appdb
@@ -150,3 +150,13 @@ postgresql:
     enabled: true
     size: 1Gi
     storageClass: ""
+
+  env:
+    - name: PGDATA
+      value: /var/lib/postgresql/data/pgdata
+    - name: POSTGRES_USER
+      value: postgres
+    - name: POSTGRES_PASSWORD
+      value: mysecretpassword
+    - name: POSTGRES_DB
+      value: appdb
