@@ -46,8 +46,11 @@ declare -A DBS=(
   [messagelog-metadata]="${MESSAGELOG_DB_USER}:${MESSAGELOG_DB_PASS}"
   [identity-provider]="${IDENTITY_DB_USER}:${IDENTITY_DB_PASS}"
   [op-monitor]="${OPMONITOR_DB_USER}:${OPMONITOR_DB_PASS}"
-  [op-monitor]="${OPMONITOR_ADMIN_DB_USER}:${OPMONITOR_ADMIN_DB_PASS}"
 )
+
+echo "🔧 Creating user '$OPMONITOR_DB_USER'"
+psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -c \
+      "CREATE ROLE \"$OPMONITOR_ADMIN_DB_USER\" LOGIN PASSWORD '$OPMONITOR_ADMIN_DB_PASS';" # костыль для пользователя не из конфига
 
 # Создать пользователя Цикл по всем пользователям
 for DB in "${!DBS[@]}"; do
