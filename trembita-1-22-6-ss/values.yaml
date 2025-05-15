@@ -140,6 +140,8 @@ tolerations: []
 affinity: {}
 
 postgresql:
+
+  containerName: postgres
   image: postgres:16
   username: postgres
   password: mysecretpassword
@@ -160,3 +162,33 @@ postgresql:
       value: mysecretpassword
     - name: POSTGRES_DB
       value: appdb
+
+  initJob:
+    containerImageName: kshypachov/trembita_ss_v1.22.6-pg-init
+    containerImageVer: v1.0.0
+
+    env:
+      - name: PGHOST
+        value: postgres
+      - name: PGPORT
+        value: 5432
+      - name: PGROOT_USER
+        value: postgres
+      - name: PGROOT_PASSWORD
+        value: mysecretpassword
+      - name: SERVERCONF_DB_USER
+        value: serverconf
+      - name: SERVERCONF_DB_PASS
+        value: serverconfp
+      - name: MESSAGELOG_DB_USER
+        value: messagelog
+      - name: MESSAGELOG_DB_PASS
+        value: messagelogp
+      - name: IDENTITY_DB_USER
+        value: identity
+      - name: IDENTITY_DB_PASS
+        value: identityp
+      - name: OPMONITOR_DB_USER
+        value: opmonitor
+      - name: OPMONITOR_DB_PASS
+        value: opmonitorp

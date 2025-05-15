@@ -13,7 +13,7 @@ spec:
         app: {{ include "trembita-1-22-6-ss.name" . }}-postgres
     spec:
       containers:
-        - name: postgres
+        - name: {{ .Values.postgresql.containerName }}
           image: {{ .Values.postgresql.image }}
           env:
             {{- range .Values.postgresql.env }}

@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "trembita-1-22-6-ss.fullname" . }}-db-init
+  labels:
+    app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: db-init
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: db-init
+          image: "{{ .Values.postgresql.initJob.containerImageName }}:{{ .Values.postgresql.initJob.containerImageVer }}"
+          imagePullPolicy: IfNotPresent
+          env:
+            {{- range .Values.postgresql.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
