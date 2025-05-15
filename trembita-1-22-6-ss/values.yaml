@@ -171,25 +171,24 @@ postgresql_init:
         value: opmonitorp
 
 postgresql:
-
   containerName: postgres
   image: postgres:16
   username: postgres
   password: mysecretpassword
   database: appdb
   port: 5432
-#
-#  persistence:
-#    enabled: true
-#    size: 1Gi
-#    storageClass: ""
-#
-#  env:
-#    - name: PGDATA
-#      value: /var/lib/postgresql/data/pgdata
-#    - name: POSTGRES_USER
-#      value: postgres
-#    - name: POSTGRES_PASSWORD
-#      value: mysecretpassword
-#    - name: POSTGRES_DB
-#      value: appdb
+
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: ""
+
+  env:
+    - name: PGDATA
+      value: /var/lib/postgresql/data/pgdata
+    - name: POSTGRES_USER
+      value: postgres
+    - name: POSTGRES_PASSWORD
+      value: mysecretpassword
+    - name: POSTGRES_DB
+      value: appdb
