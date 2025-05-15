@@ -141,10 +141,10 @@ affinity: {}
 
 postgresql:
   auth:
-    user: "user"
-    postgresPassword: "newPostgresPassword123"
-    password: "newUserPassword123"
-    replicationPassword: "newReplicationPassword123"
+    enablePostgresUser: true
+    postgresPassword: mysecretpassword
+    username: serverconf
+    password: serverconfp
 
   passwordUpdateJob:
     enabled: true
