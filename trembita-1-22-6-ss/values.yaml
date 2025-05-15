@@ -139,54 +139,6 @@ tolerations: []
 
 affinity: {}
 
-
-
-auth:
-  enablePostgresUser: true
-  postgresPassword: mysecretpassword
-  username: serverconf
-  password: serverconfp
-  database: testDB
-
-  adminPasswordKey: POSTGRES_PASSWORD
-  userPasswordKey: APP_DB_PASSWORD
-
-passwordUpdateJob:
-  enabled: true
-
-fullnameOverride: uxp-postgres
-
-primary:
-  extendedConfiguration: |
-    listen_addresses = '*'
-  pgHbaConfiguration: |
-    host all all all scram-sha-256
-
-postgresql:
-  auth:
-    enablePostgresUser: true
-    postgresPassword: mysecretpassword
-    username: serverconf
-    password: serverconfp
-    database: testDB
-
-
-    adminPasswordKey: POSTGRES_PASSWORD
-    userPasswordKey: APP_DB_PASSWORD
-
-
-
-  passwordUpdateJob:
-    enabled: true
-
-  fullnameOverride: uxp-postgres
-
-  primary:
-    extendedConfiguration: |
-      listen_addresses = '*'
-    pgHbaConfiguration: |
-      host all all all scram-sha-256
-
 postgresql_init:
   initJob:
     containerImageName: kshypachov/trembita_ss_v1.22.6-pg-init
@@ -218,17 +170,14 @@ postgresql_init:
       - name: OPMONITOR_DB_PASS
         value: opmonitorp
 
+postgresql:
 
-
-#
-#postgresql:
-#
-#  containerName: postgres
-#  image: postgres:16
-#  username: postgres
-#  password: mysecretpassword
-#  database: appdb
-#  port: 5432
+  containerName: postgres
+  image: postgres:16
+  username: postgres
+  password: mysecretpassword
+  database: appdb
+  port: 5432
 #
 #  persistence:
 #    enabled: true
@@ -244,33 +193,3 @@ postgresql_init:
 #      value: mysecretpassword
 #    - name: POSTGRES_DB
 #      value: appdb
-#
-#  initJob:
-#    containerImageName: kshypachov/trembita_ss_v1.22.6-pg-init
-#    containerImageVer: v1.0.2
-#
-#    env:
-##      - name: PGHOST
-##        value: postgres
-##      - name: PGPORT
-##        value: 5432
-#      - name: PGROOT_USER
-#        value: postgres
-#      - name: PGROOT_PASSWORD
-#        value: mysecretpassword
-#      - name: SERVERCONF_DB_USER
-#        value: serverconf
-#      - name: SERVERCONF_DB_PASS
-#        value: serverconfp
-#      - name: MESSAGELOG_DB_USER
-#        value: messagelog
-#      - name: MESSAGELOG_DB_PASS
-#        value: messagelogp
-#      - name: IDENTITY_DB_USER
-#        value: identity
-#      - name: IDENTITY_DB_PASS
-#        value: identityp
-#      - name: OPMONITOR_DB_USER
-#        value: opmonitor
-#      - name: OPMONITOR_DB_PASS
-#        value: opmonitorp
