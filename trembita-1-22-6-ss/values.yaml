@@ -248,14 +248,55 @@ trembita_config:
 
   web_ui_access:
     service:
+      enabled: true
+      type: ClusterIP
+      tag: uxp_web
+      port: 4000
+      portName: uxp_web
+
     ingress:
+      enabled: true
+      className: "nginx"
+      hosts:
+        - host: trembita2.local
+          paths:
+          - path: /
+            pathType: Prefix
+            port: 4000
+
+      tls:
+        - hosts:
+            - trembita2.local
+          secretName: trembita-tls
+
 
   internal_api_access:
     service:
+      enabled: true
+      type: ClusterIP
+      tag: uxp_internal
+      port: 80
+      portName: uxp_internal
+
     ingress:
+      enabled: true
+      className: "nginx"
+      hosts:
+        - host: api.trembita2.local
+          paths:
+          - path: /
+            pathType: Prefix
+            port: 80
+
 
   external_api_access:
     service:
+      enabled: true
+      type: LoadBalancer
+      tag: uxp_external
+      port: 5500
+      portName: uxp_external
+
 
 
 
