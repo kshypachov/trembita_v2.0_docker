@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: db-init
 spec:
-  backoffLimit: 4
+  backoffLimit: 1
   template:
     spec:
       restartPolicy: OnFailure

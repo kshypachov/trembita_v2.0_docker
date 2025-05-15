@@ -46,7 +46,6 @@ declare -A DBS=(
   [messagelog-metadata]="${MESSAGELOG_DB_USER}:${MESSAGELOG_DB_PASS}"
   [identity-provider]="${IDENTITY_DB_USER}:${IDENTITY_DB_PASS}"
   [op-monitor]="${OPMONITOR_DB_USER}:${OPMONITOR_DB_PASS}"
-  [op-monitor]="${OPMONITOR_ADMIN_DB_USER}:${OPMONITOR_ADMIN_DB_PASS}"
 )
 
 # Создать пользователя Цикл по всем пользователям
@@ -81,22 +80,15 @@ for DB in "${!DBS[@]}"; do
   if [ "$DB_EXISTS" != "1" ]; then
     echo "📦 Creating database $DB..."
     psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -c "CREATE DATABASE \"$DB\" OWNER $USER;"
-    echo "📦 Grant permissions on db $DB for user $USER..."
-    psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -c "GRANT ALL PRIVILEGES ON DATABASE \"$DB\" TO $USER;"
-  else
-    echo "ℹ️ Database $DB already exists."
-    echo "📦 Grant permissions on db $DB for user $USER..."
-    psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -c "GRANT ALL PRIVILEGES ON DATABASE \"$DB\" TO $USER;"
   fi
-
 done
 
 # Импорт SQL дампов
 echo "⬇️ Importing SQL dumps..."
 
-PGPASSWORD="$SERVERCONF_DB_PASS" psql -h "$PGHOST" -p "$PGPORT" -U "$SERVERCONF_DB_USER" -d serverconf < /serverconf.sql
-PGPASSWORD="$MESSAGELOG_DB_PASS" psql -h "$PGHOST" -p "$PGPORT" -U "$MESSAGELOG_DB_USER" -d messagelog-metadata < /messagelog-metadata.sql
-PGPASSWORD="$IDENTITY_DB_PASS"   psql -h "$PGHOST" -p "$PGPORT" -U "$IDENTITY_DB_USER" -d   identity-provider < /identity-provider.sql
-PGPASSWORD="$OPMONITOR_DB_PASS"  psql -h "$PGHOST" -p "$PGPORT" -U "$OPMONITOR_DB_USER" -d  op-monitor < /op-monitor.sql
+PGPASSWORD="$PGROOT_PASSWORD" psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -d serverconf < /serverconf.sql
+PGPASSWORD="$PGROOT_PASSWORD" psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -d messagelog-metadata < /messagelog-metadata.sql
+PGPASSWORD="$PGROOT_PASSWORD" psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -d identity-provider < /identity-provider.sql
+PGPASSWORD="$PGROOT_PASSWORD" psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -d op-monitor < /op-monitor.sql
 
 echo "✅ All databases initialized successfully."
