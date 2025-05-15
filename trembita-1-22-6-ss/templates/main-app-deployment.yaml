@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "trembita-1-22-6-ss.fullname" . }}
+  name: {{ include "trembita-1-22-6-ss.fullname" . }}-main-app
   labels:
     {{- include "trembita-1-22-6-ss.labels" . | nindent 4 }}
 spec:
