@@ -47,38 +47,46 @@ declare -A DBS=(
   [op-monitor]="${OPMONITOR_DB_USER}:${OPMONITOR_DB_PASS}"
 )
 
-# Создание пользователей и баз данных
+# Создать пользователя Цикл по всем пользователям
 for DB in "${!DBS[@]}"; do
   USER_PASS="${DBS[$DB]}"
   USER="${USER_PASS%%:*}"
   PASS="${USER_PASS##*:}"
 
-  echo "🔧 Creating user '$USER' and database '$DB'..."
+  echo "🔧 Creating user '$USER'"
 
-  # Создать пользователя (через DO блок)
-  psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -v ON_ERROR_STOP=1 <<-EOSQL
-    DO \$\$
-    BEGIN
-      IF NOT EXISTS (
-        SELECT FROM pg_catalog.pg_roles WHERE rolname = '$USER'
-      ) THEN
-        CREATE ROLE $USER LOGIN PASSWORD '$PASS';
-      END IF;
-    END
-    \$\$;
-EOSQL
+  # Проверка: существует ли пользователь
+  USER_EXISTS=$(psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -tAc \
+    "SELECT 1 FROM pg_roles WHERE rolname = '$USER';")
 
-  # Создать базу — вне DO
+  if [ "$USER_EXISTS" != "1" ]; then
+    echo "➕ Creating user '$USER'..."
+    psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -c \
+      "CREATE ROLE \"$USER\" LOGIN PASSWORD '$PASS';"
+  else
+    echo "✔️ User '$USER' already exists."
+  fi
+done
+
+
+# Создание баз данных
+for DB in "${!DBS[@]}"; do
+  USER_PASS="${DBS[$DB]}"
+  USER="${USER_PASS%%:*}"
+  PASS="${USER_PASS##*:}"
+
   DB_EXISTS=$(psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -tAc "SELECT 1 FROM pg_database WHERE datname = '$DB'")
   if [ "$DB_EXISTS" != "1" ]; then
     echo "📦 Creating database $DB..."
     psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -c "CREATE DATABASE \"$DB\" OWNER $USER;"
+    echo "📦 Grant permissions on db $DB for user $USER..."
+    psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -c "GRANT ALL PRIVILEGES ON DATABASE \"$DB\" TO $USER;"
   else
     echo "ℹ️ Database $DB already exists."
+    echo "📦 Grant permissions on db $DB for user $USER..."
+    psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -c "GRANT ALL PRIVILEGES ON DATABASE \"$DB\" TO $USER;"
   fi
 
-  # Выдать права
-  psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -c "GRANT ALL PRIVILEGES ON DATABASE \"$DB\" TO $USER;"
 done
 
 # Импорт SQL дампов
