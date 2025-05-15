@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "trembita-1-22-6-ss.fullname" . }}-main-app
   labels:
-    app: test
+    app: {{ include "trembita-1-22-6-ss.name" . }}-{{ .Values.trembita_config.web_ui_access.service.label }}
     {{- include "trembita-1-22-6-ss.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
@@ -19,7 +19,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app: test
+        app: {{ include "trembita-1-22-6-ss.name" . }}-{{ .Values.trembita_config.web_ui_access.service.label }}
         {{- include "trembita-1-22-6-ss.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
