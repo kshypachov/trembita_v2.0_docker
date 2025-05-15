@@ -165,7 +165,7 @@ postgresql:
 
   initJob:
     containerImageName: kshypachov/trembita_ss_v1.22.6-pg-init
-    containerImageVer: v1.0.1
+    containerImageVer: v1.0.2
 
     env:
 #      - name: PGHOST

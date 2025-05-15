@@ -55,25 +55,30 @@ for DB in "${!DBS[@]}"; do
 
   echo "🔧 Creating user '$USER' and database '$DB'..."
 
+  # Создать пользователя (через DO блок)
   psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -v ON_ERROR_STOP=1 <<-EOSQL
     DO \$\$
     BEGIN
-      IF NOT EXISTS (SELECT FROM pg_catalog.pg_user WHERE usename = '$USER') THEN
-        CREATE USER $USER WITH PASSWORD '$PASS';
+      IF NOT EXISTS (
+        SELECT FROM pg_catalog.pg_roles WHERE rolname = '$USER'
+      ) THEN
+        CREATE ROLE $USER LOGIN PASSWORD '$PASS';
       END IF;
     END
     \$\$;
-
-    DO \$\$
-    BEGIN
-      IF NOT EXISTS (SELECT FROM pg_database WHERE datname = '$DB') THEN
-        CREATE DATABASE "$DB" OWNER $USER;
-      END IF;
-    END
-    \$\$;
-
-    GRANT ALL PRIVILEGES ON DATABASE "$DB" TO $USER;
 EOSQL
+
+  # Создать базу — вне DO
+  DB_EXISTS=$(psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -tAc "SELECT 1 FROM pg_database WHERE datname = '$DB'")
+  if [ "$DB_EXISTS" != "1" ]; then
+    echo "📦 Creating database $DB..."
+    psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -c "CREATE DATABASE \"$DB\" OWNER $USER;"
+  else
+    echo "ℹ️ Database $DB already exists."
+  fi
+
+  # Выдать права
+  psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -c "GRANT ALL PRIVILEGES ON DATABASE \"$DB\" TO $USER;"
 done
 
 # Импорт SQL дампов
