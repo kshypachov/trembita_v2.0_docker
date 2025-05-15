@@ -122,7 +122,7 @@ autoscaling:
 
 # Additional volumes on the output Deployment definition.
 volumes:
-  - name: uxp-db-config
+  - name: db-config
     configMap:
       name: uxp-db-config
 
