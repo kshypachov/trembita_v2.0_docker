@@ -199,35 +199,35 @@ postgresql:
     - name: POSTGRES_DB
       value: appdb
 
-trembita_app_db_config:
-  #      - name: PGHOST
-  #        value: uxp-postgres
-  - name: PGPORT
-    value: 5432
-  - name: PGROOT_USER
-    value: postgres
-  - name: PGROOT_PASSWORD
-    value: mysecretpassword
-  - name: SERVERCONF_DB_USER
-    value: serverconf
-  - name: SERVERCONF_DB_PASS
-    value: serverconfp
-  - name: MESSAGELOG_DB_USER
-    value: messagelog
-  - name: MESSAGELOG_DB_PASS
-    value: messagelogp
-  - name: IDENTITY_DB_USER
-    value: identityprovider
-  - name: IDENTITY_DB_PASS
-    value: identityproviderp
-  - name: OPMONITOR_DB_USER
-    value: opmonitor
-  - name: OPMONITOR_DB_PASS
-    value: opmonitorp
-  - name: OPMONITOR_ADMIN_DB_USER
-    value: opmonitor_admin
-  - name: OPMONITOR_ADMIN_DB_PASS
-    value: opmonitor_adminp
+#trembita_app_db_config:
+#  #      - name: PGHOST
+#  #        value: uxp-postgres
+#  - name: PGPORT
+#    value: 5432
+#  - name: PGROOT_USER
+#    value: postgres
+#  - name: PGROOT_PASSWORD
+#    value: mysecretpassword
+#  - name: SERVERCONF_DB_USER
+#    value: serverconf
+#  - name: SERVERCONF_DB_PASS
+#    value: serverconfp
+#  - name: MESSAGELOG_DB_USER
+#    value: messagelog
+#  - name: MESSAGELOG_DB_PASS
+#    value: messagelogp
+#  - name: IDENTITY_DB_USER
+#    value: identityprovider
+#  - name: IDENTITY_DB_PASS
+#    value: identityproviderp
+#  - name: OPMONITOR_DB_USER
+#    value: opmonitor
+#  - name: OPMONITOR_DB_PASS
+#    value: opmonitorp
+#  - name: OPMONITOR_ADMIN_DB_USER
+#    value: opmonitor_admin
+#  - name: OPMONITOR_ADMIN_DB_PASS
+#    value: opmonitor_adminp
 
 trembita_config:
 
@@ -248,12 +248,15 @@ trembita_config:
 
   web_ui_access:
     service:
+    ingress:
 
   internal_api_access:
     service:
+    ingress:
 
   external_api_access:
     service:
+
 
 
 
