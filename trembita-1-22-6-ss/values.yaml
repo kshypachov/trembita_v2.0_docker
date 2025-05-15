@@ -58,7 +58,7 @@ services:
     enabled: true
     type: LoadBalancer
     ports:
-      - name: Port5500
+      - name: port5500
         port: 5500
         targetPort: 5500
 
@@ -66,10 +66,10 @@ services:
     enabled: true
     type: ClusterIP
     ports:
-      - name: webUi
+      - name: web-ui
         port: 4000
         targetPort: 4000
-      - name: secureApi
+      - name: secure-api
         port: 80
         targetPort: 80
 
