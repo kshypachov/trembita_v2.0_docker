@@ -145,22 +145,17 @@ postgresql:
     pullSecrets: [ ]
 
   auth:
-    username: serverconf
-    password: changeme
-    database: serverconf
-    postgresPassword: rootpassword
+    username: postgres
+    password: mysecretpassword
+#    database: postgres
+#    postgresPassword: rootpassword
 
-  fullnameOverride: my-postgres        # Упростим имя Kubernetes Service
+  fullnameOverride: uxp-postgres
   primary:
     extendedConfiguration: |
       listen_addresses = '*'
     pgHbaConfiguration: |
       host all all all scram-sha-256
-
-#  persistence:
-#    enabled: true
-#    size: 1Gi
-#    storageClass: ""
 
   initJob:
     containerImageName: kshypachov/trembita_ss_v1.22.6-pg-init
