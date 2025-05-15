@@ -139,6 +139,10 @@ tolerations: []
 
 affinity: {}
 
+global:
+  postgresql:
+    auth:
+      postgresPassword: "mysecretpassword"
 
 postgresql:
   image:
