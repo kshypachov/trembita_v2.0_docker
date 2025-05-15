@@ -139,21 +139,16 @@ tolerations: []
 
 affinity: {}
 
-global:
-  postgresql:
-    auth:
-      postgresPassword: "mysecretpassword"
-
 postgresql:
-  image:
-    pullSecrets: [ ]
+#  image:
+#    pullSecrets: [ ]
 
-  auth:
-    postgresPassword: mysecretpassword
-#    username: postgres
-#    password: mysecretpassword
-#    database: postgres
-#    postgresPassword: rootpassword
+#  auth:
+#    postgresPassword: mysecretpassword
+##    username: postgres
+##    password: mysecretpassword
+##    database: postgres
+##    postgresPassword: rootpassword
 
   fullnameOverride: uxp-postgres
   primary:
@@ -162,6 +157,7 @@ postgresql:
     pgHbaConfiguration: |
       host all all all scram-sha-256
 
+postgresql_init:
   initJob:
     containerImageName: kshypachov/trembita_ss_v1.22.6-pg-init
     containerImageVer: v1.0.2

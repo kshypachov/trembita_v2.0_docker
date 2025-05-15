@@ -13,7 +13,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: db-init
-          image: "{{ .Values.postgresql.initJob.containerImageName }}:{{ .Values.postgresql.initJob.containerImageVer }}"
+          image: "{{ .Values.postgresql_init.initJob.containerImageName }}:{{ .Values.postgresql_init.initJob.containerImageVer }}"
           imagePullPolicy: IfNotPresent
           env:
             - name: PGHOST
