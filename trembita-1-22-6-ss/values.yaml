@@ -162,13 +162,17 @@ postgresql_init:
       - name: MESSAGELOG_DB_PASS
         value: messagelogp
       - name: IDENTITY_DB_USER
-        value: identity
+        value: identityprovider
       - name: IDENTITY_DB_PASS
-        value: identityp
+        value: identityproviderp
       - name: OPMONITOR_DB_USER
         value: opmonitor
       - name: OPMONITOR_DB_PASS
         value: opmonitorp
+      - name: OPMONITOR_ADMIN_DB_USER
+        value: opmonitor_admin
+      - name: OPMONITOR_ADMIN_DB_PASS
+        value: opmonitor_adminp
 
 postgresql:
   containerName: postgres
