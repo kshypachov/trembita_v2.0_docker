@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "trembita-1-22-6-ss.fullname" . }}-db-init
+  labels:
+    app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: db-init
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: db-init
+          image: "{{ .Values.postgresql_init.initJob.containerImageName }}:{{ .Values.postgresql_init.initJob.containerImageVer }}"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PGHOST
+              value: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres
+            - name: PGPORT
+              value: "5432"
+            {{- range .Values.postgresql_init.initJob.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}

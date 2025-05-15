@@ -38,6 +38,7 @@ declare -A PARAMS=(
 for key in "${!PARAMS[@]}"; do
   env_var="${PARAMS[$key]}"
   new_value="${!env_var}"  # Получаем значение переменной окружения
+  unset env_var
 
   if [ -n "$new_value" ]; then
     # Экранируем спецсимволы для sed
@@ -46,6 +47,9 @@ for key in "${!PARAMS[@]}"; do
   fi
 done
 
+if [  -n "$UXP_IDENTETY_DOMAIN" ]; then
+  echo "test"
+fi
 
 log "Starting supervisord"
 exec /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
