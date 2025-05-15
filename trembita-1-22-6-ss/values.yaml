@@ -143,6 +143,10 @@ postgresql:
   auth:
     enablePostgresUser: true
     postgresPassword: mysecretpassword
+    postgresDatabase: testDB
+    postgresqlPassword: mysecretpassword
+    postgresqlDatabase: testDB
+
     username: serverconf
     password: serverconfp
 
