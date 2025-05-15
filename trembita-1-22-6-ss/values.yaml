@@ -246,12 +246,14 @@ trembita_config:
     OPMONITOR_ADMIN_DB_USER: opmonitor_admin
     PMONITOR_ADMIN_DB_PASS: opmonitor_adminp
 
-
   web_ui_access:
+    service:
 
   internal_api_access:
+    service:
 
   external_api_access:
+    service:
 
 
 
