@@ -20,7 +20,7 @@ spec:
               value: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres
             - name: PGPORT
               value: "5432"
-            {{- range .Values.postgresql.initJob.env }}
+            {{- range .Values.postgresql_init.initJob.env }}
             - name: {{ .name }}
               value: {{ .value | quote }}
             {{- end }}
