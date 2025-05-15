@@ -103,14 +103,14 @@ resources: {}
   #   memory: 128Mi
 
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
+livenessProbe: []
+#  httpGet:
+#    path: /
+#    port: http
+readinessProbe: []
+#  httpGet:
+#    path: /
+#    port: http
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
@@ -121,17 +121,16 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 # Additional volumes on the output Deployment definition.
-volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
+volumes:
+  - name: db-config
+    configMap:
+      name: uxp-db-config
 
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
+volumeMounts:
+  - name: db-config
+    mountPath: /etc/uxp/db.properties
+    subPath: db.properties
 
 nodeSelector: {}
 
@@ -139,11 +138,14 @@ tolerations: []
 
 affinity: {}
 
+configMap:
+  name: uxp-config-map
+
+
 postgresql_init:
   initJob:
     containerImageName: kshypachov/trembita_ss_v1.22.6-pg-init
     containerImageVer: v1.0.8
-
     env:
 #      - name: PGHOST
 #        value: uxp-postgres
