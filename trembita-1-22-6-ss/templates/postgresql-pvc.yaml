@@ -9,5 +9,7 @@ spec:
   resources:
     requests:
       storage: {{ .Values.postgresql.persistence.size }}
+  {{- if .Values.postgresql.persistence.storageClass}}
   storageClassName: {{ .Values.postgresql.persistence.storageClass }}
+  {{- end }}
 {{- end }}
