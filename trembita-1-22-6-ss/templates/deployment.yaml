@@ -46,7 +46,7 @@ spec:
               containerPort: {{ .port }}
               protocol: TCP
             {{- end }}
-            {{- range .Values.services.internal.ports}}
+            {{- range .Values.services.external.ports}}
             - name: {{ .name }}
               containerPort: {{ .port }}
               protocol: TCP
