@@ -16,6 +16,10 @@ spec:
           image: "{{ .Values.postgresql.initJob.containerImageName }}:{{ .Values.postgresql.initJob.containerImageVer }}"
           imagePullPolicy: IfNotPresent
           env:
+            - name: PGHOST
+              value: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres
+            - name: PGPORT
+              value: "5432"
             {{- range .Values.postgresql.initJob.env }}
             - name: {{ .name }}
               value: {{ .value | quote }}

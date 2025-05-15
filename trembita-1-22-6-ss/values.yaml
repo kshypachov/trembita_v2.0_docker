@@ -168,10 +168,10 @@ postgresql:
     containerImageVer: v1.0.1
 
     env:
-      - name: PGHOST
-        value: postgres
-      - name: PGPORT
-        value: 5432
+#      - name: PGHOST
+#        value: postgres
+#      - name: PGPORT
+#        value: 5432
       - name: PGROOT_USER
         value: postgres
       - name: PGROOT_PASSWORD
