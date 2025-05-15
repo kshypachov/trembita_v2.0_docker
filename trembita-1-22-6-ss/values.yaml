@@ -142,7 +142,7 @@ affinity: {}
 postgresql_init:
   initJob:
     containerImageName: kshypachov/trembita_ss_v1.22.6-pg-init
-    containerImageVer: v1.0.6
+    containerImageVer: v1.0.7
 
     env:
 #      - name: PGHOST

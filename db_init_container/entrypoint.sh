@@ -46,6 +46,7 @@ declare -A DBS=(
   [messagelog-metadata]="${MESSAGELOG_DB_USER}:${MESSAGELOG_DB_PASS}"
   [identity-provider]="${IDENTITY_DB_USER}:${IDENTITY_DB_PASS}"
   [op-monitor]="${OPMONITOR_DB_USER}:${OPMONITOR_DB_PASS}"
+  [op-monitor]="${OPMONITOR_ADMIN_DB_USER}:${OPMONITOR_ADMIN_DB_PASS}"
 )
 
 # Создать пользователя Цикл по всем пользователям
