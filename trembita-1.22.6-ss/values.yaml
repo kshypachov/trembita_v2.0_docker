@@ -7,17 +7,20 @@ replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: nginx
+  repository: kshypachov/trembita_ss_v1.22.6
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "v1.0.1"
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
 # This is to override the chart name.
 nameOverride: ""
 fullnameOverride: ""
+
+cloudPostgresDatabase:
+  enabled: true
 
 # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
@@ -50,11 +53,25 @@ securityContext: {}
   # runAsUser: 1000
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
-service:
-  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
-  type: ClusterIP
-  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 80
+services:
+  external:
+    enabled: true
+    type: LoadBalancer
+    ports:
+      - name: Port5500
+        port: 5500
+        targetPort: 5500
+
+  internal:
+    enabled: true
+    type: ClusterIP
+    ports:
+      - name: webUi
+        port: 4000
+        targetPort: 4000
+      - name: secureApi
+        port: 80
+        targetPort: 80
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
@@ -121,3 +138,15 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+postgresql:
+  image: postgres:15
+  username: postgres
+  password: mysecretpassword
+  database: appdb
+  port: 5432
+
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: ""
