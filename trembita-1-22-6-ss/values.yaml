@@ -139,21 +139,39 @@ tolerations: []
 
 affinity: {}
 
+
+
+auth:
+  enablePostgresUser: true
+  postgresPassword: mysecretpassword
+  username: serverconf
+  password: serverconfp
+  database: testDB
+
+passwordUpdateJob:
+  enabled: true
+
+fullnameOverride: uxp-postgres
+
+primary:
+  extendedConfiguration: |
+    listen_addresses = '*'
+  pgHbaConfiguration: |
+    host all all all scram-sha-256
+
 postgresql:
   auth:
     enablePostgresUser: true
     postgresPassword: mysecretpassword
-    postgresDatabase: testDB
-    postgresqlPassword: mysecretpassword
-    postgresqlDatabase: testDB
-
     username: serverconf
     password: serverconfp
+    database: testDB
 
   passwordUpdateJob:
     enabled: true
 
   fullnameOverride: uxp-postgres
+
   primary:
     extendedConfiguration: |
       listen_addresses = '*'
