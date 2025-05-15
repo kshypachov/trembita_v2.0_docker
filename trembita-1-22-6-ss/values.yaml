@@ -145,8 +145,8 @@ postgresql_init:
     containerImageVer: v1.0.2
 
     env:
-      - name: PGHOST
-        value: uxp-postgres
+#      - name: PGHOST
+#        value: uxp-postgres
       - name: PGPORT
         value: 5432
       - name: PGROOT_USER
