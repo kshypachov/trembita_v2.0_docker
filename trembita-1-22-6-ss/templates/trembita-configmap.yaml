@@ -7,22 +7,21 @@ data:
   db.properties: |
     serverconf.hibernate.jdbc.use_streams_for_binary = true
     serverconf.hibernate.connection.driver_class = org.postgresql.Driver
-    serverconf.hibernate.connection.url = jdbc:postgresql://127.0.0.1:5432/serverconf
+    serverconf.hibernate.connection.url = jdbc:postgresql://{{ include "trembita-1-22-6-ss.fullname" . }}-postgres:5432/serverconf
     serverconf.hibernate.connection.username = serverconf
-    serverconf.hibernate.connection.password = y7rvSkZs51jawM_R1OHkBIOQLkm1LHK9
+    serverconf.hibernate.connection.password = serverconfp
     messagelog-metadata.hibernate.connection.driver_class = org.postgresql.Driver
-    messagelog-metadata.hibernate.connection.url = jdbc:postgresql://127.0.0.1:5432/messagelog-metadata
+    messagelog-metadata.hibernate.connection.url = jdbc:postgresql://{{ include "trembita-1-22-6-ss.fullname" . }}-postgres:5432/messagelog-metadata
     messagelog-metadata.hibernate.connection.username = messagelog
-    messagelog-metadata.hibernate.connection.password = iV-Gx6o-D2GalXo6Za88ccWTlxqoiARY
+    messagelog-metadata.hibernate.connection.password = messagelogp
     identity-provider.hibernate.connection.driver_class = org.postgresql.Driver
-    identity-provider.hibernate.connection.url = jdbc:postgresql://127.0.0.1:5432/identity-provider
+    identity-provider.hibernate.connection.url = jdbc:postgresql://{{ include "trembita-1-22-6-ss.fullname" . }}-postgres:5432/identity-provider
     identity-provider.hibernate.connection.username = identityprovider
-    identity-provider.hibernate.connection.password = oLetKRNmfhn0EPKvY7-1u-rVfFFXqGPe
+    identity-provider.hibernate.connection.password = identityproviderp
     op-monitor.hibernate.jdbc.use_streams_for_binary = true
     op-monitor.hibernate.connection.driver_class = org.postgresql.Driver
     op-monitor.hibernate.jdbc.batch_size = 50
-    op-monitor.hibernate.connection.url = jdbc:postgresql://127.0.0.1:5432/op-monitor
+    op-monitor.hibernate.connection.url = jdbc:postgresql://{{ include "trembita-1-22-6-ss.fullname" . }}-postgres:5432/op-monitor
     op-monitor.hibernate.connection.username = opmonitor
-    op-monitor.hibernate.connection.password = iypL5eyJOozFu8SR4cY9AeIgIx5UlnjA
-
+    op-monitor.hibernate.connection.password = opmonitorp
 {{- end }}
