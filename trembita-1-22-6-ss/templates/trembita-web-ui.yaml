@@ -1,4 +1,4 @@
-{{- if .Values.web_ui_access.service.enabled }}
+{{- if .Values.trembita_config.web_ui_access.service.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -6,30 +6,30 @@ metadata:
   labels:
     app: {{ include "trembita-1-22-6-ss.name" . }}
 spec:
-  type: {{ .Values.web_ui_access.service.type | default "ClusterIP" }}
+  type: {{ .Values.trembita_config.web_ui_access.service.type | default "ClusterIP" }}
   ports:
-    - name: {{ .Values.web_ui_access.service.portName | default "http" }}
-      port: {{ .Values.web_ui_access.service.port }}
-      targetPort: {{ .Values.web_ui_access.service.port }}
+    - name: {{ .Values.trembita_config.web_ui_access.service.portName | default "http" }}
+      port: {{ .Values.trembita_config.web_ui_access.service.port }}
+      targetPort: {{ .Values.trembita_config.web_ui_access.service.port }}
   selector:
     app: {{ include "trembita-1-22-6-ss.name" . }}
 {{- end }}
 
 ---
 
-{{- if .Values.web_ui_access.ingress.enabled }}
+{{- if .Values.trembita_config.web_ui_access.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "trembita-1-22-6-ss.fullname" . }}-web
   annotations:
-    {{- if .Values.web_ui_access.ingress.className }}
-    kubernetes.io/ingress.class: {{ .Values.web_ui_access.ingress.className }}
+    {{- if .Values.trembita_config.web_ui_access.ingress.className }}
+    kubernetes.io/ingress.class: {{ .Values.trembita_config.web_ui_access.ingress.className }}
     {{- end }}
 spec:
-  {{- if .Values.web_ui_access.ingress.tls }}
+  {{- if .Values.trembita_config.web_ui_access.ingress.tls }}
   tls:
-    {{- range .Values.web_ui_access.ingress.tls }}
+    {{- range .Values.trembita_config.web_ui_access.ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . }}
@@ -38,7 +38,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.web_ui_access.ingress.hosts }}
+    {{- range .Values.trembita_config.web_ui_access.ingress.hosts }}
     - host: {{ .host }}
       http:
         paths:
