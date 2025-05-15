@@ -12,7 +12,7 @@ spec:
       port: {{ .Values.trembita_config.web_ui_access.service.port }}
       targetPort: {{ .Values.trembita_config.web_ui_access.service.port }}
   selector:
-    app: {{ include "trembita-1-22-6-ss.name" . }}
+    app: {{ include "trembita-1-22-6-ss.name" . }}-web_ui
 {{- end }}
 
 ---
