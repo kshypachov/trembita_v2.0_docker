@@ -16,7 +16,7 @@ spec:
           image: "{{ .Values.postgresql.initJob.containerImageName }}:{{ .Values.postgresql.initJob.containerImageVer }}"
           imagePullPolicy: IfNotPresent
           env:
-            {{- range .Values.postgresql.env }}
+            {{- range .Values.postgresql.initJob.env }}
             - name: {{ .name }}
               value: {{ .value | quote }}
             {{- end }}
