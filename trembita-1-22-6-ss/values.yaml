@@ -157,6 +157,11 @@ postgresql:
     pgHbaConfiguration: |
       host all all all scram-sha-256
 
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: ""
+
 #
 #postgresql:
 #
