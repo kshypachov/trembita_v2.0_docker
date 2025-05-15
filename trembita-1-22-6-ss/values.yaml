@@ -140,15 +140,14 @@ tolerations: []
 affinity: {}
 
 postgresql:
-#  image:
-#    pullSecrets: [ ]
+  auth:
+    user: "user"
+    postgresPassword: "newPostgresPassword123"
+    password: "newUserPassword123"
+    replicationPassword: "newReplicationPassword123"
 
-#  auth:
-#    postgresPassword: mysecretpassword
-##    username: postgres
-##    password: mysecretpassword
-##    database: postgres
-##    postgresPassword: rootpassword
+  passwordUpdateJob:
+    enabled: true
 
   fullnameOverride: uxp-postgres
   primary:
