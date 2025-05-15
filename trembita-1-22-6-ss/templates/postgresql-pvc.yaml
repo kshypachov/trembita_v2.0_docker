@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "trembita-1.22.6-ss.fullname" . }}-postgres-pvc
+  name: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres-pvc
 spec:
   accessModes:
     - ReadWriteOnce

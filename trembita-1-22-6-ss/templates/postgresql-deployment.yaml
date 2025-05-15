@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "trembita-1.22.6-ss.fullname" . }}-postgres
+  name: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ include "trembita-1.22.6-ss.name" . }}-postgres
+      app: {{ include "trembita-1-22-6-ss.name" . }}-postgres
   template:
     metadata:
       labels:
-        app: {{ include "trembita-1.22.6-ss.name" . }}-postgres
+        app: {{ include "trembita-1-22-6-ss.name" . }}-postgres
     spec:
       containers:
         - name: postgres
@@ -30,4 +30,4 @@ spec:
       volumes:
         - name: pgdata
           persistentVolumeClaim:
-            claimName: {{ include "trembita-1.22.6-ss.fullname" . }}-postgres-pvc
+            claimName: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres-pvc
