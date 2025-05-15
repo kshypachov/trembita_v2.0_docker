@@ -122,7 +122,7 @@ autoscaling:
 
 # Additional volumes on the output Deployment definition.
 volumes:
-  - name: db-config
+  - name: uxp-db-config
     configMap:
       name: uxp-db-config
 
@@ -139,7 +139,7 @@ tolerations: []
 affinity: {}
 
 configMap:
-  name: uxp-config-map
+  name: uxp-db-config
 
 
 postgresql_init:
