@@ -235,7 +235,7 @@ trembita_config:
       enabled: true
       type: ClusterIP
       selectors:
-        trembita.io/internalport: tcp4000
+        trembita.io/webport: tcp4000
       port: 4000
       portName: uxp-web
 
