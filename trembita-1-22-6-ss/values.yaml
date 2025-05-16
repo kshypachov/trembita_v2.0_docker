@@ -290,9 +290,8 @@ trembita_config:
   trembita_main_app_container_tags:
     enabled: true
     tags:
-      - latest
-      - "1.2.0"
-      - dev
+      app.kubernetes.io/component: web
+      app.kubernetes.io/version: "1.2.3"
 
   trembita_workers_tags:
     enables: true
