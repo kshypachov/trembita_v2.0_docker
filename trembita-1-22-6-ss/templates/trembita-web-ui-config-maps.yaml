@@ -26,6 +26,9 @@ data:
 
       # Include component specific headers
       include conf.d/uxp-*-headers.include;
+
+      # Include UXP locations
+      include conf.d/uxp-*-location.include;
     }
 
 {{- end }}
