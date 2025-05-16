@@ -101,7 +101,7 @@ spec:
         {{- if $cfg.enabled }}
         - name: {{ $name }}-volume
           persistentVolumeClaim:
-            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" .) $name }}
+            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
         {{- end }}
         {{- end }}
       {{- end }}
