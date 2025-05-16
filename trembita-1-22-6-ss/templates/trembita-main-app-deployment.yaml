@@ -63,7 +63,7 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- if or (.Values.volumeMounts) (.Values.trembita_config.web_ui_access.configMaps.enabled) }}
+          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.web_ui_access.configMaps.enabled) }}
           volumeMounts:
             {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
@@ -76,6 +76,12 @@ spec:
               subPath: {{ $cm.subPath }}
               {{- end }}
               readOnly: true
+            {{- end }}
+            {{- end }}
+            {{- range $name, $cfg := .Values.sharedVolumes }}
+            {{- if $cfg.enabled }}
+            - name: {{ $name }}
+              mountPath: {{ $cfg.mountPath }}
             {{- end }}
             {{- end }}
           {{- end }}

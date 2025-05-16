@@ -1,0 +1,36 @@
+{{/*apiVersion: batch/v1*/}}
+{{/*kind: Job*/}}
+{{/*metadata:*/}}
+{{/*  name: {{ include "trembita-1-22-6-ss.fullname" . }}-ss-init*/}}
+{{/*  labels:*/}}
+{{/*    app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}*/}}
+{{/*    app.kubernetes.io/instance: {{ .Release.Name }}*/}}
+{{/*    app.kubernetes.io/component: ss-init*/}}
+{{/*spec:*/}}
+{{/*  backoffLimit: 1*/}}
+{{/*  template:*/}}
+{{/*    spec:*/}}
+{{/*      restartPolicy: OnFailure*/}}
+{{/*      containers:*/}}
+{{/*        - name: db-init*/}}
+{{/*          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"*/}}
+{{/*          imagePullPolicy: IfNotPresent*/}}
+{{/*          args:*/}}
+{{/*            - |*/}}
+{{/*              set -x*/}}
+{{/*              echo "[INFO] Starting init container for {{ $name }}"*/}}
+{{/*              if [ -d "{{ $cfg.mountPath }}" ]; then*/}}
+{{/*                cp -rp {{ $cfg.mountPath }}/* /mnt/target/ || true*/}}
+{{/*                echo "[INFO] Done copying {{ $cfg.mountPath }} to /mnt/target/"*/}}
+{{/*                uid_gid=$(stat -c '%u:%g' {{ $cfg.mountPath }})*/}}
+{{/*                mode=$(stat -c '%a' {{ $cfg.mountPath }})*/}}
+{{/*                echo "[INFO] Changing ownership of /mnt/target/ to $uid_gid"*/}}
+{{/*                chown "$uid_gid" /mnt/target/*/}}
+{{/*                echo "[INFO] Setting permissions of /mnt/target/ to $mode"*/}}
+{{/*                chmod "$mode" /mnt/target/*/}}
+{{/*              else*/}}
+{{/*                echo "[WARN] Source directory {{ $cfg.mountPath }} not found"*/}}
+{{/*              fi*/}}
+{{/*          volumeMounts:*/}}
+{{/*            - name: {{ $name }}*/}}
+{{/*              mountPath: /mnt/target*/}}
