@@ -1,18 +1,40 @@
-{{- if .Values.trembita_config.web_ui_access.service.enabled }}
+{{/*{{- if .Values.trembita_config.web_ui_access.service.enabled }}*/}}
+{{/*apiVersion: v1*/}}
+{{/*kind: Service*/}}
+{{/*metadata:*/}}
+{{/*  name: {{ include "trembita-1-22-6-ss.fullname" . }}-web*/}}
+{{/*  labels:*/}}
+{{/*    app: {{ include "trembita-1-22-6-ss.name" . }}*/}}
+{{/*spec:*/}}
+{{/*  type: {{ .Values.trembita_config.web_ui_access.service.type | default "ClusterIP" }}*/}}
+{{/*  ports:*/}}
+{{/*    - name: {{ .Values.trembita_config.web_ui_access.service.portName | default "http" }}*/}}
+{{/*      port: {{ .Values.trembita_config.web_ui_access.service.port }}*/}}
+{{/*      targetPort: {{ .Values.trembita_config.web_ui_access.service.port }}*/}}
+{{/*  selector:*/}}
+{{/*    app: {{ include "trembita-1-22-6-ss.name" . }}-{{ .Values.trembita_config.web_ui_access.service.label }}*/}}
+{{/*{{- end }}*/}}
+
+{{- range $key, $section := .Values.trembita_config }}
+  {{- if and $section.service $section.service.enabled }}
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "trembita-1-22-6-ss.fullname" . }}-web
+  name: {{ printf "trembita-%s-svc" $key }}
   labels:
-    app: {{ include "trembita-1-22-6-ss.name" . }}
+    app: {{ $key }}
+    role: {{ $section.service.label | default $key }}
 spec:
-  type: {{ .Values.trembita_config.web_ui_access.service.type | default "ClusterIP" }}
-  ports:
-    - name: {{ .Values.trembita_config.web_ui_access.service.portName | default "http" }}
-      port: {{ .Values.trembita_config.web_ui_access.service.port }}
-      targetPort: {{ .Values.trembita_config.web_ui_access.service.port }}
+  type: {{ $section.service.type | default "ClusterIP" }}
   selector:
-    app: {{ include "trembita-1-22-6-ss.name" . }}-{{ .Values.trembita_config.web_ui_access.service.label }}
+    app: {{ $key }}
+  ports:
+    - port: {{ $section.service.port }}
+      targetPort: {{ $section.service.port }}
+      protocol: TCP
+      name: {{ $section.service.portName | default $key }}
+  {{- end }}
 {{- end }}
 
 ---
