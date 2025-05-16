@@ -6,8 +6,8 @@ metadata:
 data:
   {{ .Values.trembita_config.web_ui_access.configMaps.default_uxp.subPath}}: |
     server {
-    listen [::]:4000;
-    #ssl ipv6only=off;
+      listen [::]:4000;
+      #ssl ipv6only=off;
 
       ssl_certificate /etc/uxp/ssl/nginx.crt;
       ssl_certificate_key /etc/uxp/ssl/nginx.key;
