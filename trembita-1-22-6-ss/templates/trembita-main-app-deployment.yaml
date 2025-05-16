@@ -46,6 +46,13 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
+          {{- range $key, $val := .Values.trembita_config }}
+            {{- if and $val.service $val.service.enabled }}
+            - containerPort: {{ $val.service.port }}
+              name: {{ $val.service.portName | default $key }}
+              protocol: TCP
+          {{- end }}
+          {{- end }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
