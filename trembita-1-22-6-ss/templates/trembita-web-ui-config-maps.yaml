@@ -6,7 +6,7 @@ metadata:
 data:
   {{ .Values.trembita_config.web_ui_access.configMaps.default_uxp.subPath}}: |
     server {
-    listen [::]:4001;
+    listen [::]:4000;
     #ssl ipv6only=off;
 
       ssl_certificate /etc/uxp/ssl/nginx.crt;
@@ -44,7 +44,7 @@ data:
 
       # Include component specific headers
       include conf.d/uxp-*-headers.include;
-
+}
 {{- end }}
 
 ------
