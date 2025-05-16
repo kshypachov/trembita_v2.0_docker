@@ -17,15 +17,16 @@ data:
     archive-storage-type = fs
 {{- end}}
 {{- end}}
-------
 
-{{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.default_uxp.enabled }}
+------
+{{- with .Values.trembita_config.web_ui_access.configMaps}}
+{{- if and .enabled .default_uxp.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.trembita_config.web_ui_access.configMaps.default_uxp.name }}
+  name: {{ .default_uxp.name }}
 data:
-  {{ default "uxp-default" .Values.trembita_config.web_ui_access.configMaps.default_uxp.subPath}}: |
+  {{ default "uxp-default" .default_uxp.subPath}}: |
     server {
       listen 4000;
 
@@ -52,6 +53,7 @@ data:
       include conf.d/uxp-*-location.include;
     }
 
+{{- end }}
 {{- end }}
 
 ------
