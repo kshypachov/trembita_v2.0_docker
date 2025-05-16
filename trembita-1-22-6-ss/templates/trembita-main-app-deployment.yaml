@@ -65,10 +65,12 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- $values := .Values }}
           {{- if or (.Values.volumeMounts) (.Values.trembita_config.web_ui_access.configMaps.enabled) }}
           volumeMounts:
             {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
+            {{- end}}
             {{- range $key, $cm := .Values.trembita_config.web_ui_access.configMaps }}
             {{- if and (kindIs "map" $cm) $cm.enabled }}
             - name: {{ $cm.name }}
@@ -77,8 +79,6 @@ spec:
               readOnly: true
             {{- end }}
             {{- end }}
-          {{- end }}
-
           {{- end }}
       {{- with .Values.volumes }}
       volumes:
