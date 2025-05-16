@@ -224,7 +224,7 @@ trembita_config:
       enabled: true
       type: LoadBalancer
       tags:
-        trembita.io/externalport: 5500
+        trembita.io/externalport: p5500
       port: 5500
       portName: uxp-external
 
