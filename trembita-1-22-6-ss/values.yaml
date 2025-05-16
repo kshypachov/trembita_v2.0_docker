@@ -287,6 +287,15 @@ trembita_config:
 
 
 
+  trembita_main_app_container_tags:
+    enabled: true
+    tags:
+      - latest
+      - "1.2.0"
+      - dev
 
-
+  trembita_workers_tags:
+    enables: true
+    tags:
+      - zz
 

@@ -21,8 +21,10 @@ spec:
       labels:
         app: {{ include "trembita-1-22-6-ss.name" . }}-{{ .Values.trembita_config.web_ui_access.service.label }}
         {{- include "trembita-1-22-6-ss.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
+        {{- if .Values.trembita_config.trembita_main_app_container_tags.enabled}}
+        {{- with .Values.trembita_config.trembita_main_app_container_tags.tags }}
         {{- toYaml . | nindent 8 }}
+        {{- end }}
         {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
