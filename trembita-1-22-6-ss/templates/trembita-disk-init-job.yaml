@@ -34,7 +34,7 @@ spec:
           {{- if .Values.trembita_config.sharedVolumes}}
           volumeMounts:
             {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
-            - name: {{ $name }}
+            - name: {{ $name }}-volume
               mountPath: /mnt/target-{{ $name }}-path
             {{- end}}
           {{- end}}
