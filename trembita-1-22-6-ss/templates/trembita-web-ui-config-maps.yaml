@@ -5,27 +5,8 @@ metadata:
   name: {{ .Values.trembita_config.web_ui_access.configMaps.default_uxp.name }}
 data:
   {{ default "uxp-default" .Values.trembita_config.web_ui_access.configMaps.default_uxp.subPath}}: |
-
     server {
-      listen [::]:4000;
-      #ssl ipv6only=off;
-
-      ssl_certificate /etc/uxp/ssl/nginx.crt;
-      ssl_certificate_key /etc/uxp/ssl/nginx.key;
-      ssl_dhparam /etc/nginx/dhparam.pem;
-
-      ssl_protocols TLSv1.3;
-      ssl_ciphers EECDH+AESGCM:EDH+AESGCM;
-      ssl_prefer_server_ciphers on;
-      ssl_ecdh_curve secp384r1;
-      ssl_session_tickets off;
-      ssl_session_cache shared:SSL:10m;
-      ssl_session_timeout 10m;
-
-      keepalive_timeout 5 5;
-      client_header_buffer_size 16k;
-
-      #error_page 497 https://$host:$server_port$request_uri;
+      listen 4000;
 
       location /test {
           return 200 "OK - nginx is working\n";
