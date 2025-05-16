@@ -11,7 +11,7 @@ image:
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.0.1"
+  tag: "v1.0.2"
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
@@ -53,42 +53,25 @@ securityContext: {}
   # runAsUser: 1000
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
-services:
-  external:
-    enabled: true
-    type: LoadBalancer
-    ports:
-      - name: port5500
-        port: 5500
-        targetPort: 5500
-
-  internal:
-    enabled: true
-    type: ClusterIP
-    ports:
-      - name: web-ui
-        port: 4000
-        targetPort: 4000
-      - name: secure-api
-        port: 80
-        targetPort: 80
-
-# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+services: []
+#  external:
+#    enabled: true
+#    type: LoadBalancer
+#    ports:
+#      - name: port5500
+#        port: 5500
+#        targetPort: 5500
+#
+#  internal:
+#    enabled: true
+#    type: ClusterIP
+#    ports:
+#      - name: web-ui
+#        port: 4000
+#        targetPort: 4000
+#      - name: secure-api
+#        port: 80
+#        targetPort: 80
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -121,16 +104,16 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 # Additional volumes on the output Deployment definition.
-volumes:
-  - name: db-config
-    configMap:
-      name: uxp-db-config
+volumes: []
+#  - name: db-config
+#    configMap:
+#      name: uxp-db-config
 
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts:
-  - name: db-config
-    mountPath: /etc/uxp/db.properties
-    subPath: db.properties
+volumeMounts: {}
+#  - name: db-config
+#    mountPath: /etc/uxp/db.properties
+#    subPath: db.properties
 
 nodeSelector: {}
 
@@ -138,8 +121,8 @@ tolerations: []
 
 affinity: {}
 
-configMap:
-  name: uxp-db-config
+configMap: {}
+#  name: uxp-db-config
 
 
 postgresql_init:
@@ -199,38 +182,9 @@ postgresql:
     - name: POSTGRES_DB
       value: appdb
 
-#trembita_app_db_config:
-#  #      - name: PGHOST
-#  #        value: uxp-postgres
-#  - name: PGPORT
-#    value: 5432
-#  - name: PGROOT_USER
-#    value: postgres
-#  - name: PGROOT_PASSWORD
-#    value: mysecretpassword
-#  - name: SERVERCONF_DB_USER
-#    value: serverconf
-#  - name: SERVERCONF_DB_PASS
-#    value: serverconfp
-#  - name: MESSAGELOG_DB_USER
-#    value: messagelog
-#  - name: MESSAGELOG_DB_PASS
-#    value: messagelogp
-#  - name: IDENTITY_DB_USER
-#    value: identityprovider
-#  - name: IDENTITY_DB_PASS
-#    value: identityproviderp
-#  - name: OPMONITOR_DB_USER
-#    value: opmonitor
-#  - name: OPMONITOR_DB_PASS
-#    value: opmonitorp
-#  - name: OPMONITOR_ADMIN_DB_USER
-#    value: opmonitor_admin
-#  - name: OPMONITOR_ADMIN_DB_PASS
-#    value: opmonitor_adminp
+
 
 trembita_config:
-
   ss_to_db_access:
     PGPORT: 5432
     PGROOT_USER: postgres
@@ -246,13 +200,45 @@ trembita_config:
     OPMONITOR_ADMIN_DB_USER: opmonitor_admin
     PMONITOR_ADMIN_DB_PASS: opmonitor_adminp
 
+
+  internal_api_access:
+    service:
+      enabled: true
+      type: ClusterIP
+      selectors:
+        trembita.io/internalport: tcp80
+      port: 80
+      portName: uxp-internal
+
+    ingress:
+      enabled: true
+      className: "nginx"
+      hosts:
+        - host: api.trembita2.local
+          paths:
+          - path: /
+            pathType: Prefix
+            port: 80
+
+  external_api_access:
+    service:
+      enabled: true
+      type: LoadBalancer
+      selectors:
+        trembita.io/externalport: tcp5500
+      port: 5500
+      portName: uxp-external
+
+
   web_ui_access:
     service:
       enabled: true
       type: ClusterIP
-      label: uxp-web
+      selectors:
+        trembita.io/webport: tcp4000
       port: 4000
       portName: uxp-web
+
 
     ingress:
       enabled: true
@@ -270,39 +256,52 @@ trembita_config:
           secretName: trembita-tls
 
 
-  internal_api_access:
-    service:
-      enabled: true
-      type: ClusterIP
-      label: uxp-internal
-      port: 80
-      portName: uxp-internal
+    configMaps:
+      enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
+      db_properties: # For testing only!!!!!! ConfigMap not suitable for storing sensitive data like a DB password
+        enabled: true
+        name: db-properties
+        mountPath: /etc/uxp/db.properties
+        subPath: db.properties
 
-    ingress:
-      enabled: true
-      className: "nginx"
-      hosts:
-        - host: api.trembita2.local
-          paths:
-          - path: /
-            pathType: Prefix
-            port: 80
+      local_ini:
+        enabled: true
+        name: local-ini
+        mountPath: /etc/uxp/conf.d/local.ini
+        subPath: local.ini
 
+      default_uxp:
+        enabled: true
+        name: default-uxp
+        mountPath: /etc/nginx/sites-enabled/default-uxp
+        subPath: default-uxp
 
-  external_api_access:
-    service:
-      enabled: true
-      type: LoadBalancer
-      label: uxp-external
-      port: 5500
-      portName: uxp-external
+      uxp_identity_provider_rest_api:
+        enabled: true
+        name: uxp-identity-provider-rest-api
+        mountPath: /etc/nginx/conf.d/uxp-identity-provider-rest-api-location.include
+        subPath: uxp-identity-provider-rest-api-location.include
 
+      uxp_securityserver_rest_api:
+        enabled: true
+        name: uxp-securityserver-rest-api
+        mountPath: /etc/nginx/conf.d/uxp-securityserver-rest-api-location.include
+        subPath: uxp-securityserver-rest-api-location.include
 
+  trembita_main_app_container_tags:
+    enabled: true
+    tags:
+      app.kubernetes.io/component: trembita
+      trembita.io/webport: tcp4000
+      trembita.io/internalport: tcp80
+      trembita.io/externalport: tcp5500
 
-
-
-
-
-
+  trembita_workers_tags:
+    enables: true
+    tags:
+      app.kubernetes.io/component: rembita
+      trembita.io/webport: tcp4000
+      trembita.io/internalport: tcp80
+      trembita.io/externalport: tcp5500
 
 
