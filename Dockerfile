@@ -61,6 +61,8 @@ RUN pg_ctlcluster 16 main start \
     && rm -rf /var/lib/apt/lists/* \
     && wait
 
+RUN rm /etc/nginx/sites-enabled/default-uxp
+
 COPY ss_trembita.conf /etc/supervisor/supervisord.conf
 COPY entrypoint.sh /root/entrypoint.sh
 RUN chmod +x /root/entrypoint.sh
