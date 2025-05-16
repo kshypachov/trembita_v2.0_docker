@@ -121,16 +121,16 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 # Additional volumes on the output Deployment definition.
-volumes:
-  - name: db-config
-    configMap:
-      name: uxp-db-config
+volumes: []
+#  - name: db-config
+#    configMap:
+#      name: uxp-db-config
 
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts:
-  - name: db-config
-    mountPath: /etc/uxp/db.properties
-    subPath: db.properties
+volumeMounts: {}
+#  - name: db-config
+#    mountPath: /etc/uxp/db.properties
+#    subPath: db.properties
 
 nodeSelector: {}
 
@@ -138,8 +138,8 @@ tolerations: []
 
 affinity: {}
 
-configMap:
-  name: uxp-db-config
+configMap: {}
+#  name: uxp-db-config
 
 
 postgresql_init:
@@ -199,35 +199,7 @@ postgresql:
     - name: POSTGRES_DB
       value: appdb
 
-#trembita_app_db_config:
-#  #      - name: PGHOST
-#  #        value: uxp-postgres
-#  - name: PGPORT
-#    value: 5432
-#  - name: PGROOT_USER
-#    value: postgres
-#  - name: PGROOT_PASSWORD
-#    value: mysecretpassword
-#  - name: SERVERCONF_DB_USER
-#    value: serverconf
-#  - name: SERVERCONF_DB_PASS
-#    value: serverconfp
-#  - name: MESSAGELOG_DB_USER
-#    value: messagelog
-#  - name: MESSAGELOG_DB_PASS
-#    value: messagelogp
-#  - name: IDENTITY_DB_USER
-#    value: identityprovider
-#  - name: IDENTITY_DB_PASS
-#    value: identityproviderp
-#  - name: OPMONITOR_DB_USER
-#    value: opmonitor
-#  - name: OPMONITOR_DB_PASS
-#    value: opmonitorp
-#  - name: OPMONITOR_ADMIN_DB_USER
-#    value: opmonitor_admin
-#  - name: OPMONITOR_ADMIN_DB_PASS
-#    value: opmonitor_adminp
+
 
 trembita_config:
 
@@ -256,6 +228,12 @@ trembita_config:
 
     configMaps:
       enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
+      db_properties: # For testing only!!!!!! ConfigMap not suitable for storing sensitive data like a DB password
+        enabled: true
+        name: db-properties
+        mountPath: /etc/uxp/db.properties
+        subPath: db.properties
+
       local_ini:
         enabled: true
         name: local-ini
@@ -279,10 +257,6 @@ trembita_config:
         name: uxp-securityserver-rest-api
         mountPath: /etc/nginx/conf.d/uxp-securityserver-rest-api-location.include
         subPath: uxp-securityserver-rest-api-location.include
-
-
-
-
 
     ingress:
       enabled: true
