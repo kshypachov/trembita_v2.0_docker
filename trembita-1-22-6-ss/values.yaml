@@ -229,7 +229,7 @@ trembita_config:
     configMaps:
       enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
       db_properties: # For testing only!!!!!! ConfigMap not suitable for storing sensitive data like a DB password
-        enabled: true
+        enabled: false
         name: db-properties
         mountPath: /etc/uxp/db.properties
         subPath: db.properties
