@@ -118,9 +118,20 @@ data:
       }
 {{- end}}
 
-{{/*------*/}}
+------
 
-
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config
+  namespace: default
+data:
+  app.properties: |
+    LOG_LEVEL=debug
+    PORT=8080
+  db.properties: |
+    DB_HOST=localhost
+    DB_PORT=5432
 {{/*{{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.db_properties.enabled}}*/}}
 {{/*{{- end}}*/}}
 {{/*apiVersion: v1*/}}
