@@ -118,7 +118,7 @@ data:
       }
 {{- end}}
 
------
+------
 
 {{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.db_properties.enabled}}
 apiVersion: v1
