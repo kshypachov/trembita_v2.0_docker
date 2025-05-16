@@ -257,15 +257,15 @@ trembita_config:
     configMaps:
       enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
       default_uxp:
-        enabled: false
+        enabled: true
         name: default-uxp
-        mountPath: /etc/uxp/nginx/default-uxp.conf
+        mountPath: /etc/nginx/conf.d/default-uxp.conf
         subPath: default-uxp.conf
 
       uxp_identity_provider_rest_api:
         enabled: true
         name: uxp-identity-provider-rest-api
-        mountPath: /etc/uxp/nginx/uxp-identity-provider-rest-api-location.include
+        mountPath: /etc/nginx/conf.d/uxp-identity-provider-rest-api-location.include
         subPath: uxp-identity-provider-rest-api-location.include
 
 
