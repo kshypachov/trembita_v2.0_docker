@@ -258,7 +258,7 @@ trembita_config:
       enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
       local_ini:
         enabled: true
-        name: local_ini
+        name: local-ini
         mountPath: /etc/uxp/conf.d/local.ini
         subPath: local.ini
 
