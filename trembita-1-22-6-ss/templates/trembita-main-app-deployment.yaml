@@ -80,7 +80,7 @@ spec:
             {{- end }}
             {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
             {{- if $cfg.enabled }}
-            - name: {{ $name }}
+            - name: {{ $name }}-volume
               mountPath: {{ $cfg.mountPath }}
             {{- end }}
             {{- end }}
@@ -95,6 +95,13 @@ spec:
         - name: {{ $cm.name }}-volume
           configMap:
             name: {{ $cm.name }}
+        {{- end }}
+        {{- end }}
+        {{- range $name, $cfg := .Values.sharedVolumes }}
+        {{- if $cfg.enabled }}
+        - name: {{ $name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ printf "%s-%s" (include "yourchart.fullname" .) $name }}
         {{- end }}
         {{- end }}
       {{- end }}
