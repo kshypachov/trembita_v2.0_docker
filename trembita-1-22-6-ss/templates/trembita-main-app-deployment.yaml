@@ -75,7 +75,7 @@ spec:
             - name: {{ $cm.name }}-volume
               mountPath: {{ $cm.mountPath }}
               subPath: {{ $cm.subPath }}
-              readOnly: true
+{{/*              readOnly: true*/}}
             {{- end }}
             {{- end }}
           {{- end }}
