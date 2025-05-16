@@ -290,16 +290,16 @@ trembita_config:
     enabled: true
     tags:
       app.kubernetes.io/component: trembita
-      trembita.io/webport: 4000
-      trembita.io/internalport: 80
-      trembita.io/externalport: 5500
+      trembita.io/webport: p4000
+      trembita.io/internalport: p80
+      trembita.io/externalport: p5500
 
   trembita_workers_tags:
     enables: true
     tags:
       app.kubernetes.io/component: trembita
-      trembita.io/webport: 4000
-      trembita.io/internalport: 80
-      trembita.io/externalport: 5500
+      trembita.io/webport: p4000
+      trembita.io/internalport: p80
+      trembita.io/externalport: p5500
 
 
