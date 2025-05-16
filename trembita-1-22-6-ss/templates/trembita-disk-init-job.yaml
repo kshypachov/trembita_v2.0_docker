@@ -1,22 +1,22 @@
-{{/*apiVersion: batch/v1*/}}
-{{/*kind: Job*/}}
-{{/*metadata:*/}}
-{{/*  name: {{ include "trembita-1-22-6-ss.fullname" . }}-ss-init*/}}
-{{/*  labels:*/}}
-{{/*    app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}*/}}
-{{/*    app.kubernetes.io/instance: {{ .Release.Name }}*/}}
-{{/*    app.kubernetes.io/component: ss-init*/}}
-{{/*spec:*/}}
-{{/*  backoffLimit: 1*/}}
-{{/*  template:*/}}
-{{/*    spec:*/}}
-{{/*      restartPolicy: OnFailure*/}}
-{{/*      containers:*/}}
-{{/*        - name: db-init*/}}
-{{/*          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"*/}}
-{{/*          imagePullPolicy: IfNotPresent*/}}
-{{/*          args:*/}}
-{{/*            - |*/}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "trembita-1-22-6-ss.fullname" . }}-ss-init
+  labels:
+    app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: ss-init
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: db-init
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: IfNotPresent
+          args:
+            - |
 {{/*              set -x*/}}
 {{/*              echo "[INFO] Starting init container for {{ $name }}"*/}}
 {{/*              if [ -d "{{ $cfg.mountPath }}" ]; then*/}}
@@ -31,16 +31,20 @@
 {{/*              else*/}}
 {{/*                echo "[WARN] Source directory {{ $cfg.mountPath }} not found"*/}}
 {{/*              fi*/}}
-{{/*          volumeMounts:*/}}
-{{/*            - name: {{ $name }}*/}}
-{{/*              mountPath: /mnt/target*/}}
-{{/*      {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.web_ui_access.configMaps.enabled)}}        */}}
-{{/*      volumes:*/}}
-{{/*       {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}*/}}
-{{/*       {{- if $cfg.enabled }}*/}}
-{{/*        - name: {{ $name }}-volume*/}}
-{{/*          persistentVolumeClaim:*/}}
-{{/*            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}*/}}
-{{/*      {{- end }}*/}}
-{{/*      {{- end }}*/}}
-{{/*      {{- end }}*/}}
+          {{- if .Values.trembita_config.sharedVolumes}}
+          volumeMounts:
+            {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+            - name: {{ $name }}
+              mountPath: /mnt/target-{{ $name }}-path
+            {{- end}}
+          {{- end}}
+      {{- if .Values.trembita_config.sharedVolumes}}
+      volumes:
+       {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+       {{- if $cfg.enabled }}
+        - name: {{ $name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
+      {{- end }}
+      {{- end }}
+      {{- end }}
