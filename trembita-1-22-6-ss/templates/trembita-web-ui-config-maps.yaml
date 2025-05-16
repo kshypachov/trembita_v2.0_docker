@@ -120,11 +120,12 @@ data:
 
 -------
 
-{{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.db_properties.enabled}}
+{{/*{{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.db_properties.enabled}}*/}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.trembita_config.web_ui_access.configMaps.db_properties.name}}
+  name: test
+{{/*  name: {{ .Values.trembita_config.web_ui_access.configMaps.db_properties.name}}*/}}
 data:
   test: |
     test
