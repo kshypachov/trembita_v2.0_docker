@@ -223,7 +223,8 @@ trembita_config:
     service:
       enabled: true
       type: LoadBalancer
-      label: uxp-external
+      tags:
+        trembita.io/externalport: 5500
       port: 5500
       portName: uxp-external
 
@@ -296,5 +297,9 @@ trembita_config:
   trembita_workers_tags:
     enables: true
     tags:
-      - zz
+      app.kubernetes.io/component: trembita
+      trembita.io/webport: 4000
+      trembita.io/internalport: 80
+      trembita.io/externalport: 5500
+
 

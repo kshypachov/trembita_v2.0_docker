@@ -25,6 +25,9 @@ metadata:
   labels:
     app: {{ $key }}
     role: {{ $section.service.label | default $key }}
+    {{- if hasKey $section.service "tags" }}
+    {{- toYaml $section.service.tags | nindent 4 }}
+    {{- end }}
 spec:
   type: {{ $section.service.type | default "ClusterIP" }}
   selector:
