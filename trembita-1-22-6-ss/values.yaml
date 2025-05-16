@@ -53,25 +53,25 @@ securityContext: {}
   # runAsUser: 1000
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
-services: []
-#  external:
-#    enabled: true
-#    type: LoadBalancer
-#    ports:
-#      - name: port5500
-#        port: 5500
-#        targetPort: 5500
-#
-#  internal:
-#    enabled: true
-#    type: ClusterIP
-#    ports:
-#      - name: web-ui
-#        port: 4000
-#        targetPort: 4000
-#      - name: secure-api
-#        port: 80
-#        targetPort: 80
+services:
+  external:
+    enabled: true
+    type: LoadBalancer
+    ports:
+      - name: port5500
+        port: 5500
+        targetPort: 5500
+
+  internal:
+    enabled: true
+    type: ClusterIP
+    ports:
+      - name: web-ui
+        port: 4000
+        targetPort: 4000
+      - name: secure-api
+        port: 80
+        targetPort: 80
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 #ingress: []
@@ -202,7 +202,6 @@ postgresql:
 
 
 trembita_config:
-
   ss_to_db_access:
     PGPORT: 5432
     PGROOT_USER: postgres
@@ -218,6 +217,34 @@ trembita_config:
     OPMONITOR_ADMIN_DB_USER: opmonitor_admin
     PMONITOR_ADMIN_DB_PASS: opmonitor_adminp
 
+
+  internal_api_access:
+    service:
+      enabled: true
+      type: ClusterIP
+      label: uxp-internal
+      port: 80
+      portName: uxp-internal
+
+    ingress:
+      enabled: true
+      className: "nginx"
+      hosts:
+        - host: api.trembita2.local
+          paths:
+          - path: /
+            pathType: Prefix
+            port: 80
+
+  external_api_access:
+    service:
+      enabled: true
+      type: LoadBalancer
+      label: uxp-external
+      port: 5500
+      portName: uxp-external
+
+
   web_ui_access:
     service:
       enabled: true
@@ -225,6 +252,23 @@ trembita_config:
       label: uxp-web
       port: 4000
       portName: uxp-web
+
+
+    ingress:
+      enabled: true
+      className: "nginx"
+      hosts:
+        - host: trembita2.local
+          paths:
+          - path: /
+            pathType: Prefix
+            port: 4000
+
+      tls:
+        - hosts:
+            - trembita2.local
+          secretName: trembita-tls
+
 
     configMaps:
       enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
@@ -257,50 +301,6 @@ trembita_config:
         name: uxp-securityserver-rest-api
         mountPath: /etc/nginx/conf.d/uxp-securityserver-rest-api-location.include
         subPath: uxp-securityserver-rest-api-location.include
-
-    ingress:
-      enabled: true
-      className: "nginx"
-      hosts:
-        - host: trembita2.local
-          paths:
-          - path: /
-            pathType: Prefix
-            port: 4000
-
-      tls:
-        - hosts:
-            - trembita2.local
-          secretName: trembita-tls
-
-
-  internal_api_access:
-    service:
-      enabled: true
-      type: ClusterIP
-      label: uxp-internal
-      port: 80
-      portName: uxp-internal
-
-    ingress:
-      enabled: true
-      className: "nginx"
-      hosts:
-        - host: api.trembita2.local
-          paths:
-          - path: /
-            pathType: Prefix
-            port: 80
-
-
-  external_api_access:
-    service:
-      enabled: true
-      type: LoadBalancer
-      label: uxp-external
-      port: 5500
-      portName: uxp-external
-
 
 
 
