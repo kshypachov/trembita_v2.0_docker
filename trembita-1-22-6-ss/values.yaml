@@ -263,7 +263,7 @@ trembita_config:
         subPath: local.ini
 
       default_uxp:
-        enabled: false
+        enabled: true
         name: default-uxp
         mountPath: /etc/nginx/sites-enabled/default-uxp
         subPath: default-uxp
