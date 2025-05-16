@@ -5,7 +5,6 @@ metadata:
   name: {{ .Values.trembita_config.web_ui_access.configMaps.local_ini.name}}
 data:
   {{ default "local.ini" .Values.trembita_config.web_ui_access.configMaps.local_ini.subPath}}: |
-
     [identity-provider]
     security-server-client-id = 60997vl7jlgoi53zbyvv2k9iyny1rae2
     security-server-client-secret = QTK3fBuPu0v0m2DpvEees0AODujEcX3V

@@ -263,19 +263,19 @@ trembita_config:
         subPath: local.ini
 
       default_uxp:
-        enabled: true
+        enabled: false
         name: default-uxp
         mountPath: /etc/nginx/sites-enabled/default-uxp
         subPath: default-uxp
 
       uxp_identity_provider_rest_api:
-        enabled: true
+        enabled: false
         name: uxp-identity-provider-rest-api
         mountPath: /etc/nginx/conf.d/uxp-identity-provider-rest-api-location.include
         subPath: uxp-identity-provider-rest-api-location.include
 
       uxp_securityserver_rest_api:
-        enable: true
+        enable: false
         name: uxp-securityserver-rest-api
         mountPath: /etc/nginx/conf.d/uxp-securityserver-rest-api-location.include
         subPath: uxp-securityserver-rest-api-location.include
