@@ -26,14 +26,14 @@ metadata:
   labels:
     app: {{ $safeKey }}
     role: {{ $section.service.label | default $safeKey }}
+spec:
+  type: {{ $section.service.type | default "ClusterIP" }}
+  selector:
     {{- if hasKey $section.service "tags" }}
     {{- range $tagKey, $tagVal := $section.service.tags }}
     {{ $tagKey }}: {{ $tagVal | quote }}
     {{- end }}
     {{- end }}
-spec:
-  type: {{ $section.service.type | default "ClusterIP" }}
-  selector:
     app: {{ $safeKey }}
   ports:
     - port: {{ $section.service.port }}
