@@ -259,11 +259,11 @@ trembita_config:
       default_uxp:
         enabled: true
         name: default-uxp
-        mountPath: /etc/uxp/nginx/default-uxp.conf
-        subPath: default-uxp.conf
+        mountPath: /etc/nginx/sites-enabled/
+        subPath: default-uxp
 
       uxp_identity_provider_rest_api:
-        enabled: true
+        enabled: false
         name: uxp-identity-provider-rest-api
         mountPath: /etc/nginx/conf.d/uxp-identity-provider-rest-api-location.include
         subPath: uxp-identity-provider-rest-api-location.include
