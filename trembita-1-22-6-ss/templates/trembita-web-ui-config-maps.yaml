@@ -118,17 +118,19 @@ data:
       }
 {{- end}}
 
--------
+{{/*-------*/}}
 
-{{/*{{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.db_properties.enabled}}*/}}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: test
+
+{{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.db_properties.enabled}}
+{{- end}}
+{{/*apiVersion: v1*/}}
+{{/*kind: ConfigMap*/}}
+{{/*metadata:*/}}
+{{/*  name: test*/}}
 {{/*  name: {{ .Values.trembita_config.web_ui_access.configMaps.db_properties.name}}*/}}
-data:
-  test: |
-    test
+{{/*data:*/}}
+{{/*  test: |*/}}
+{{/*    test*/}}
 {{/*  {{default "db.properties" .Values.trembita_config.web_ui_access.configMaps.db_properties.subPath}}: |*/}}
 {{/*      serverconf.hibernate.jdbc.use_streams_for_binary = true*/}}
 {{/*      serverconf.hibernate.connection.driver_class = org.postgresql.Driver*/}}
@@ -149,5 +151,5 @@ data:
 {{/*      op-monitor.hibernate.connection.url = jdbc:postgresql://{{ include "trembita-1-22-6-ss.fullname" . }}-postgres:5432/op-monitor*/}}
 {{/*      op-monitor.hibernate.connection.username = {{ .Values.trembita_config.ss_to_db_access.OPMONITOR_DB_USER }}*/}}
 {{/*      op-monitor.hibernate.connection.password = {{ .Values.trembita_config.ss_to_db_access.OPMONITOR_DB_PASS }}*/}}
-{{/*{{- end}}*/}}
+
 
