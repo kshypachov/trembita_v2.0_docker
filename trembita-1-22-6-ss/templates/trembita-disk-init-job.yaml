@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "trembita-1-22-6-ss.fullname" . }}-ss-init
+  name: {{ include "trembita-1-22-6-ss.fullname" . }}-init
   labels:
     app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
