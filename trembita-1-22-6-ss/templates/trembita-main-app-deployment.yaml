@@ -74,7 +74,9 @@ spec:
             {{- if and (kindIs "map" $cm) $cm.enabled }}
             - name: {{ $cm.name }}-volume
               mountPath: {{ $cm.mountPath }}
+              {{- if $cm.subPath}}
               subPath: {{ $cm.subPath }}
+              {{- end }}
 {{/*              readOnly: true*/}}
             {{- end }}
             {{- end }}
