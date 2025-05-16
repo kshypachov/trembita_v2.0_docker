@@ -17,14 +17,15 @@
 
 {{- range $key, $section := .Values.trembita_config }}
   {{- if and $section.service $section.service.enabled }}
+  {{- $safeKey := replace "_" "-" $key }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ printf "trembita-%s-svc" $key }}
+  name: {{ printf "trembita-%s-svc" $safeKey }}
   labels:
-    app: {{ $key }}
-    role: {{ $section.service.label | default $key }}
+    app: {{ $safeKey }}
+    role: {{ $section.service.label | default $safeKey }}
     {{- if hasKey $section.service "tags" }}
     {{- range $tagKey, $tagVal := $section.service.tags }}
     {{ $tagKey }}: {{ $tagVal | quote }}
@@ -33,12 +34,12 @@ metadata:
 spec:
   type: {{ $section.service.type | default "ClusterIP" }}
   selector:
-    app: {{ $key }}
+    app: {{ $safeKey }}
   ports:
     - port: {{ $section.service.port }}
       targetPort: {{ $section.service.port }}
       protocol: TCP
-      name: {{ $section.service.portName | default $key }}
+      name: {{ $section.service.portName | default $safeKey }}
   {{- end }}
 {{- end }}
 
