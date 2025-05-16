@@ -16,6 +16,7 @@ spec:
         - name: db-init
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c"]
           args:
             - |
               set -x
