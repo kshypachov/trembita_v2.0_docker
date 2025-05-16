@@ -28,7 +28,7 @@ spec:
                 uid_gid=$(stat -c '%u:%g' {{ $cfg.mountPath }})
                 mode=$(stat -c '%a' {{ $cfg.mountPath }})
                 echo "[INFO] Changing ownership of /mnt/target/{{ $name }}-path to $uid_gid"
-                chown "$uid_gid" /mnt/target/-{{ $name }}-path
+                chown "$uid_gid" /mnt/target/{{ $name }}-path
                 echo "[INFO] Setting permissions of /mnt/target/{{ $name }}-path to $mode"
                 chmod "$mode" /mnt/target/{{ $name }}-path
               else
