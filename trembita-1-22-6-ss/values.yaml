@@ -53,25 +53,25 @@ securityContext: {}
   # runAsUser: 1000
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
-services:
-  external:
-    enabled: true
-    type: LoadBalancer
-    ports:
-      - name: port5500
-        port: 5500
-        targetPort: 5500
-
-  internal:
-    enabled: true
-    type: ClusterIP
-    ports:
-      - name: web-ui
-        port: 4000
-        targetPort: 4000
-      - name: secure-api
-        port: 80
-        targetPort: 80
+services: []
+#  external:
+#    enabled: true
+#    type: LoadBalancer
+#    ports:
+#      - name: port5500
+#        port: 5500
+#        targetPort: 5500
+#
+#  internal:
+#    enabled: true
+#    type: ClusterIP
+#    ports:
+#      - name: web-ui
+#        port: 4000
+#        targetPort: 4000
+#      - name: secure-api
+#        port: 80
+#        targetPort: 80
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
