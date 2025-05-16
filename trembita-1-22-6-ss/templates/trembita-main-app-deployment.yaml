@@ -65,9 +65,20 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.volumeMounts }}
+          {{- if or (.Values.volumeMounts) (.Values.trembita_config.web_ui_access.configMaps.enabled) }}
           volumeMounts:
+            {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
+            {{- range $key, $cm := .Values.configMaps }}
+            {{- if and (kindIs "map" $cm) $cm.enabled }}
+            - name: {{ $cm.name }}
+              mountPath: {{ $cm.mountPath }}
+              subPath: {{ $cm.subPath }}
+              readOnly: true
+            {{- end }}
+            {{- end }}
+          {{- end }}
+
           {{- end }}
       {{- with .Values.volumes }}
       volumes:

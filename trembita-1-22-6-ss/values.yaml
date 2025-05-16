@@ -254,6 +254,23 @@ trembita_config:
       port: 4000
       portName: uxp-web
 
+    configMaps:
+      enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
+      default_uxp:
+        enabled: true
+        name: default-uxp
+        mountPath: /etc/uxp/nginx/default-uxp.conf
+        subPath: default-uxp.conf
+
+      default_uxp1:
+        enabled: true
+        name: default-uxp1
+        mountPath: /etc/uxp/nginx/default-uxp1.conf
+        subPath: default-uxp1.conf
+
+
+
+
     ingress:
       enabled: true
       className: "nginx"
@@ -296,9 +313,6 @@ trembita_config:
       label: uxp-external
       port: 5500
       portName: uxp-external
-
-
-
 
 
 
