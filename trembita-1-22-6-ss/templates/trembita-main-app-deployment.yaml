@@ -77,7 +77,7 @@ spec:
               {{- if $cm.subPath}}
               subPath: {{ $cm.subPath }}
               {{- end }}
-{{/*              readOnly: true*/}}
+              readOnly: true
             {{- end }}
             {{- end }}
           {{- end }}
