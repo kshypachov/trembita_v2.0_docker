@@ -149,5 +149,5 @@ data:
 {{/*      op-monitor.hibernate.connection.url = jdbc:postgresql://{{ include "trembita-1-22-6-ss.fullname" . }}-postgres:5432/op-monitor*/}}
 {{/*      op-monitor.hibernate.connection.username = {{ .Values.trembita_config.ss_to_db_access.OPMONITOR_DB_USER }}*/}}
 {{/*      op-monitor.hibernate.connection.password = {{ .Values.trembita_config.ss_to_db_access.OPMONITOR_DB_PASS }}*/}}
-{{- end}}
+{{/*{{- end}}*/}}
 
