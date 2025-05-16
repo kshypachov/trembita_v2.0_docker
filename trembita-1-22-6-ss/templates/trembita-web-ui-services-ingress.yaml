@@ -29,8 +29,8 @@ metadata:
 spec:
   type: {{ $section.service.type | default "ClusterIP" }}
   selector:
-    {{- if hasKey $section.service "tags" }}
-    {{- range $tagKey, $tagVal := $section.service.tags }}
+    {{- if hasKey $section.service "selectors" }}
+    {{- range $tagKey, $tagVal := $section.service.selectors }}
     {{ $tagKey }}: {{ $tagVal | quote }}
     {{- end }}
     {{- end }}

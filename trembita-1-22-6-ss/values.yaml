@@ -205,7 +205,7 @@ trembita_config:
     service:
       enabled: true
       type: ClusterIP
-      tags:
+      selectors:
         trembita.io/internalport: tcp80
       port: 80
       portName: uxp-internal
@@ -224,7 +224,7 @@ trembita_config:
     service:
       enabled: true
       type: LoadBalancer
-      tags:
+      selectors:
         trembita.io/externalport: tcp5500
       port: 5500
       portName: uxp-external
@@ -234,7 +234,7 @@ trembita_config:
     service:
       enabled: true
       type: ClusterIP
-      tags:
+      selectors:
         trembita.io/internalport: tcp4000
       port: 4000
       portName: uxp-web
