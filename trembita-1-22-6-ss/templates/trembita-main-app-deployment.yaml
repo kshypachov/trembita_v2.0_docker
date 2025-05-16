@@ -97,7 +97,7 @@ spec:
             name: {{ $cm.name }}
         {{- end }}
         {{- end }}
-        {{- range $name, $cfg := .Values.sharedVolumes }}
+        {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
         {{- if $cfg.enabled }}
         - name: {{ $name }}-volume
           persistentVolumeClaim:
