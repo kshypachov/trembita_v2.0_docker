@@ -39,40 +39,83 @@ spec:
 
 ---
 
-{{- if .Values.trembita_config.web_ui_access.ingress.enabled }}
+{{- range $key, $section := .Values.trembita_config }}
+  {{- if and $section.ingress $section.ingress.enabled }}
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "trembita-1-22-6-ss.fullname" . }}-web
+  name: {{ printf "trembita-%s-ingress" $key }}
+  labels:
+    app: {{ $key }}
   annotations:
-    {{- if .Values.trembita_config.web_ui_access.ingress.className }}
-    kubernetes.io/ingress.class: {{ .Values.trembita_config.web_ui_access.ingress.className }}
+    {{- if $section.ingress.className }}
+    kubernetes.io/ingress.class: {{ $section.ingress.className }}
     {{- end }}
 spec:
-  {{- if .Values.trembita_config.web_ui_access.ingress.tls }}
+  {{- if $section.ingress.tls }}
   tls:
-    {{- range .Values.trembita_config.web_ui_access.ingress.tls }}
+    {{- range $tls := $section.ingress.tls }}
     - hosts:
-        {{- range .hosts }}
-        - {{ . }}
+        {{- range $host := $tls.hosts }}
+        - {{ $host }}
         {{- end }}
-      secretName: {{ .secretName }}
+      secretName: {{ $tls.secretName }}
     {{- end }}
   {{- end }}
+
   rules:
-    {{- range .Values.trembita_config.web_ui_access.ingress.hosts }}
-    - host: {{ .host }}
+    {{- range $host := $section.ingress.hosts }}
+    - host: {{ $host.host }}
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            pathType: {{ .pathType | default "Prefix" }}
+          {{- range $path := $host.paths }}
+          - path: {{ $path.path }}
+            pathType: {{ $path.pathType }}
             backend:
               service:
-                name: {{ include "trembita-1-22-6-ss.fullname" $ }}-web
+                name: {{ printf "trembita-%s-svc" $key }}
                 port:
-                  number: {{ .port }}
+                  number: {{ $path.port }}
           {{- end }}
     {{- end }}
+  {{- end }}
 {{- end }}
+
+{{/*{{- if .Values.trembita_config.web_ui_access.ingress.enabled }}*/}}
+{{/*apiVersion: networking.k8s.io/v1*/}}
+{{/*kind: Ingress*/}}
+{{/*metadata:*/}}
+{{/*  name: {{ include "trembita-1-22-6-ss.fullname" . }}-web*/}}
+{{/*  annotations:*/}}
+{{/*    {{- if .Values.trembita_config.web_ui_access.ingress.className }}*/}}
+{{/*    kubernetes.io/ingress.class: {{ .Values.trembita_config.web_ui_access.ingress.className }}*/}}
+{{/*    {{- end }}*/}}
+{{/*spec:*/}}
+{{/*  {{- if .Values.trembita_config.web_ui_access.ingress.tls }}*/}}
+{{/*  tls:*/}}
+{{/*    {{- range .Values.trembita_config.web_ui_access.ingress.tls }}*/}}
+{{/*    - hosts:*/}}
+{{/*        {{- range .hosts }}*/}}
+{{/*        - {{ . }}*/}}
+{{/*        {{- end }}*/}}
+{{/*      secretName: {{ .secretName }}*/}}
+{{/*    {{- end }}*/}}
+{{/*  {{- end }}*/}}
+{{/*  rules:*/}}
+{{/*    {{- range .Values.trembita_config.web_ui_access.ingress.hosts }}*/}}
+{{/*    - host: {{ .host }}*/}}
+{{/*      http:*/}}
+{{/*        paths:*/}}
+{{/*          {{- range .paths }}*/}}
+{{/*          - path: {{ .path }}*/}}
+{{/*            pathType: {{ .pathType | default "Prefix" }}*/}}
+{{/*            backend:*/}}
+{{/*              service:*/}}
+{{/*                name: {{ include "trembita-1-22-6-ss.fullname" $ }}-web*/}}
+{{/*                port:*/}}
+{{/*                  number: {{ .port }}*/}}
+{{/*          {{- end }}*/}}
+{{/*    {{- end }}*/}}
+{{/*{{- end }}*/}}
 
