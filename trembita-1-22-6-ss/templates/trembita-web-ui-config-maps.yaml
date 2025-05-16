@@ -16,7 +16,7 @@ data:
     archive-storage-type = fs
 {{- end}}
 
-------
+
 
 {{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.default_uxp.enabled }}
 apiVersion: v1
@@ -53,7 +53,7 @@ data:
 
 {{- end }}
 
-------
+
 
 {{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.uxp_identity_provider_rest_api.enabled }}
 apiVersion: v1
@@ -86,7 +86,7 @@ data:
 
 {{- end }}
 
-------
+
 
 {{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.uxp_securityserver_rest_api.enable }}
 apiVersion: v1
@@ -118,7 +118,7 @@ data:
       }
 {{- end}}
 
-{{/*-------*/}}
+
 
 
 {{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.db_properties.enabled}}
