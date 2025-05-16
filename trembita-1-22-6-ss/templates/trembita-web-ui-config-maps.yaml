@@ -1,10 +1,11 @@
-{{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.local_ini.enabled}}
+{{- with .Values.trembita_config.web_ui_access.configMaps}}
+{{- if and .enabled .local_ini.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.trembita_config.web_ui_access.configMaps.local_ini.name}}
+  name: {{ .local_ini.name}}
 data:
-  {{ default "local.ini" .Values.trembita_config.web_ui_access.configMaps.local_ini.subPath}}: |
+  {{ default "local.ini" .local_ini.subPath}}: |
     [identity-provider]
     security-server-client-id = 60997vl7jlgoi53zbyvv2k9iyny1rae2
     security-server-client-secret = QTK3fBuPu0v0m2DpvEees0AODujEcX3V
@@ -15,7 +16,7 @@ data:
     [message-log]
     archive-storage-type = fs
 {{- end}}
-
+{{- end}}
 ------
 
 {{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.default_uxp.enabled }}
