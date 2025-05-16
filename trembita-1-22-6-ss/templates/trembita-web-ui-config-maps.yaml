@@ -49,3 +49,36 @@ data:
 
 ------
 
+{{- if and .Values.trembita_config.web_ui_access.configMaps.enabled .Values.trembita_config.web_ui_access.configMaps.uxp_identity_provider_rest_api.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.trembita_config.web_ui_access.configMaps.uxp_identity_provider_rest_api.name }}
+data:
+  defaul-uxp.conf: |
+    # Identity Provider backend location.
+    location /auth-api {
+      proxy_pass http://127.0.0.1:8087;
+    #  proxy_set_header Host $host:$server_port;
+    #  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    #  proxy_set_header X-Forwarded-Proto https;
+    #  proxy_set_header X-Forwarded-Port $server_port;
+    #  proxy_redirect http:// https://;
+      client_max_body_size 5M;
+
+      location ~* oauth2-redirect.html$ {
+        proxy_pass http://127.0.0.1:8087;
+    #    proxy_set_header Host $host:$server_port;
+    #    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    #    proxy_set_header X-Forwarded-Proto https;
+    #    proxy_set_header X-Forwarded-Port $server_port;
+    #    proxy_redirect http:// https://;
+    #    client_max_body_size 5M;
+        add_header Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'self'; script-src 'self' 'unsafe-inline';" always;
+      }
+    }
+
+{{- end }}
+
+
+----
