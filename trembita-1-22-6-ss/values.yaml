@@ -257,7 +257,7 @@ trembita_config:
     configMaps:
       enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
       default_uxp:
-        enabled: true
+        enabled: false
         name: default-uxp
         mountPath: /etc/uxp/nginx/default-uxp.conf
         subPath: default-uxp.conf
