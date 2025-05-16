@@ -69,7 +69,7 @@ spec:
           volumeMounts:
             {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
-            {{- range $key, $cm := .Values.configMaps }}
+            {{- range $key, $cm := .Values.trembita_config.web_ui_access.configMaps }}
             {{- if and (kindIs "map" $cm) $cm.enabled }}
             - name: {{ $cm.name }}
               mountPath: {{ $cm.mountPath }}
