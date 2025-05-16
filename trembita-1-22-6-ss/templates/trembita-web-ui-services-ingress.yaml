@@ -34,7 +34,6 @@ spec:
     {{ $tagKey }}: {{ $tagVal | quote }}
     {{- end }}
     {{- end }}
-    app: {{ $safeKey }}
   ports:
     - port: {{ $section.service.port }}
       targetPort: {{ $section.service.port }}
