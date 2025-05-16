@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.trembita_config.web_ui_access.configMaps.default_uxp.name }}
 data:
-  defaul-uxp.conf: |
+  {{ .Values.trembita_config.web_ui_access.configMaps.default_uxp.subPath}}: |
     server {
     listen [::]:4001;
     #ssl ipv6only=off;
@@ -55,7 +55,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.trembita_config.web_ui_access.configMaps.uxp_identity_provider_rest_api.name }}
 data:
-  defaul-uxp.conf: |
+  {{ .Values.trembita_config.web_ui_access.configMaps.uxp_identity_provider_rest_api.subPath}}: |
     # Identity Provider backend location.
     location /auth-api {
       proxy_pass http://127.0.0.1:8087;
