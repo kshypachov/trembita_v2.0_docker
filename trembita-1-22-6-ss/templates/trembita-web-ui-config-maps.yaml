@@ -5,6 +5,7 @@ metadata:
   name: {{ .Values.trembita_config.web_ui_access.configMaps.default_uxp.name }}
 data:
   {{ default "uxp-default" .Values.trembita_config.web_ui_access.configMaps.default_uxp.subPath}}: |
+
     server {
       listen [::]:4000;
       #ssl ipv6only=off;
@@ -45,6 +46,7 @@ data:
       # Include component specific headers
       include conf.d/uxp-*-headers.include;
     }
+
 {{- end }}
 
 ------
