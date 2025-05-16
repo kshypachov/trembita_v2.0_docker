@@ -1,4 +1,4 @@
-{{- range $volName, $cfg := .Values.sharedVolumes }}
+{{- range $volName, $cfg := .Values.trembita_config.sharedVolumes }}
 {{- if $cfg.enabled }}
 ---
 apiVersion: v1
