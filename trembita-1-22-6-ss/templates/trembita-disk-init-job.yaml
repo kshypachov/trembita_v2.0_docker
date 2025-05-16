@@ -33,6 +33,8 @@ spec:
               else
                 echo "[WARN] Source directory {{ $cfg.mountPath }} not found"
               fi
+              wait 30
+              exit 0
               {{- end }}
           volumeMounts:
             {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
