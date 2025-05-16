@@ -8,7 +8,8 @@ data:
     [identity-provider]
     security-server-client-id = 60997vl7jlgoi53zbyvv2k9iyny1rae2
     security-server-client-secret = QTK3fBuPu0v0m2DpvEees0AODujEcX3V
-    public-client-redirect-uris= https://trembita2.local/
+    public-client-redirect-uris= https://trembita2.local
+    hostname=trembita2.local
 
 
     [message-log]
