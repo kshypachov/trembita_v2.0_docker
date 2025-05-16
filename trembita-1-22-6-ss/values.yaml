@@ -312,7 +312,7 @@ trembita_config:
       mountPath: /etc/uxp
       storageClassName: "longhorn-rwx"
       accessModes:
-        - ReadWriteOnce
+        - ReadWriteMany
 
 
 
