@@ -310,7 +310,7 @@ trembita_config:
       initCopy: false
       size: 100Mi
       mountPath: /etc/uxp
-      storageClassName: ""
+      storageClassName: "longhorn-rwx"
       accessModes:
         - ReadWriteOnce
 
