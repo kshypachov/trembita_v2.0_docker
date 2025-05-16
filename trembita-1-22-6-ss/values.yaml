@@ -201,7 +201,7 @@ trembita_config:
     PMONITOR_ADMIN_DB_PASS: opmonitor_adminp
 
 
-  internal_api_access:
+  internal-api-access:
     service:
       enabled: true
       type: ClusterIP
@@ -220,7 +220,7 @@ trembita_config:
             pathType: Prefix
             port: 80
 
-  external_api_access:
+  external-api-access:
     service:
       enabled: true
       type: LoadBalancer
@@ -230,7 +230,7 @@ trembita_config:
       portName: uxp-external
 
 
-  web_ui_access:
+  web-ui-access:
     service:
       enabled: true
       type: ClusterIP
