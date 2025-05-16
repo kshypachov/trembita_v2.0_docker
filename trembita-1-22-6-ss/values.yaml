@@ -265,7 +265,7 @@ trembita_config:
       uxp_identity_provider_rest_api:
         enabled: true
         name: uxp-identity-provider-rest-api
-        mountPath: /etc/uxp/nginx/uxp-identity-provider-rest-api-location.include
+        mountPath: /etc/uxp/nginx/uxp-identity-provider-rest-api-location.include1
         subPath: uxp-identity-provider-rest-api-location.include
 
 
