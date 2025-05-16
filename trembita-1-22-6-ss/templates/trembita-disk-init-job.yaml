@@ -34,3 +34,13 @@
 {{/*          volumeMounts:*/}}
 {{/*            - name: {{ $name }}*/}}
 {{/*              mountPath: /mnt/target*/}}
+{{/*      {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.web_ui_access.configMaps.enabled)}}        */}}
+{{/*      volumes:*/}}
+{{/*       {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}*/}}
+{{/*       {{- if $cfg.enabled }}*/}}
+{{/*        - name: {{ $name }}-volume*/}}
+{{/*          persistentVolumeClaim:*/}}
+{{/*            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}*/}}
+{{/*      {{- end }}*/}}
+{{/*      {{- end }}*/}}
+{{/*      {{- end }}*/}}

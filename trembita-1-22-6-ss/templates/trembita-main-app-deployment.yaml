@@ -85,11 +85,8 @@ spec:
             {{- end }}
             {{- end }}
           {{- end }}
-      {{- if or (.Values.volumes) (.Values.trembita_config.web_ui_access.configMaps.enabled)}}
+      {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.web_ui_access.configMaps.enabled)}}
       volumes:
-        {{- with .Values.volumes }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
         {{- range $key, $cm := .Values.trembita_config.web_ui_access.configMaps }}
         {{- if and (kindIs "map" $cm) $cm.enabled }}
         - name: {{ $cm.name }}-volume
