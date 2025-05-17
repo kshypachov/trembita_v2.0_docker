@@ -26,6 +26,11 @@ spec:
         - name: worker
           image: "{{ .Values.trembita_config.trembita_worker_pods.image}}"
           imagePullPolicy: IfNotPresent
+          env:
+            {{- range $k, $v := .Values.trembita_config.trembita_worker_pods.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
           ports:
           {{- range $key, $val := .Values.trembita_config }}
             {{- if and $val.service $val.service.enabled }}
