@@ -256,37 +256,43 @@ trembita_config:
           secretName: trembita-tls
 
 
-    configMaps:
-      enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
-      db_properties: # For testing only!!!!!! ConfigMap not suitable for storing sensitive data like a DB password
-        enabled: true
-        name: db-properties
-        mountPath: /etc/uxp/db.properties
-        subPath: db.properties
+  configMaps:
+    enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
+    db_properties: # For testing only!!!!!! ConfigMap not suitable for storing sensitive data like a DB password
+      enabled: true
+      name: db-properties
+      mountPath: /etc/uxp/db.properties
+      subPath: db.properties
 
-      local_ini:
-        enabled: true
-        name: local-ini
-        mountPath: /etc/uxp/conf.d/local.ini
-        subPath: local.ini
+    local_ini:
+      enabled: true
+      name: local-ini
+      mountPath: /etc/uxp/conf.d/local.ini
+      subPath: local.ini
 
-      default_uxp:
-        enabled: true
-        name: default-uxp
-        mountPath: /etc/nginx/sites-enabled/default-uxp
-        subPath: default-uxp
+    default_uxp:
+      enabled: true
+      name: default-uxp
+      mountPath: /etc/nginx/sites-enabled/default-uxp
+      subPath: default-uxp
 
-      uxp_identity_provider_rest_api:
-        enabled: true
-        name: uxp-identity-provider-rest-api
-        mountPath: /etc/nginx/conf.d/uxp-identity-provider-rest-api-location.include
-        subPath: uxp-identity-provider-rest-api-location.include
+    uxp_identity_provider_rest_api:
+      enabled: true
+      name: uxp-identity-provider-rest-api
+      mountPath: /etc/nginx/conf.d/uxp-identity-provider-rest-api-location.include
+      subPath: uxp-identity-provider-rest-api-location.include
 
-      uxp_securityserver_rest_api:
-        enabled: true
-        name: uxp-securityserver-rest-api
-        mountPath: /etc/nginx/conf.d/uxp-securityserver-rest-api-location.include
-        subPath: uxp-securityserver-rest-api-location.include
+    uxp_securityserver_rest_api:
+      enabled: true
+      name: uxp-securityserver-rest-api
+      mountPath: /etc/nginx/conf.d/uxp-securityserver-rest-api-location.include
+      subPath: uxp-securityserver-rest-api-location.include
+
+    tokens_autologin:
+      enabled: true
+      name: tokens-autologin
+      mountPath: /usr/share/uxp/bin/tokens-autologin.py
+      subPath: tokens-autologin.py
 
   trembita_main_app_container_tags:
     enabled: true
@@ -306,7 +312,7 @@ trembita_config:
 
   trembita_worker_pods:
     enabled: true
-    image: kshypachov/trembita_ss_v1.22.6-worker:v1.0.0
+    image: kshypachov/trembita_ss_v1.22.6:v1.0.2
     autoscaling:
       enabled: true
       min: 1
