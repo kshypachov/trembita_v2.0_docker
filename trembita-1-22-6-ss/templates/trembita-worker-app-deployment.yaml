@@ -13,20 +13,25 @@ spec:
     matchLabels:
       app.kubernetes.io/component: worker
       app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}
+      trembita.io/image: {{ .Values.trembita_config.trembita_worker_pods.image | quote }}
+      {{- with .Values.trembita_config.trembita_workers_tags}}
+      {{- if and .enabled .tags }}
+      {{- toYaml .tags | nindent 3 }}
+      {{- end }}
+      {{- end }}
   template:
     metadata:
       labels:
         app.kubernetes.io/component: worker
         app.kubernetes.io/instance: {{ .Release.Name }}
-{{/*        app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}*/}}
-
-{{/*        app.kubernetes.io/component: worker*/}}
-{{/*        trembita.io/image: {{ .Values.trembita_config.trembita_worker_pods.image | quote }}*/}}
-{{/*        {{- if .Values.trembita_config.trembita_workers_tags.enabled }}*/}}
-{{/*        {{- range $k, $v := .Values.trembita_config.trembita_workers_tags.tags }}*/}}
-{{/*        {{ $k }}: {{ $v | quote }}*/}}
-{{/*        {{- end }}*/}}
-{{/*        {{- end }}*/}}
+        app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}
+        trembita.io/image: {{ .Values.trembita_config.trembita_worker_pods.image | quote }}
+        {{- with .Values.trembita_config.trembita_workers_tags}}
+        {{- if and .enabled .tags }}
+        {{- toYaml .tags | nindent 4 }}
+        {{- end }}
+        {{- end }}
     spec:
       containers:
         - name: worker

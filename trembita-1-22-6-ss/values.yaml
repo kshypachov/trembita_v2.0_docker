@@ -299,7 +299,7 @@ trembita_config:
   trembita_workers_tags:
     enabled: true
     tags:
-      app.kubernetes.io/component: rembita
+      app.kubernetes.io/component: trembita
       trembita.io/webport: tcp4000
       trembita.io/internalport: tcp80
       trembita.io/externalport: tcp5500
