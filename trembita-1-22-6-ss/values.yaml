@@ -321,7 +321,7 @@ trembita_config:
     secrets:
       auto-login:
         enabled: true
-        mountpoint: /run/secrets/autologin.json.secret
+        mountpoint: /run/secrets/trembita.io/autologin.secret.json
         filename: autologin.json.secret
         values:
           USERNAME: uxpadmin
