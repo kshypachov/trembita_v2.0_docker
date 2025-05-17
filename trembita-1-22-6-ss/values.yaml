@@ -297,12 +297,16 @@ trembita_config:
       trembita.io/externalport: tcp5500
 
   trembita_workers_tags:
-    enables: true
+    enabled: true
     tags:
       app.kubernetes.io/component: rembita
       trembita.io/webport: tcp4000
       trembita.io/internalport: tcp80
       trembita.io/externalport: tcp5500
+
+  trembita_worker_pods:
+    enabled: true
+    image: kshypachov/trembita_ss_v1.22.6:v1.0.2
 
   sharedVolumes:
     etc-uxp:
@@ -313,6 +317,9 @@ trembita_config:
       storageClassName: "longhorn-rwx"
       accessModes:
         - ReadWriteMany
+
+
+
 
 
 
