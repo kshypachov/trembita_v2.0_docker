@@ -85,6 +85,7 @@ spec:
               {{- end }}
               {{- end }}
             {{- end }}
+          {{- if .Values.trembita_config.trembita_worker_pods.lifecycle.enabled}}
           lifecycle:
             {{- with .Values.trembita_config.trembita_worker_pods.lifecycle }}
             postStart:
@@ -92,6 +93,7 @@ spec:
                 command:
                   {{- toYaml .postStart.exec.command | nindent 12 }}
             {{- end }}
+          {{- end }}
         {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) (.Values.trembita_config.trembita_worker_pods.secrets)}}
       volumes:
           {{- range $key, $cm := .Values.trembita_config.configMaps }}

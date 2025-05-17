@@ -332,6 +332,7 @@ trembita_config:
           TOKEN_CREDENTIALS: "0:1234"
           OAUTH_RETRIES: "10"
     lifecycle:
+      enabled: true
       postStart:
         exec:
           command:
