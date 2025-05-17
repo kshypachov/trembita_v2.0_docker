@@ -18,11 +18,10 @@ data:
 {{- end}}
 {{- end}}
 
+------
 
 {{- with .Values.trembita_config.configMaps}}
 {{- if and .enabled .default_uxp.enabled }}
- ------
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
