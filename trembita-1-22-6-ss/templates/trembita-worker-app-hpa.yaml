@@ -3,12 +3,12 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "trembita-1-22-6-ss.fullname" . }}-worker-hpa
+  name: {{ include "trembita-1-22-6-ss.fullname" $ }}-worker-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "trembita-1-22-6-ss.fullname" . }}-worker
+    name: {{ include "trembita-1-22-6-ss.fullname" $ }}-worker
   minReplicas: {{ .autoscaling.min }}
   maxReplicas: {{ .autoscaling.max }}
   metrics:
