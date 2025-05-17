@@ -29,7 +29,7 @@ spec:
       containers:
         - name: worker
           image: "{{ .Values.trembita_config.trembita_worker_pods.image}}"
-          imagePullPolicy: {{ .Values.worker.image.pullPolicy | default "IfNotPresent" }}
+          imagePullPolicy: IfNotPresent
           resources:
             {{- toYaml .Values.worker.resources | nindent 12 }}
           env:
