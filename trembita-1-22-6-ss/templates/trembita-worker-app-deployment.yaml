@@ -4,9 +4,7 @@ kind: Deployment
 metadata:
   name: {{ include "trembita-1-22-6-ss.fullname" . }}-worker
   labels:
-    app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: trembita-worker
+    app.kubernetes.io/component: worker
 spec:
   replicas: 1
   selector:
