@@ -19,7 +19,7 @@ spec:
         app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/component: worker
-        app.kubernetes.image/: {{ .Values.trembita_config.trembita_worker_pods.image}}
+        app.kubernetes.io/image: {{ .Values.trembita_config.trembita_worker_pods.image}}
         {{- if .Values.trembita_config.trembita_workers_tags.enabled }}
         {{- range $k, $v := .Values.trembita_config.trembita_workers_tags.tags }}
         {{ $k }}: {{ $v | quote }}
@@ -101,6 +101,4 @@ spec:
         tolerations:
           {{- toYaml . | nindent 8 }}
         {{- end }}
-
-
 {{- end }}
