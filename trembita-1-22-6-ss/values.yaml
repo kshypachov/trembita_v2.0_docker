@@ -318,14 +318,34 @@ trembita_config:
       min: 1
       max: 2
       cpuUtilization: 80
-    env:
-      USERNAME: uxpadmin
-      PASSWORD: uxpadminp
-      REDIRECT_URI: https://trembita2.local
-      CLIENT_ID: uxp-ss-ui
-      SECURITY_SERVER_ADDRESS: http://127.0.0.1:4000
-      TOKEN_CREDENTIALS: "0:1234"
-      OAUTH_RETRIES: "10"
+    secrets:
+      auto-login:
+        enabled: true
+        mountpoint: /run/secters/autologin.json.secret
+        filename: autologin.json.secret
+        values:
+          USERNAME: uxpadmin
+          PASSWORD: uxpadminp
+          REDIRECT_URI: https://trembita2.local
+          CLIENT_ID: uxp-ss-ui
+          SECURITY_SERVER_ADDRESS: http://127.0.0.1:4000
+          TOKEN_CREDENTIALS: "0:1234"
+          OAUTH_RETRIES: "10"
+
+      token-secret:
+        enable: true
+        mountpoint: /run/secters/autologin.json.secret2
+        filename: autologin.json.secret2
+        values:
+          USERNAME: uxpadmin
+          PASSWORD: uxpadminp
+          REDIRECT_URI: https://trembita2.local
+          CLIENT_ID: uxp-ss-ui
+          SECURITY_SERVER_ADDRESS: http://127.0.0.1:4000
+          TOKEN_CREDENTIALS: "0:1234"
+          OAUTH_RETRIES: "10"
+
+
 
   sharedVolumes:
     etc-uxp:
