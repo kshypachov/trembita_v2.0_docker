@@ -333,7 +333,7 @@ trembita_config:
           OAUTH_RETRIES: "10"
 
       token-secret:
-        enable: true
+        enabled: true
         mountpoint: /run/secters/autologin.json.secret2
         filename: autologin.json.secret2
         values:
