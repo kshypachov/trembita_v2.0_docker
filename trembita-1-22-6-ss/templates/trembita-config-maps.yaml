@@ -301,7 +301,7 @@ data:
 {{/*                f"{auth_api_url}/logout",*/}}
 {{/*                headers={*/}}
 {{/*                    "Authorization": f"Bearer {api_auth_token}",*/}}
-{{/*                    "accept": "*/*"*/}}
+
 {{/*                },*/}}
 {{/*                verify=False*/}}
 {{/*            )*/}}
