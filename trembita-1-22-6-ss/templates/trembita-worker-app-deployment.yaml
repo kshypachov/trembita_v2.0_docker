@@ -30,12 +30,12 @@ spec:
         - name: worker
           image: "{{ .Values.trembita_config.trembita_worker_pods.image}}"
           imagePullPolicy: IfNotPresent
-          resources:
-            {{- toYaml .Values.worker.resources | nindent 12 }}
-          env:
-            {{- toYaml .Values.worker.env | nindent 12 }}
-          volumeMounts:
-            {{- toYaml .Values.worker.volumeMounts | nindent 12 }}
-      volumes:
-        {{- toYaml .Values.worker.volumes | nindent 8 }}
+{{/*          resources:*/}}
+{{/*            {{- toYaml .Values.worker.resources | nindent 12 }}*/}}
+{{/*          env:*/}}
+{{/*            {{- toYaml .Values.worker.env | nindent 12 }}*/}}
+{{/*          volumeMounts:*/}}
+{{/*            {{- toYaml .Values.worker.volumeMounts | nindent 12 }}*/}}
+{{/*      volumes:*/}}
+{{/*        {{- toYaml .Values.worker.volumes | nindent 8 }}*/}}
 {{- end }}
