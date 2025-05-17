@@ -30,12 +30,77 @@ spec:
         - name: worker
           image: "{{ .Values.trembita_config.trembita_worker_pods.image}}"
           imagePullPolicy: IfNotPresent
-{{/*          resources:*/}}
-{{/*            {{- toYaml .Values.worker.resources | nindent 12 }}*/}}
-{{/*          env:*/}}
-{{/*            {{- toYaml .Values.worker.env | nindent 12 }}*/}}
-{{/*          volumeMounts:*/}}
-{{/*            {{- toYaml .Values.worker.volumeMounts | nindent 12 }}*/}}
-{{/*      volumes:*/}}
-{{/*        {{- toYaml .Values.worker.volumes | nindent 8 }}*/}}
+          ports:
+          {{- range $key, $val := .Values.trembita_config }}
+            {{- if and $val.service $val.service.enabled }}
+            - containerPort: {{ $val.service.port }}
+              name: {{ $val.service.portName | default $key }}
+              protocol: TCP
+          {{- end }}
+          {{- end }}
+          {{- with .Values.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.web_ui_access.configMaps.enabled) }}
+          volumeMounts:
+              {{- with .Values.volumeMounts }}
+              {{- toYaml . | nindent 12 }}
+              {{- end}}
+              {{- range $key, $cm := .Values.trembita_config.web_ui_access.configMaps }}
+              {{- if and (kindIs "map" $cm) $cm.enabled }}
+            - name: {{ $cm.name }}-volume
+              mountPath: {{ $cm.mountPath }}
+                {{- if $cm.subPath}}
+              subPath: {{ $cm.subPath }}
+                {{- end }}
+              readOnly: true
+              {{- end }}
+              {{- end }}
+              {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+              {{- if $cfg.enabled }}
+            - name: {{ $name }}-volume
+              mountPath: {{ $cfg.mountPath }}
+              {{- end }}
+              {{- end }}
+            {{- end }}
+        {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.web_ui_access.configMaps.enabled)}}
+      volumes:
+          {{- range $key, $cm := .Values.trembita_config.web_ui_access.configMaps }}
+          {{- if and (kindIs "map" $cm) $cm.enabled }}
+          - name: {{ $cm.name }}-volume
+            configMap:
+              name: {{ $cm.name }}
+          {{- end }}
+          {{- end }}
+          {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+          {{- if $cfg.enabled }}
+          - name: {{ $name }}-volume
+            persistentVolumeClaim:
+              claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
+          {{- end }}
+          {{- end }}
+        {{- end }}
+        {{- with .Values.nodeSelector }}
+      nodeSelector:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.affinity }}
+        affinity:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.tolerations }}
+        tolerations:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+
+
 {{- end }}
