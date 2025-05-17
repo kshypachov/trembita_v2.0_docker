@@ -332,19 +332,6 @@ trembita_config:
           TOKEN_CREDENTIALS: "0:1234"
           OAUTH_RETRIES: "10"
 
-      token-secret:
-        enabled: true
-        mountpoint: /run/secters/autologin.json.secret2
-        filename: autologin.json.secret2
-        values:
-          USERNAME: uxpadmin
-          PASSWORD: uxpadminp
-          REDIRECT_URI: https://trembita2.local
-          CLIENT_ID: uxp-ss-ui
-          SECURITY_SERVER_ADDRESS: http://127.0.0.1:4000
-          TOKEN_CREDENTIALS: "0:1234"
-          OAUTH_RETRIES: "10"
-
     lifecycle:
       enabled: true
       postStart:
