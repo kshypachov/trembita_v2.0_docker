@@ -331,16 +331,6 @@ trembita_config:
           SECURITY_SERVER_ADDRESS: http://127.0.0.1:4000
           TOKEN_CREDENTIALS: "0:1234"
           OAUTH_RETRIES: "10"
-    lifecycle:
-      enabled: true
-      postStart:
-        exec:
-          command:
-            - /bin/sh
-            - -c
-            - |
-              echo "[INFO] Starting token autologin script..."
-              python3 /usr/share/uxp/bin/tokens-autologin.py
 
       token-secret:
         enable: true
@@ -354,6 +344,18 @@ trembita_config:
           SECURITY_SERVER_ADDRESS: http://127.0.0.1:4000
           TOKEN_CREDENTIALS: "0:1234"
           OAUTH_RETRIES: "10"
+
+    lifecycle:
+      enabled: true
+      postStart:
+        exec:
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "[INFO] Starting token autologin script..."
+              python3 /usr/share/uxp/bin/tokens-autologin.py
+
 
 
 
