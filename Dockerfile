@@ -21,6 +21,7 @@ RUN apt-get -qq update && apt-get -qq --no-install-recommends -y install \
       ca-certificates gnupg supervisor net-tools iproute2 locales \
       rlwrap ca-certificates-java debconf-utils \
       crudini adduser expect curl rsyslog dpkg-dev \
+      python3-requests \
     && echo "LC_ALL=en_US.UTF-8" >>/etc/environment \
     && locale-gen en_US.UTF-8 \
     && apt-get clean  \
