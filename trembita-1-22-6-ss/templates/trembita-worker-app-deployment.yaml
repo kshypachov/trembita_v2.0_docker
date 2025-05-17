@@ -85,7 +85,7 @@ spec:
               {{- end }}
               {{- end }}
             {{- end }}
-        {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)}}
+        {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) (.Values.trembita_config.trembita_worker_pods.secrets)}}
       volumes:
           {{- range $key, $cm := .Values.trembita_config.configMaps }}
           {{- if and (kindIs "map" $cm) $cm.enabled }}
@@ -99,6 +99,15 @@ spec:
           - name: {{ $name }}-volume
             persistentVolumeClaim:
               claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
+          {{- end }}
+          {{- end }}
+          {{- with .Values.trembita_config.trembita_worker_pods.secrets }}
+          {{- range $name, $cfg := . }}
+          {{- if $cfg.enabled }}
+          - name: {{ $name }}-secret
+            secret:
+              secretName: {{ printf "%s-%s" $.Release.Name $name }}
+          {{- end }}
           {{- end }}
           {{- end }}
         {{- end }}
