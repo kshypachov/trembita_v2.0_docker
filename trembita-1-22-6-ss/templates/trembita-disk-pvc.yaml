@@ -1,0 +1,18 @@
+{{- range $volName, $cfg := .Values.trembita_config.sharedVolumes }}
+{{- if $cfg.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $volName }}
+spec:
+  accessModes:
+    {{- toYaml $cfg.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ $cfg.size }}
+  {{- if $cfg.storageClassName }}
+  storageClassName: {{ $cfg.storageClassName }}
+  {{- end }}
+{{- end }}
+{{- end }}

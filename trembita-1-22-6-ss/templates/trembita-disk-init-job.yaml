@@ -1,0 +1,51 @@
+{{- if .Values.trembita_config.sharedVolumes}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "trembita-1-22-6-ss.fullname" . }}-init
+  labels:
+    app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: ss-init
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: db-init
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -x
+              {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+              echo "[INFO] Starting init container for {{ $name }}"
+              if [ -d "{{ $cfg.mountPath }}" ]; then
+                cp -rp {{ $cfg.mountPath }}/* /mnt/target/{{ $name }}-path || true
+                echo "[INFO] Done copying {{ $cfg.mountPath }} to /mnt/target/{{ $name }}-path"
+                uid_gid=$(stat -c '%u:%g' {{ $cfg.mountPath }})
+                mode=$(stat -c '%a' {{ $cfg.mountPath }})
+                echo "[INFO] Changing ownership of /mnt/target/{{ $name }}-path to $uid_gid"
+                chown "$uid_gid" /mnt/target/{{ $name }}-path
+                echo "[INFO] Setting permissions of /mnt/target/{{ $name }}-path to $mode"
+                chmod "$mode" /mnt/target/{{ $name }}-path
+              else
+                echo "[WARN] Source directory {{ $cfg.mountPath }} not found"
+              fi
+              {{- end }}
+          volumeMounts:
+            {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+            - name: {{ $name }}-volume
+              mountPath: /mnt/target/{{ $name }}-path
+            {{- end}}
+      volumes:
+      {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+      {{- if $cfg.enabled }}
+        - name: {{ $name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
+      {{- end }}
+      {{- end }}
+{{- end }}

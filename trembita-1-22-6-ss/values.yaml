@@ -304,4 +304,16 @@ trembita_config:
       trembita.io/internalport: tcp80
       trembita.io/externalport: tcp5500
 
+  sharedVolumes:
+    etc-uxp:
+      enabled: true
+      initCopy: false
+      size: 100Mi
+      mountPath: /etc/uxp
+      storageClassName: "longhorn-rwx"
+      accessModes:
+        - ReadWriteMany
+
+
+
 
