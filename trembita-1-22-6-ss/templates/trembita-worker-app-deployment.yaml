@@ -53,7 +53,8 @@ spec:
           {{- end }}
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) (.Values.trembita_config.trembita_worker_pods.secrets)}}
           {{- with .Values.trembita_config.trembita_worker_pods.lifecycle }}
-          {{- toYaml . | nindent 10 }}
+          lifecycle:
+          {{- toYaml . | nindent 12 }}
           {{- end}}
           volumeMounts:
               {{- with .Values.volumeMounts }}
