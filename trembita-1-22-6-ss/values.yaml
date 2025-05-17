@@ -318,6 +318,14 @@ trembita_config:
       min: 1
       max: 2
       cpuUtilization: 80
+    env:
+      USERNAME: uxpadmin
+      PASSWORD: uxpadminp
+      REDIRECT_URI: https://trembita2.local
+      CLIENT_ID: uxp-ss-ui
+      SECURITY_SERVER_ADDRESS: https://127.0.0.1:4000
+      TOKEN_CREDENTIALS: "0:1234"
+      OAUTH_RETRIES: "10"
 
   sharedVolumes:
     etc-uxp:
