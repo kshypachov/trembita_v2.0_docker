@@ -307,6 +307,11 @@ trembita_config:
   trembita_worker_pods:
     enabled: true
     image: kshypachov/trembita_ss_v1.22.6:v1.0.2
+    autoscaling:
+      enabled: true
+      min: 1
+      max: 2
+      cpuUtilization: 80
 
   sharedVolumes:
     etc-uxp:
