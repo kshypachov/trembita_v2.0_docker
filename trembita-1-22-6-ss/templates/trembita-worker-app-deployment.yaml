@@ -70,9 +70,9 @@ spec:
               {{- end }}
               {{- end }}
             {{- end }}
-        {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.web_ui_access.configMaps.enabled)}}
+        {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)}}
       volumes:
-          {{- range $key, $cm := .Values.trembita_config.web_ui_access.configMaps }}
+          {{- range $key, $cm := .Values.trembita_config.configMaps }}
           {{- if and (kindIs "map" $cm) $cm.enabled }}
           - name: {{ $cm.name }}-volume
             configMap:
