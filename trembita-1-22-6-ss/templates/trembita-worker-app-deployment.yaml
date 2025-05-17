@@ -4,12 +4,12 @@ kind: Deployment
 metadata:
   name: {{ include "trembita-1-22-6-ss.fullname" . }}-worker
   labels:
-    app.kubernetes.io/component: worker
+    {{- include "trembita-1-22-6-ss.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/component: worker
+      {{- include "trembita-1-22-6-ss.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
