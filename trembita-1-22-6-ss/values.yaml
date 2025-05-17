@@ -289,7 +289,7 @@ trembita_config:
       subPath: uxp-securityserver-rest-api-location.include
 
     tokens_autologin:
-      enabled: false
+      enabled: true
       name: tokens-autologin
       mountPath: /usr/share/uxp/bin/tokens-autologin.py
       subPath: tokens-autologin.py
