@@ -17,7 +17,7 @@ spec:
       trembita.io/image: {{ .Values.trembita_config.trembita_worker_pods.image | quote }}
       {{- with .Values.trembita_config.trembita_workers_tags}}
       {{- if and .enabled .tags }}
-      {{- toYaml .tags | nindent 3 }}
+      {{- toYaml .tags | nindent 6 }}
       {{- end }}
       {{- end }}
   template:
@@ -29,7 +29,7 @@ spec:
         trembita.io/image: {{ .Values.trembita_config.trembita_worker_pods.image | quote }}
         {{- with .Values.trembita_config.trembita_workers_tags}}
         {{- if and .enabled .tags }}
-        {{- toYaml .tags | nindent 4 }}
+        {{- toYaml .tags | nindent 8 }}
         {{- end }}
         {{- end }}
     spec:
