@@ -331,7 +331,6 @@ trembita_config:
           SECURITY_SERVER_ADDRESS: http://127.0.0.1:4000
           TOKEN_CREDENTIALS: "0:1234"
           OAUTH_RETRIES: "10"
-
     lifecycle:
       postStart:
         exec:
@@ -341,6 +340,17 @@ trembita_config:
             - |
               echo "[INFO] Starting token autologin script..."
               python3 /usr/share/uxp/bin/tokens-autologin.py
+    env:
+    - name: TZ
+      value: "Europe/Kyiv"
+
+  trembita_main_app_pod:
+    env:
+      - name: TZ
+        value: "Europe/Kyiv"
+
+
+
 
 
   sharedVolumes:
