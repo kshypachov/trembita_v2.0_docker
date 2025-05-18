@@ -214,7 +214,7 @@ trembita_config:
       enabled: true
       className: "nginx"
       hosts:
-        - host: api.trembita2.local
+        - host: api.trembita2.remote
           paths:
           - path: /
             pathType: Prefix
@@ -244,7 +244,7 @@ trembita_config:
       enabled: true
       className: "nginx"
       hosts:
-        - host: trembita2.local
+        - host: trembita2.remote
           paths:
           - path: /
             pathType: Prefix
@@ -252,7 +252,7 @@ trembita_config:
 
       tls:
         - hosts:
-            - trembita2.local
+            - trembita2.remote
           secretName: trembita-tls
 
 
@@ -326,7 +326,7 @@ trembita_config:
         values:
           USERNAME: uxpadmin
           PASSWORD: uxpadminp
-          REDIRECT_URI: https://trembita2.local
+          REDIRECT_URI: https://trembita2.remote
           CLIENT_ID: uxp-ss-ui
           SECURITY_SERVER_ADDRESS: http://127.0.0.1:4000
           TOKEN_CREDENTIALS: "0:1234"
@@ -341,8 +341,6 @@ trembita_config:
             - |
               echo "[INFO] Starting token autologin script..."
               python3 /usr/share/uxp/bin/tokens-autologin.py
-
-
 
 
   sharedVolumes:
