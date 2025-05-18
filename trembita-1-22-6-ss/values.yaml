@@ -341,13 +341,11 @@ trembita_config:
               echo "[INFO] Starting token autologin script..."
               python3 /usr/share/uxp/bin/tokens-autologin.py
     env:
-    - name: TZ
-      value: "Europe/Kyiv"
+      TZ: Europe/Kyiv
 
   trembita_main_app_pod:
     env:
-      - name: TZ
-        value: "Europe/Kyiv"
+      TZ: Europe/Kyiv
 
 
 
