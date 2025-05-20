@@ -214,7 +214,7 @@ trembita_config:
       enabled: true
       className: "nginx"
       hosts:
-        - host: api.trembita2.local
+        - host: api.trembita2.remote
           paths:
           - path: /
             pathType: Prefix
@@ -244,7 +244,7 @@ trembita_config:
       enabled: true
       className: "nginx"
       hosts:
-        - host: trembita2.local
+        - host: trembita2.remote
           paths:
           - path: /
             pathType: Prefix
@@ -252,41 +252,47 @@ trembita_config:
 
       tls:
         - hosts:
-            - trembita2.local
+            - trembita2.remote
           secretName: trembita-tls
 
 
-    configMaps:
-      enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
-      db_properties: # For testing only!!!!!! ConfigMap not suitable for storing sensitive data like a DB password
-        enabled: true
-        name: db-properties
-        mountPath: /etc/uxp/db.properties
-        subPath: db.properties
+  configMaps:
+    enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
+    db_properties: # For testing only!!!!!! ConfigMap not suitable for storing sensitive data like a DB password
+      enabled: true
+      name: db-properties
+      mountPath: /etc/uxp/db.properties
+      subPath: db.properties
 
-      local_ini:
-        enabled: true
-        name: local-ini
-        mountPath: /etc/uxp/conf.d/local.ini
-        subPath: local.ini
+    local_ini:
+      enabled: true
+      name: local-ini
+      mountPath: /etc/uxp/conf.d/local.ini
+      subPath: local.ini
 
-      default_uxp:
-        enabled: true
-        name: default-uxp
-        mountPath: /etc/nginx/sites-enabled/default-uxp
-        subPath: default-uxp
+    default_uxp:
+      enabled: true
+      name: default-uxp
+      mountPath: /etc/nginx/sites-enabled/default-uxp
+      subPath: default-uxp
 
-      uxp_identity_provider_rest_api:
-        enabled: true
-        name: uxp-identity-provider-rest-api
-        mountPath: /etc/nginx/conf.d/uxp-identity-provider-rest-api-location.include
-        subPath: uxp-identity-provider-rest-api-location.include
+    uxp_identity_provider_rest_api:
+      enabled: true
+      name: uxp-identity-provider-rest-api
+      mountPath: /etc/nginx/conf.d/uxp-identity-provider-rest-api-location.include
+      subPath: uxp-identity-provider-rest-api-location.include
 
-      uxp_securityserver_rest_api:
-        enabled: true
-        name: uxp-securityserver-rest-api
-        mountPath: /etc/nginx/conf.d/uxp-securityserver-rest-api-location.include
-        subPath: uxp-securityserver-rest-api-location.include
+    uxp_securityserver_rest_api:
+      enabled: true
+      name: uxp-securityserver-rest-api
+      mountPath: /etc/nginx/conf.d/uxp-securityserver-rest-api-location.include
+      subPath: uxp-securityserver-rest-api-location.include
+
+    tokens_autologin:
+      enabled: true
+      name: tokens-autologin
+      mountPath: /usr/share/uxp/bin/tokens-autologin.py
+      subPath: tokens-autologin.py
 
   trembita_main_app_container_tags:
     enabled: true
@@ -297,12 +303,53 @@ trembita_config:
       trembita.io/externalport: tcp5500
 
   trembita_workers_tags:
-    enables: true
+    enabled: true
     tags:
-      app.kubernetes.io/component: rembita
-      trembita.io/webport: tcp4000
+      app.kubernetes.io/component: trembita
+#      trembita.io/webport: tcp4000
       trembita.io/internalport: tcp80
       trembita.io/externalport: tcp5500
+
+  trembita_worker_pods:
+    enabled: true
+    image: kshypachov/trembita_ss_v1.22.6:v1.0.3
+    autoscaling:
+      enabled: true
+      min: 1
+      max: 2
+      cpuUtilization: 80
+    secrets:
+      auto-login:
+        enabled: true
+        mountpoint: /run/secrets/trembita.io/autologin.secret.json
+        filename: autologin.json.secret
+        values:
+          USERNAME: uxpadmin
+          PASSWORD: uxpadminp
+          REDIRECT_URI: https://trembita2.remote
+          CLIENT_ID: uxp-ss-ui
+          SECURITY_SERVER_ADDRESS: http://127.0.0.1:4000
+          TOKEN_CREDENTIALS: "0:1234"
+          OAUTH_RETRIES: "10"
+    lifecycle:
+      postStart:
+        exec:
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "[INFO] Starting token autologin script..."
+              python3 /usr/share/uxp/bin/tokens-autologin.py
+    env:
+      TZ: Europe/Kyiv
+
+  trembita_main_app_pod:
+    env:
+      TZ: Europe/Kyiv
+
+
+
+
 
   sharedVolumes:
     etc-uxp:
@@ -313,6 +360,9 @@ trembita_config:
       storageClassName: "longhorn-rwx"
       accessModes:
         - ReadWriteMany
+
+
+
 
 
 
