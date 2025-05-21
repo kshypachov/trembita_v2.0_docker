@@ -50,10 +50,10 @@ spec:
 {{/*          {{- with .Values.resources }}*/}}
           resources:
             requests:
-              cpu: "2000m"       # гарантированно 0.25 ядра
+              cpu: "1000m"       # гарантированно 0.25 ядра
               memory: "3Gi"   # гарантировано 512 МБ
             limits:
-              cpu: "3000m"       # максимум 0.5 ядра
+              cpu: "2000m"       # максимум 0.5 ядра
               memory: "6Gi"     # максимум 1 ГБ
 {{/*            {{- toYaml . | nindent 12 }}*/}}
 {{/*          {{- end }}*/}}

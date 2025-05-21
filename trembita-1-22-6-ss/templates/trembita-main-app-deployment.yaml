@@ -64,10 +64,16 @@ spec:
           readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.resources }}
+{{/*          {{- with .Values.resources }}*/}}
           resources:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
+            requests:
+              cpu: "1000m"       # гарантированно 0.25 ядра
+              memory: "3Gi"   # гарантировано 512 МБ
+            limits:
+              cpu: "2000m"       # максимум 0.5 ядра
+              memory: "6Gi"     # максимум 1 ГБ
+{{/*            {{- toYaml . | nindent 12 }}*/}}
+{{/*          {{- end }}*/}}
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) }}
           volumeMounts:
             {{- with .Values.volumeMounts }}
