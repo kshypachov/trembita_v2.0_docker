@@ -338,8 +338,8 @@ trembita_config:
             - /bin/sh
             - -c
             - |
-              echo "[INFO] Starting token autologin script..."
-              python3 /usr/share/uxp/bin/tokens-autologin.py
+              echo "[INFO] Starting token autologin script..." | tee -a /var/log/tokens-autologin.log
+              python3 /usr/share/uxp/bin/tokens-autologin.py >> /var/log/tokens-autologin.log 2>&1
     env:
       TZ: Europe/Kyiv
 
