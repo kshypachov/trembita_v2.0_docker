@@ -324,8 +324,8 @@ trembita_config:
         mountpoint: /run/secrets/trembita.io/autologin.secret.json
         filename: autologin.json.secret
         values:
-          USERNAME: uxpadmin
-          PASSWORD: uxpadminp
+          USERNAME: auto-login
+          PASSWORD: 1111111111111
           REDIRECT_URI: https://trembita2.remote
           CLIENT_ID: uxp-ss-ui
           SECURITY_SERVER_ADDRESS: http://127.0.0.1:4000
