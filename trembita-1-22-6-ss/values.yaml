@@ -166,6 +166,7 @@ postgresql:
   password: mysecretpassword
   database: appdb
   port: 5432
+  max_connections: 200
 
   persistence:
     enabled: true

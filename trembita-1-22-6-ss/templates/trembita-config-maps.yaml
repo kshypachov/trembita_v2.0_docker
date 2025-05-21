@@ -362,6 +362,7 @@ data:
             except Exception as err:
                 print(f"❌ Token {token_id} login failed:")
                 print(err)
+                exit(3)
 
     except Exception as err:
         print(f"‼️ Error during token acquisition or login: {err}")
