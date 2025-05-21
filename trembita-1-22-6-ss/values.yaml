@@ -330,7 +330,7 @@ trembita_config:
           CLIENT_ID: uxp-ss-ui
           SECURITY_SERVER_ADDRESS: http://127.0.0.1:4000
           TOKEN_CREDENTIALS: "0:1234"
-          OAUTH_RETRIES: "40"
+          OAUTH_RETRIES: "3"
     lifecycle:
       postStart:
         exec:
