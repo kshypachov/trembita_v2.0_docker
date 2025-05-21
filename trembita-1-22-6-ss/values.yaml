@@ -324,11 +324,11 @@ trembita_config:
         mountpoint: /run/secrets/trembita.io/autologin.secret.json
         filename: autologin.json.secret
         values:
-          USERNAME: token-login
-          PASSWORD: 123456789012
-          REDIRECT_URI: https://trembita2.remote
-          CLIENT_ID: uxp-ss-ui
-          SECURITY_SERVER_ADDRESS: http://127.0.0.1:4000
+          USERNAME: "token-login"
+          PASSWORD: "123456789012"
+          REDIRECT_URI: "https://trembita2.remote"
+          CLIENT_ID: "uxp-ss-ui"
+          SECURITY_SERVER_ADDRESS: "http://127.0.0.1:4000"
           TOKEN_CREDENTIALS: "0:1234"
           OAUTH_RETRIES: "3"
     lifecycle:
@@ -338,8 +338,7 @@ trembita_config:
             - /bin/sh
             - -c
             - |
-              echo "[INFO] Starting token autologin script..." | tee -a /var/log/tokens-autologin.log
-              python3 -u /usr/share/uxp/bin/tokens-autologin.py 2>&1 | tee -a /tmp/tokens-autologin.log
+              python3 /usr/share/uxp/bin/tokens-autologin.py
     env:
       TZ: Europe/Kyiv
 
