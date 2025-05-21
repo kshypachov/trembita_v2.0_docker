@@ -47,7 +47,7 @@ spec:
           readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.resources }}
+{{/*          {{- with .Values.resources }}*/}}
           resources:
             requests:
               cpu: "250m"       # гарантированно 0.25 ядра
@@ -55,8 +55,8 @@ spec:
             limits:
               cpu: "500m"       # максимум 0.5 ядра
               memory: "1Gi"     # максимум 1 ГБ
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
+{{/*            {{- toYaml . | nindent 12 }}*/}}
+{{/*          {{- end }}*/}}
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) (.Values.trembita_config.trembita_worker_pods.secrets)}}
           {{- with .Values.trembita_config.trembita_worker_pods.lifecycle }}
           lifecycle:
