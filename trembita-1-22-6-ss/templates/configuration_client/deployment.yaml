@@ -15,6 +15,13 @@ spec:
       containers:
         - name: configuration-client
           image: {{.Values.trembita_config.trembita_configuration_client_pod.image}}
+          {{if .Values.trembita_config.trembita_configuration_client_pod.env}}
+          env:
+            {{- range $k, $v := .Values.trembita_config.trembita_configuration_client_pod.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          {{- end }}
           ports:
             - containerPort: {{ .Values.postgresql.port }}
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) }}
