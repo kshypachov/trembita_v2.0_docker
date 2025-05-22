@@ -3,7 +3,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 LABEL authors="Kirill Shypachov @kshypachov"
 
-ARG REPO_KEY=http://192.168.99.189/uxp-ua-repo-key.gpg
+ARG REPO_KEY=http://192.168.99.247/key.gpg
+ARG REPO_URI="deb http://192.168.99.247/ testing-1.22.7 trembita2-1-22-7"
 
 RUN apt-get update  \
     && apt-get install -y equivs  \
@@ -27,14 +28,14 @@ RUN apt-get -qq update && apt-get -qq --no-install-recommends -y install \
     && apt-get clean  \
     && rm -rf /var/lib/apt/lists/*
 
-#RUN sed -i 's/^[A-Za-z0-9]/#&/' /etc/apt/sources.list \
+RUN sed -i 's/^[A-Za-z0-9]/#&/' /etc/apt/sources.list
 #    && rm -rf /etc/apt/sources.list.d/*
-RUN echo "deb http://192.168.99.189/uxp jammy main" | tee -a /etc/apt/sources.list
-RUN echo "deb http://192.168.99.189/dependencies2 jammy main" | tee -a /etc/apt/sources.list
-RUN echo "deb http://192.168.99.189/minio jammy main" | tee -a /etc/apt/sources.list
-RUN echo "deb http://192.168.99.189/elasticsearch/8.x jammy main" | tee -a /etc/apt/sources.list
-RUN echo "deb http://192.168.99.189/zabbix/6.0 jammy main" | tee -a /etc/apt/sources.list
-RUN echo "deb http://192.168.99.189/graylog jammy main" | tee -a /etc/apt/sources.list
+RUN echo $REPO_URI | tee -a /etc/apt/sources.list
+#RUN echo "deb http://192.168.99.189/dependencies2 jammy main" | tee -a /etc/apt/sources.list
+#RUN echo "deb http://192.168.99.189/minio jammy main" | tee -a /etc/apt/sources.list
+#RUN echo "deb http://192.168.99.189/elasticsearch/8.x jammy main" | tee -a /etc/apt/sources.list
+#RUN echo "deb http://192.168.99.189/zabbix/6.0 jammy main" | tee -a /etc/apt/sources.list
+#RUN echo "deb http://192.168.99.189/graylog jammy main" | tee -a /etc/apt/sources.list
 
 ADD ["$REPO_KEY","/tmp/repokey.gpg"]
 RUN apt-key add '/tmp/repokey.gpg'

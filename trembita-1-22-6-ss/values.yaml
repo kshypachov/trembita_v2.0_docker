@@ -354,7 +354,7 @@ trembita_config:
       TZ: Europe/Kyiv
 
   trembita_configuration_client_pod:  # settins specific for configuration client component
-    image: kshypachov/trembita_configuration_client_1.12.7:v1.0.2
+    image: kshypachov/trembita_configuration_client_1.12.7:v1.0.3
     env:
       TZ: Europe/Kyiv
 
