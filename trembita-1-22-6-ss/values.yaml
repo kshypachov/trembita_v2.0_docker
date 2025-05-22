@@ -362,7 +362,7 @@ trembita_config:
   sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
     etc-uxp:
       enabled: true
-      initCopy: <nil>
+      initCopy:
       size: 100Mi
       mountPath: /etc/uxp
       storageClassName: "longhorn-rwx"
