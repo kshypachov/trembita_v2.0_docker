@@ -21,7 +21,7 @@ spec:
             - |
               set -x
               {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
-                 {{- if and (eq (print $cfg.enabled) "true") (eq (print $cfg.initCopy) "true") }}
+                 {{- if and (gt (len $cfg.enabled) 0) (eq (index $cfg.enabled 0) true) (gt (len $cfg.initCopy) 0) (eq (index $cfg.initCopy 0) true) }}
                   echo "{{ print $cfg.initCopy }}"
                   echo "[INFO] Starting init container for {{ $name }}"
                   if [ -d "{{ $cfg.mountPath }}" ]; then
