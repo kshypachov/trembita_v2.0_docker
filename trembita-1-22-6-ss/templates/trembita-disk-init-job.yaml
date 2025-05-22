@@ -37,6 +37,7 @@ spec:
                   fi
               {{- end }}
               {{- end }}
+                  exit 0
           volumeMounts:
             {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
             {{- if $cfg.init }}
