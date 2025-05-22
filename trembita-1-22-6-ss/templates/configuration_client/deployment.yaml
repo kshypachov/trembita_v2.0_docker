@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: configuration-client
-          image: trembita_configuration_client_1.12.7:v1.0.0
+          image: kshypachov/trembita_configuration_client_1.12.7:v1.0.0
           ports:
             - containerPort: {{ .Values.postgresql.port }}
 {{/*          volumeMounts:*/}}
