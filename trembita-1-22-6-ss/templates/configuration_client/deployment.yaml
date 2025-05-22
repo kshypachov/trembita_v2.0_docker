@@ -17,7 +17,42 @@ spec:
           image: kshypachov/trembita_configuration_client_1.12.7:v1.0.0
           ports:
             - containerPort: {{ .Values.postgresql.port }}
-{{/*          volumeMounts:*/}}
+          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) }}
+          volumeMounts:
+            {{- range $key, $cm := .Values.trembita_config.configMaps }}
+            {{- if and (kindIs "map" $cm) $cm.enabled }}
+            - name: {{ $cm.name }}-volume
+              mountPath: {{ $cm.mountPath }}
+              {{- if $cm.subPath}}
+              subPath: {{ $cm.subPath }}
+              {{- end }}
+              readOnly: true
+            {{- end }}
+            {{- end }}
+            {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+              {{- if $cfg.enabled }}
+            - name: {{ $name }}-volume
+              mountPath: {{ $cfg.mountPath }}
+              {{- end }}
+              {{- end }}
+          {{- end }}
+      {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)}}
+      volumes:
+        {{- range $key, $cm := .Values.trembita_config.configMaps }}
+        {{- if and (kindIs "map" $cm) $cm.enabled }}
+        - name: {{ $cm.name }}-volume
+          configMap:
+            name: {{ $cm.name }}
+        {{- end }}
+        {{- end }}
+        {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+        {{- if $cfg.enabled }}
+        - name: {{ $name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
+        {{- end }}
+        {{- end }}
+      {{- end }}
 {{/*            - name: pgdata*/}}
 {{/*              mountPath: /var/lib/postgresql/data*/}}
 {{/*      volumes:*/}}

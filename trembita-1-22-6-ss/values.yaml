@@ -347,11 +347,12 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
 
+  trembita_configuration_client_pod:  # settins specific for configuration client component
+    env:
+      TZ: Europe/Kyiv
 
 
-
-
-  sharedVolumes:
+  sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
     etc-uxp:
       enabled: true
       initCopy: false
@@ -360,6 +361,7 @@ trembita_config:
       storageClassName: "longhorn-rwx"
       accessModes:
         - ReadWriteMany
+
 
 
 
