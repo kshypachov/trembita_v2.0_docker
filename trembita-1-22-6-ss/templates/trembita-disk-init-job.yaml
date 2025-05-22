@@ -21,22 +21,22 @@ spec:
             - |
               set -x
               {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
-              {{- if $cfg.initCopy }}
-              echo "[INFO] Starting init container for {{ $name }}"
-              if [ -d "{{ $cfg.mountPath }}" ]; then
-                cp -rp {{ $cfg.mountPath }}/* /mnt/target/{{ $name }}-path || true
-                echo "[INFO] Done copying {{ $cfg.mountPath }} to /mnt/target/{{ $name }}-path"
-                uid_gid=$(stat -c '%u:%g' {{ $cfg.mountPath }})
-                mode=$(stat -c '%a' {{ $cfg.mountPath }})
-                echo "[INFO] Changing ownership of /mnt/target/{{ $name }}-path to $uid_gid"
-                chown "$uid_gid" /mnt/target/{{ $name }}-path
-                echo "[INFO] Setting permissions of /mnt/target/{{ $name }}-path to $mode"
-                chmod "$mode" /mnt/target/{{ $name }}-path
-              else
-                echo "[WARN] Source directory {{ $cfg.mountPath }} not found"
-              fi
-              {{- end }}
-              {{- end }}
+                  {{- if false }}
+                  echo "[INFO] Starting init container for {{ $name }}"
+                  if [ -d "{{ $cfg.mountPath }}" ]; then
+                    cp -rp {{ $cfg.mountPath }}/* /mnt/target/{{ $name }}-path || true
+                    echo "[INFO] Done copying {{ $cfg.mountPath }} to /mnt/target/{{ $name }}-path"
+                    uid_gid=$(stat -c '%u:%g' {{ $cfg.mountPath }})
+                    mode=$(stat -c '%a' {{ $cfg.mountPath }})
+                    echo "[INFO] Changing ownership of /mnt/target/{{ $name }}-path to $uid_gid"
+                    chown "$uid_gid" /mnt/target/{{ $name }}-path
+                    echo "[INFO] Setting permissions of /mnt/target/{{ $name }}-path to $mode"
+                    chmod "$mode" /mnt/target/{{ $name }}-path
+                  else
+                    echo "[WARN] Source directory {{ $cfg.mountPath }} not found"
+                  fi
+                  {{- end }}
+                {{- end }}
           volumeMounts:
             {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
             {{- if $cfg.initCopy}}
