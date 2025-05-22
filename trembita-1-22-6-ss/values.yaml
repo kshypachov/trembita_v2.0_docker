@@ -369,6 +369,15 @@ trembita_config:
       accessModes:
         - ReadWriteMany
 
+    usr-share-uxp:
+      enabled: true
+      initCopy: true
+      size: 1Gi
+      mountPath: /usr/share/uxp/
+      storageClassName: "longhorn-rwx"
+      accessModes:
+        - ReadWriteMany
+
 
 
 
