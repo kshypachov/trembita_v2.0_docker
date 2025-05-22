@@ -319,7 +319,7 @@ trembita_config:
 
   trembita_worker_pods:
     enabled: true
-    image: kshypachov/trembita_ss_v1.22.6:v1.0.3
+    image: kshypachov/trembita_ss_v1.22.6:v1.0.4-WCC
     autoscaling:
       enabled: true
       min: 1
