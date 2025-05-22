@@ -21,7 +21,7 @@ spec:
             - |
               set -x
               {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
-              {{- if $cfg.enabled }}
+              {{- if $cfg.init }}
                   echo "[INFO] Starting init container for {{ $name }}"
                   if [ -d "{{ $cfg.mountPath }}" ]; then
                     cp -rp {{ $cfg.mountPath }}/* /mnt/target/{{ $name }}-path || true
@@ -39,7 +39,7 @@ spec:
               {{- end }}
           volumeMounts:
             {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
-            {{- if $cfg.initCopy }}
+            {{- if $cfg.init }}
             - name: {{ $name }}-volume
               mountPath: /mnt/target/{{ $name }}-path
             {{- end}}
