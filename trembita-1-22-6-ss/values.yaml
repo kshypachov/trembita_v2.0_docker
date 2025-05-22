@@ -372,7 +372,7 @@ trembita_config:
 
     usr-share-uxp:
       enabled: true
-      init: true
+      init: false
       size: 1Gi
       mountPath: /usr/share/uxp/
       storageClassName: "longhorn-rwx"
