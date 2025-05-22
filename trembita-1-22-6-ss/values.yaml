@@ -363,7 +363,7 @@ trembita_config:
 
     etc-uxp:
       enabled: true
-      initCopy: true
+      initCopy: false
       size: 100Mi
       mountPath: /etc/uxp
       storageClassName: "longhorn-rwx"
