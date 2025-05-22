@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trembita-configuration-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: configuration-client
+  template:
+    metadata:
+      labels:
+        app: configuration-client
+    spec:
+      containers:
+        - name: configuration-client
+          image: trembita_configuration_client_1.12.7:v1.0.0
+          ports:
+            - containerPort: {{ .Values.postgresql.port }}
+{{/*          volumeMounts:*/}}
+{{/*            - name: pgdata*/}}
+{{/*              mountPath: /var/lib/postgresql/data*/}}
+{{/*      volumes:*/}}
+{{/*        - name: pgdata*/}}
+{{/*          persistentVolumeClaim:*/}}
+{{/*            claimName: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres-pvc*/}}
