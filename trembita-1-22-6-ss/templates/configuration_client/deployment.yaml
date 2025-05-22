@@ -43,6 +43,15 @@ spec:
               {{- end }}
               {{- end }}
           {{- end }}
+          {{ if .Values.trembita_config.trembita_configuration_client_pod.limets.enable}}
+          resources:
+            requests:
+              cpu: "100m"       # garantee 0.1 ядра
+              memory: "256Mi"   # garantee 256 МБ
+            limits:
+              cpu: "200m"       # max 0.2 ядра
+              memory: "512Mi"     # max 512 МБ
+          {{- end }}
       {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)}}
       volumes:
         {{- range $key, $cm := .Values.trembita_config.configMaps }}
