@@ -390,7 +390,15 @@ trembita_config:
         - ReadWriteMany
 
 
-
+minio:
+  auth:
+    rootUser: minioadmin
+    rootPassword: minioadmin
+  defaultBuckets: my-bucket
+  mode: standalone
+  persistence:
+    enabled: true
+    size: 1Gi
 
 
 
