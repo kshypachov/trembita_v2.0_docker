@@ -14,7 +14,15 @@ data:
 
 
     [message-log]
-    archive-storage-type = fs
+    archive-storage-type = s3
+    archive-interval=0 * * * * ? *
+
+    [message-log-s3]
+    bucket-name = uxp-messagelog
+    access-key = bNjvie6UYWaV6xVqXkrD
+    secret-key = kunxBpbEAl2VYpePbneDB48aE1nvzlJO7n83MLBa
+    address = http://trembita2-main-fork-minio:9000
+
 {{- end}}
 {{- end}}
 
