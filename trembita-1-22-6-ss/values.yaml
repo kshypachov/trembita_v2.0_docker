@@ -353,6 +353,16 @@ trembita_config:
       accessModes:
         - ReadWriteMany
 
+    var-lib-uxp:
+      enabled: true
+      initCopy: false
+      size: 15Gi
+      mountPath: /var/lib/uxp/
+      storageClassName: "longhorn-rwx"
+      accessModes:
+        - ReadWriteMany
+
+
 
 minio:
   auth:
