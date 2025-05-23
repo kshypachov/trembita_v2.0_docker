@@ -407,3 +407,33 @@ data:
 
 {{- end}}
 {{- end}}
+
+------
+
+{{- with .Values.trembita_config.configMaps}}
+{{- if and .enabled .message_log_archiver_logback.enabled}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .message_log_archiver_logback.name}}
+data:
+  {{ default "messagelog-archiver-logback.xml" .message_log_archiver_logback.subPath}}: |
+    <?xml version="1.0" encoding="UTF-8" ?>
+      <configuration scan="true" scanPeriod="30 seconds">
+
+          <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+              <encoder>
+                  <pattern>%d [%thread] %-5level %logger{36} - %msg%n</pattern>
+                  <charset>UTF-8</charset>
+              </encoder>
+          </appender>
+
+          <logger name="ee.cyber.uxp" level="INFO"/>
+
+          <root level="INFO">
+              <appender-ref ref="CONSOLE"/>
+          </root>
+    </configuration>
+{{- end}}
+{{- end}}
+

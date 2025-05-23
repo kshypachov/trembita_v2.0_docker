@@ -301,6 +301,12 @@ trembita_config:
       mountPath: /etc/uxp/conf.d/confclient-logback.xml
       subPath: confclient-logback.xml
 
+    message_log_archiver_logback:
+      enabled: true
+      name: message-log-archiver-logback
+      mountPath: /etc/uxp/conf.d/messagelog-archiver-logback.xml
+      subPath: messagelog-archiver-logback.xml
+
   trembita_main_app_container_tags:
     enabled: true
     tags:
@@ -358,6 +364,10 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
 
+  trembita_message_log_archiver_pod:  # settins specific for configuration client component
+    image: kshypachov/trembita_message_log_archiver_1.12.7:v1.0.0
+    env:
+      TZ: Europe/Kyiv
 
   sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
 

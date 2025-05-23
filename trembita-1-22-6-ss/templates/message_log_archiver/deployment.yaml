@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trembita-message-log-archiver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: message-log-archiver
+  template:
+    metadata:
+      labels:
+        app: message-log-archiver
+    spec:
+      containers:
+        - name: message-log-archiver
+          image: {{.Values.trembita_config.trembita_message_log_archiver_pod.image}}
+          {{if .Values.trembita_config.trembita_message_log_archiver_pod.env}}
+          env:
+            {{- range $k, $v := .Values.trembita_config.trembita_message_log_archiver_pod.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          {{- end }}
+          ports:
+            - containerPort: {{ .Values.postgresql.port }}
+          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) }}
+          volumeMounts:
+            {{- range $key, $cm := .Values.trembita_config.configMaps }}
+            {{- if and (kindIs "map" $cm) $cm.enabled }}
+            - name: {{ $cm.name }}-volume
+              mountPath: {{ $cm.mountPath }}
+              {{- if $cm.subPath}}
+              subPath: {{ $cm.subPath }}
+              {{- end }}
+              readOnly: true
+            {{- end }}
+            {{- end }}
+            {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+              {{- if $cfg.enabled }}
+            - name: {{ $name }}-volume
+              mountPath: {{ $cfg.mountPath }}
+              {{- end }}
+              {{- end }}
+          {{- end }}
+          resources:
+            requests:
+              cpu: "100m"       # garantee 0.1 ядра
+              memory: "256Mi"   # garantee 256 МБ
+            limits:
+              cpu: "200m"       # max 0.2 ядра
+              memory: "512Mi"     # max 512 МБ
+      {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)}}
+      volumes:
+        {{- range $key, $cm := .Values.trembita_config.configMaps }}
+        {{- if and (kindIs "map" $cm) $cm.enabled }}
+        - name: {{ $cm.name }}-volume
+          configMap:
+            name: {{ $cm.name }}
+        {{- end }}
+        {{- end }}
+        {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+        {{- if $cfg.enabled }}
+        - name: {{ $name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
+        {{- end }}
+        {{- end }}
+      {{- end }}
