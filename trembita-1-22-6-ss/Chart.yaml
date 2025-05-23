@@ -22,11 +22,11 @@ version: 0.1.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "v1.0.2"
-
-dependencies:
-  - name: minio
-    version: 5.0.11         # выбери нужную версию
-    repository: https://charts.bitnami.com/bitnami
+#
+#dependencies:
+#  - name: minio
+#    version: 5.0.11         # выбери нужную версию
+#    repository: https://charts.bitnami.com/bitnami
 
 #  - name: postgresql
 #    version: 16.0.1   # зависит от Bitnami
