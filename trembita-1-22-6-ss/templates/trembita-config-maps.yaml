@@ -445,3 +445,32 @@ data:
 {{- end}}
 {{- end}}
 
+------
+
+{{- with .Values.trembita_config.configMaps}}
+{{- if and .enabled .identity_provider_rest_api_logback.enabled}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .identity_provider_rest_api_logback.name}}
+data:
+  {{ default "identity-provider-rest-api-logback.xml" .identity_provider_rest_api_logback.subPath}}: |
+    <?xml version="1.0" encoding="UTF-8" ?>
+      <configuration scan="true" scanPeriod="30 seconds">
+
+          <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+              <encoder>
+                  <pattern>%d [%thread] %-5level %logger{36} - %msg%n</pattern>
+                  <charset>UTF-8</charset>
+              </encoder>
+          </appender>
+
+          <logger name="ee.cyber.uxp" level="INFO"/>
+
+          <root level="INFO">
+              <appender-ref ref="CONSOLE"/>
+          </root>
+
+      </configuration>
+{{- end}}
+{{- end}}

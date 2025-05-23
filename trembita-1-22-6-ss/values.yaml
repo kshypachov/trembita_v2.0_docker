@@ -271,6 +271,13 @@ trembita_config:
       mountPath: /etc/uxp/conf.d/messagelog-archiver-logback.xml
       subPath: messagelog-archiver-logback.xml
 
+    identity_provider_rest_api_logback:
+      enabled: true
+      name: identity-provider-rest-api-logback
+      mountPath: /etc/uxp/conf.d/identity-provider-rest-api-logback.xml
+      subPath: identity-provider-rest-api-logback.xml
+
+
   trembita_main_app_container_tags:
     enabled: true
     tags:
