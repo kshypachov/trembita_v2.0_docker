@@ -365,7 +365,7 @@ trembita_config:
       TZ: Europe/Kyiv
 
   trembita_message_log_archiver_pod:  # settins specific for configuration client component
-    image: kshypachov/trembita_message_log_archiver_1.12.7:v1.0.1
+    image: kshypachov/trembita_message_log_archiver_1.12.7:v1.0.2
     env:
       TZ: Europe/Kyiv
 
