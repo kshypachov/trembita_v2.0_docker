@@ -358,7 +358,7 @@ minio:
   auth:
     rootUser: minioadmin
     rootPassword: minioadmin
-  defaultBuckets: my-bucket
+  defaultBuckets: uxp-messagelog
   mode: standalone
   persistence:
     enabled: true
