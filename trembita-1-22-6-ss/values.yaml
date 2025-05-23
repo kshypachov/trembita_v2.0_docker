@@ -296,7 +296,7 @@ trembita_config:
 
   trembita_worker_pods:
     enabled: true
-    image: kshypachov/trembita_ss_v1.22.7:v1.0.0-WCC-WMLA
+    image: kshypachov/trembita_ss_v1.22.7:v1.0.0-WCC-WMLA-WP-WIDPRA
     autoscaling:
       enabled: true
       min: 1

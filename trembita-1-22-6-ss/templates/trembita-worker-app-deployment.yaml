@@ -23,6 +23,17 @@ spec:
         {{- end }}
     spec:
       containers:
+        - name: sidecar
+          image: alpine/socat
+          command: [
+            "socat",
+            "-d",
+            "TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork",
+            "TCP:identity-provider-rest-api-service:8087"
+          ]
+          ports:
+            - containerPort: 8087
+
         - name: worker
           image: "{{ .Values.trembita_config.trembita_worker_pods.image}}"
           imagePullPolicy: IfNotPresent
