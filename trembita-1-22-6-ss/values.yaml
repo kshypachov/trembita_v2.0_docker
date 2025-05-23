@@ -315,14 +315,14 @@ trembita_config:
           SECURITY_SERVER_ADDRESS: "http://127.0.0.1:4000"
           TOKEN_CREDENTIALS: "0:1234"
           OAUTH_RETRIES: "3"
-    lifecycle:
-      postStart:
-        exec:
-          command:
-            - /bin/sh
-            - -c
-            - |
-              python3 /usr/share/uxp/bin/tokens-autologin.py
+    lifecycle: {}
+#      postStart:
+#        exec:
+#          command:
+#            - /bin/sh
+#            - -c
+#            - |
+#              python3 /usr/share/uxp/bin/tokens-autologin.py
     env:
       TZ: Europe/Kyiv
 
