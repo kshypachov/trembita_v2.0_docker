@@ -45,45 +45,12 @@ podSecurityContext: {}
   # fsGroup: 2000
 
 securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
 services: []
-#  external:
-#    enabled: true
-#    type: LoadBalancer
-#    ports:
-#      - name: port5500
-#        port: 5500
-#        targetPort: 5500
-#
-#  internal:
-#    enabled: true
-#    type: ClusterIP
-#    ports:
-#      - name: web-ui
-#        port: 4000
-#        targetPort: 4000
-#      - name: secure-api
-#        port: 80
-#        targetPort: 80
+
 
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe: []
@@ -105,9 +72,6 @@ autoscaling:
 
 # Additional volumes on the output Deployment definition.
 volumes: []
-#  - name: db-config
-#    configMap:
-#      name: uxp-db-config
 
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts: {}
@@ -390,15 +354,15 @@ trembita_config:
         - ReadWriteMany
 
 
-#minio:
-#  auth:
-#    rootUser: minioadmin
-#    rootPassword: minioadmin
-#  defaultBuckets: my-bucket
-#  mode: standalone
-#  persistence:
-#    enabled: true
-#    size: 1Gi
+minio:
+  auth:
+    rootUser: minioadmin
+    rootPassword: minioadmin
+  defaultBuckets: my-bucket
+  mode: standalone
+  persistence:
+    enabled: true
+    size: 1Gi
 
 
 
