@@ -7,11 +7,11 @@ replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: kshypachov/trembita_ss_v1.22.6
+  repository: kshypachov/trembita_ss_v1.22.7
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.0.4-WCC"
+  tag: "v1.0.0-WCC"
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
@@ -319,7 +319,7 @@ trembita_config:
 
   trembita_worker_pods:
     enabled: true
-    image: kshypachov/trembita_ss_v1.22.6:v1.0.4-WCC
+    image: kshypachov/trembita_ss_v1.22.7:v1.0.0-WCC
     autoscaling:
       enabled: true
       min: 1
