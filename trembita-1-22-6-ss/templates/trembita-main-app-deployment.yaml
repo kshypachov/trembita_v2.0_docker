@@ -36,6 +36,16 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
+        - name: sidecar
+          image: alpine/socat
+          command: [
+            "socat",
+            "TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork",
+            "TCP:identity-provider-rest-api-service:8087"
+          ]
+          ports:
+            - containerPort: 8087
+
         - name: {{ .Chart.Name }}
           {{- with .Values.securityContext }}
           securityContext:
