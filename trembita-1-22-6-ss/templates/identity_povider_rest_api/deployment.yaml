@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trembita-identity-provider-rest-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: identity-provider-rest-api
+  template:
+    metadata:
+      labels:
+        app: identity-provider-rest-api
+    spec:
+      containers:
+        - name: identity-provider-rest-api
+          image: {{.Values.trembita_config.trembita_identity_provider_rest_api.image}}
+          {{if .Values.trembita_config.trembita_identity_provider_rest_api.env}}
+          env:
+            {{- range $k, $v := .Values.trembita_config.trembita_identity_provider_rest_api.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          {{- end }}
+          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) }}
+          volumeMounts:
+            {{- range $key, $cm := .Values.trembita_config.configMaps }}
+            {{- if and (kindIs "map" $cm) $cm.enabled }}
+            - name: {{ $cm.name }}-volume
+              mountPath: {{ $cm.mountPath }}
+              {{- if $cm.subPath}}
+              subPath: {{ $cm.subPath }}
+              {{- end }}
+              readOnly: true
+            {{- end }}
+            {{- end }}
+            {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+              {{- if $cfg.enabled }}
+            - name: {{ $name }}-volume
+              mountPath: {{ $cfg.mountPath }}
+              {{- end }}
+              {{- end }}
+          {{- end }}
+          resources:
+            requests:
+              cpu: "100m"       # garantee 0.1 ядра
+              memory: "256Mi"   # garantee 256 МБ
+            limits:
+              cpu: "200m"       # max 0.2 ядра
+              memory: "512Mi"     # max 512 МБ
+      {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)}}
+      volumes:
+        {{- range $key, $cm := .Values.trembita_config.configMaps }}
+        {{- if and (kindIs "map" $cm) $cm.enabled }}
+        - name: {{ $cm.name }}-volume
+          configMap:
+            name: {{ $cm.name }}
+        {{- end }}
+        {{- end }}
+        {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+        {{- if $cfg.enabled }}
+        - name: {{ $name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
+        {{- end }}
+        {{- end }}
+      {{- end }}

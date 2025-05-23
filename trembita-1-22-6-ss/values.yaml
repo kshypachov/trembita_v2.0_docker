@@ -333,8 +333,12 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
 
-  sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
+  trembita_identity_provider_rest_api: # settins specific for configuration client component
+    image: kshypachov/trembita_identity_provider_rest_api_1.22.7:v1.0.1
+    env:
+      TZ: Europe/Kyiv
 
+  sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
     etc-uxp:
       enabled: true
       initCopy: false
