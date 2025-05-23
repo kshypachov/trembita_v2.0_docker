@@ -341,7 +341,7 @@ trembita_config:
       TZ: Europe/Kyiv
 
   trembita_identity_provider_rest_api: # settins specific for configuration client component
-    image: kshypachov/trembita_identity_provider_rest_api_1.22.7:v1.0.1
+    image: kshypachov/trembita_identity_provider_rest_api_1.22.7:v1.0.2
     env:
       TZ: Europe/Kyiv
 
