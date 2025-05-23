@@ -363,6 +363,15 @@ minio:
   persistence:
     enabled: true
     size: 1Gi
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    hostname: minio.trembita.office
+  apiIngress:
+    enabled: true
+    ingressClassName: "nginx"
+    hostname: api.minio.trembita.office
+
 
 
 
