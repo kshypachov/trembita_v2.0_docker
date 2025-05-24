@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: trembita_ocsp_cache
+  name: trembita-ocsp-cache
   labels:
-    app: ocsp_cache
+    app: ocsp-cache
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ocsp_cache
+      app: ocsp-cache
   template:
     metadata:
-      name: ocsp_cache
+      name: ocsp-cache
       labels:
-        app: ocsp_cache
+        app: ocsp-cache
     spec:
       {{- with .Values.trembita_config.trembita_ocsp_cahce_pod}}
       containers:

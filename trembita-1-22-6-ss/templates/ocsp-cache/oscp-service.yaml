@@ -8,4 +8,4 @@ spec:
     - port: 6577
       targetPort: 6577
   selector:
-    app: ocsp_cache
+    app: ocsp-cache
