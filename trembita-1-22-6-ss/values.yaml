@@ -359,6 +359,12 @@ trembita_config:
         mountPath: /var/cache/uxp
         sizeLimit: "100Mi"
 
+  trembita_verifier_pod:
+    image: kshypachov/trembita_verefier_1.22.7:v1.0.0
+    env:
+      TZ: Europe/Kyiv
+
+
 
   sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
     etc-uxp:
