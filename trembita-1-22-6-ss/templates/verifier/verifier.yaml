@@ -21,7 +21,7 @@ spec:
           image: alpine/socat
           command: [ "sh", "-c", "
             socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork \
-             TCP:{{ $.Values.trembita_config.trembita_identity_provider_rest_api_pod.name}}:8087
+             TCP:{{ $.Values.trembita_config.trembita_identity_provider_rest_api_pod.name}}-service:8087
           " ]
           ports:
             - containerPort: 8086    {{/*REST api port*/}}
