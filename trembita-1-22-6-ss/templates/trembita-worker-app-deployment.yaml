@@ -32,6 +32,8 @@ spec:
                     "]
           ports:
             - containerPort: 8087
+            - containerPort: 5577
+            - containerPort: 5766
 
         - name: worker
           image: "{{ .Values.trembita_config.trembita_worker_pods.image}}"
