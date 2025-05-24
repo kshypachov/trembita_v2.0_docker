@@ -7,7 +7,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 8087
-      targetPort: 8087
+      targetPort: 8087 {{/*port for authentication REST api*/}}
   selector:
     app: {{.name}}
 {{- end}}

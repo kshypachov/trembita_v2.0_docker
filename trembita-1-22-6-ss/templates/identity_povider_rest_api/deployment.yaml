@@ -23,6 +23,8 @@ spec:
               value: {{ $v | quote }}
             {{- end }}
           {{- end }}
+          ports:
+            - containerPort: 8087 {{/*port for authentication REST api*/}}
 {{- end }}
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) }}
           volumeMounts:
