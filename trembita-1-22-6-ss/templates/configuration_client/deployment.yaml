@@ -1,29 +1,31 @@
+{{- with .Values.trembita_config.trembita_configuration_client_pod}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: trembita-configuration-client
+  name: {{.name}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: configuration-client
+      app: {{.name}}
   template:
     metadata:
       labels:
-        app: configuration-client
+        app: {{.name}}
     spec:
       containers:
-        - name: configuration-client
+        - name: {{.name}}
           image: {{.Values.trembita_config.trembita_configuration_client_pod.image}}
-          {{if .Values.trembita_config.trembita_configuration_client_pod.env}}
+          {{if .env}}
           env:
-            {{- range $k, $v := .Values.trembita_config.trembita_configuration_client_pod.env }}
+            {{- range $k, $v := .env }}
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
           {{- end }}
+{{- end }}
           ports:
-            - containerPort: {{ .Values.postgresql.port }}
+            - containerPort: 5666 {{/*Admin port for imideatly download global config*/}}
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) }}
           volumeMounts:
             {{- range $key, $cm := .Values.trembita_config.configMaps }}
@@ -67,9 +69,3 @@ spec:
         {{- end }}
         {{- end }}
       {{- end }}
-{{/*            - name: pgdata*/}}
-{{/*              mountPath: /var/lib/postgresql/data*/}}
-{{/*      volumes:*/}}
-{{/*        - name: pgdata*/}}
-{{/*          persistentVolumeClaim:*/}}
-{{/*            claimName: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres-pvc*/}}
