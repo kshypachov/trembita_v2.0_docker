@@ -1,29 +1,31 @@
+{{- with .Values.trembita_config.trembita_message_log_archiver_pod}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: trembita-message-log-archiver
+  name: {{.name}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: message-log-archiver
+      app: {{.name}}
   template:
     metadata:
       labels:
-        app: message-log-archiver
+        app: {{.name}}
     spec:
       containers:
-        - name: message-log-archiver
-          image: {{.Values.trembita_config.trembita_message_log_archiver_pod.image}}
-          {{if .Values.trembita_config.trembita_message_log_archiver_pod.env}}
+        - name: {{.name}}
+          image: {{.image}}
+          {{if .env}}
           env:
-            {{- range $k, $v := .Values.trembita_config.trembita_message_log_archiver_pod.env }}
+            {{- range $k, $v := .env }}
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
           {{- end }}
+{{- end }}
           ports:
-            - containerPort: {{ .Values.postgresql.port }}
+            - containerPort: 5765 {{/*Admin port for starting archive process imidiatly*/}}
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) }}
           volumeMounts:
             {{- range $key, $cm := .Values.trembita_config.configMaps }}
