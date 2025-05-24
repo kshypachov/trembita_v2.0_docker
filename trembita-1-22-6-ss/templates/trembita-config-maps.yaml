@@ -525,9 +525,9 @@ data:
               </encoder>
           </appender>
 
-          <logger name="ee.cyber.uxp" level="INFO"/>
+          <logger name="ee.cyber.uxp" level="DEBUG"/>
 
-          <root level="INFO">
+          <root level="DEBUG">
               <appender-ref ref="CONSOLE"/>
           </root>
 
