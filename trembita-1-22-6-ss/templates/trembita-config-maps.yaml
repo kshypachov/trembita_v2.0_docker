@@ -20,8 +20,8 @@ data:
     [message-log-s3]
     bucket-name = uxp-messagelog
     access-key = bNjvie6UYWaV6xVqXkrD
-    secret-key = kunxBpbEAl2VYpePbneDB48aE1nvzlJO7n83MLBa
-    address = http://trembita2-main-fork-minio:9000
+    secret-key = jFiGQMn8pPngBFUFN1NcrxEjfWPKm11tIolVGmcm
+    address = http://minio:9000
 
 {{- end}}
 {{- end}}
