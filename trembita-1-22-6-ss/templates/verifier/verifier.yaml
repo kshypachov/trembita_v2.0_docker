@@ -20,13 +20,11 @@ spec:
         - name: sidecar
           image: alpine/socat
           command: [ "sh", "-c", "
-            socat -d TCP-LISTEN:6577,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:5577 &
-            socat -d TCP-LISTEN:6766,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:5766
+            socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork TCP:identity-provider-rest-api-service:8087
           " ]
           ports:
-            - containerPort: 6577    {{/*OCSP port over socat proxy*/}}
-            - containerPort: 6766    {{/*admin port over socat proxy*/}}
-            - containerPort: 8086
+            - containerPort: 8087    {{/*Call to identity provider*/}}
+            - containerPort: 8086    {{/*REST api port*/}}
         - name: verifier
           image: {{.image}}
           {{if .env}}
