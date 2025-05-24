@@ -39,6 +39,8 @@ spec:
           imagePullPolicy: IfNotPresent
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) }}
           volumeMounts:
+            - name: ocsp-cache-volume
+              mountPath: /var/cache/uxp
               {{- range $key, $cm := .Values.trembita_config.configMaps }}
               {{- if and (kindIs "map" $cm) $cm.enabled }}
             - name: {{ $cm.name }}-volume
@@ -65,6 +67,8 @@ spec:
               memory: "512Mi"     # max 512 МБ
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)}}
       volumes:
+        - name: ocsp-cache-volume
+          emptyDir: { }
         {{- range $key, $cm := .Values.trembita_config.configMaps }}
         {{- if and (kindIs "map" $cm) $cm.enabled }}
         - name: {{ $cm.name }}-volume
