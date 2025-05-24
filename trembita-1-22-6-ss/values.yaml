@@ -277,6 +277,11 @@ trembita_config:
       mountPath: /etc/uxp/conf.d/identity-provider-rest-api-logback.xml
       subPath: identity-provider-rest-api-logback.xml
 
+    ocsp_cache_logback:
+      enabled: true
+      name: ocsp-cache-logback
+      mountPath: /etc/uxp/conf.d/ocsp-cache-logback.xml
+      subPath: ocsp-cache-logback.xml
 
   trembita_main_app_container_tags:
     enabled: true
