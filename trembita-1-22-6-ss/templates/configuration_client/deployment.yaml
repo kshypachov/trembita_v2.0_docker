@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: {{.name}}
-          image: {{.Values.trembita_config.trembita_configuration_client_pod.image}}
+          image: {{.image}}
           {{if .env}}
           env:
             {{- range $k, $v := .env }}
