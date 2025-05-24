@@ -37,10 +37,9 @@ spec:
           {{- end }}
       {{- end}}
           imagePullPolicy: IfNotPresent
-          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) }}
+          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)
+           (.Values.trembita_config.trembita_ocsp_cahce_pod) }}
           volumeMounts:
-            - name: ocsp-cache-volume
-              mountPath: /var/cache/uxp
               {{- range $key, $cm := .Values.trembita_config.configMaps }}
               {{- if and (kindIs "map" $cm) $cm.enabled }}
             - name: {{ $cm.name }}-volume
@@ -57,6 +56,10 @@ spec:
               mountPath: {{ $cfg.mountPath }}
                 {{- end }}
                 {{- end }}
+              {{- range  .Values.trembita_config.trembita_ocsp_cahce_pod.ephemeralVolumeRAM}}
+            - name: {{ .name }}-ram-vol
+              mountPath: {{ .mountPath }}
+              {{- end}}
             {{- end }}
           resources:
             requests:
@@ -65,10 +68,9 @@ spec:
             limits:
               cpu: "200m"       # max 0.2 ядра
               memory: "512Mi"     # max 512 МБ
-          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)}}
+          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)
+          (.Values.trembita_config.trembita_ocsp_cahce_pod)}}
       volumes:
-        - name: ocsp-cache-volume
-          emptyDir: { }
         {{- range $key, $cm := .Values.trembita_config.configMaps }}
         {{- if and (kindIs "map" $cm) $cm.enabled }}
         - name: {{ $cm.name }}-volume
@@ -82,6 +84,12 @@ spec:
           persistentVolumeClaim:
             claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
         {{- end }}
+        {{- end }}
+        {{- range .Values.trembita_config.trembita_ocsp_cahce_pod.ephemeralVolumeRAM}}
+        - name: {{.name}}-ram-vol
+          emptyDir:
+            medium: Memory
+            sizeLimit: {{ .sizeLimit }}
         {{- end }}
       {{- end }}
       restartPolicy: Always

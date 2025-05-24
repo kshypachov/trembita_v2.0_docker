@@ -354,6 +354,11 @@ trembita_config:
     image: kshypachov/trembita_ocsp_cahce_1.22.7:v1.0.1
     env:
       TZ: Europe/Kyiv
+    ephemeralVolumeRAM:
+      - name: ocsp-ca
+        mountPath: /var/cache/uxp
+        sizeLimit: "100Mi"
+
 
   sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
     etc-uxp:
