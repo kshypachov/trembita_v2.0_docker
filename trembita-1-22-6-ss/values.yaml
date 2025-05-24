@@ -404,7 +404,8 @@ trembita_config:
 
 
 minio:
-  nameOverride: minio
+#  nameOverride: "minio"
+  fullnameOverride: minio
   auth:
     rootUser: minioadmin
     rootPassword: minioadmin
