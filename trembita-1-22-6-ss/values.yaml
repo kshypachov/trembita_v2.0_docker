@@ -351,7 +351,7 @@ trembita_config:
       TZ: Europe/Kyiv
 
   trembita_ocsp_cahce_pod:
-    image: kshypachov/trembita_ocsp_cahce_1.22.7:v1.0.0
+    image: kshypachov/trembita_ocsp_cahce_1.22.7:v1.0.1
     env:
       TZ: Europe/Kyiv
 
