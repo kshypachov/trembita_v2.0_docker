@@ -19,7 +19,7 @@ data:
 
     [message-log-s3]
     bucket-name = uxp-messagelog
-    access-key = bNjvie6UYWaV6xVqXkrD
+    access-key = scmyyP91huXNGdcGgLUu
     secret-key = jFiGQMn8pPngBFUFN1NcrxEjfWPKm11tIolVGmcm
     address = http://minio:9000
 
