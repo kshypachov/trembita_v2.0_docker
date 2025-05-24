@@ -366,7 +366,7 @@ trembita_config:
         sizeLimit: "100Mi"
 
   trembita_verifier_pod:
-    image: kshypachov/trembita_verifier_v1.22.7::v1.0.0
+    image: kshypachov/trembita_verifier_v1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
 
