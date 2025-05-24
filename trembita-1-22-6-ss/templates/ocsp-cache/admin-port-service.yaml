@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocsp-cache-admin-port-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6766
+      targetPort: 6577
+  selector:
+    app: ocsp_cache

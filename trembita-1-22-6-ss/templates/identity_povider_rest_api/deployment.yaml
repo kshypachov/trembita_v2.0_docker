@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
         - name: identity-provider-rest-api
-          image: {{.Values.trembita_config.trembita_identity_provider_rest_api.image}}
-          {{if .Values.trembita_config.trembita_identity_provider_rest_api.env}}
+          image: {{.Values.trembita_config.trembita_identity_provider_rest_api_pod.image}}
+          {{if .Values.trembita_config.trembita_identity_provider_rest_api_pod.env}}
           env:
-            {{- range $k, $v := .Values.trembita_config.trembita_identity_provider_rest_api.env }}
+            {{- range $k, $v := .Values.trembita_config.trembita_identity_provider_rest_api_pod.env }}
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}

@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trembita_ocsp_cache
+  labels:
+    app: ocsp_cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ocsp_cache
+  template:
+    metadata:
+      name: ocsp_cache
+      labels:
+        app: ocsp_cache
+    spec:
+      {{- with .Values.trembita_config.trembita_ocsp_cahce_pod}}
+      containers:
+        - name: sidecar
+          image: alpine/socat
+          command: [ "sh", "-c", "
+            socat -d TCP-LISTEN:6577,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:5577 &
+            socat -d TCP-LISTEN:6766,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:5766
+          " ]
+          ports:
+            - containerPort: 6577    {{/*OCSP port over socat proxy*/}}
+            - containerPort: 6766    {{/*admin port over socat proxy*/}}
+        - name: ocsp_cache
+          image: {{.image}}
+          {{if .env}}
+          env:
+            {{- range $k, $v := .env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          {{- end }}
+      {{- end}}
+          imagePullPolicy: IfNotPresent
+          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) }}
+          volumeMounts:
+              {{- range $key, $cm := .Values.trembita_config.configMaps }}
+              {{- if and (kindIs "map" $cm) $cm.enabled }}
+            - name: {{ $cm.name }}-volume
+              mountPath: {{ $cm.mountPath }}
+                {{- if $cm.subPath}}
+              subPath: {{ $cm.subPath }}
+                {{- end }}
+              readOnly: true
+              {{- end }}
+              {{- end }}
+              {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+                {{- if $cfg.enabled }}
+            - name: {{ $name }}-volume
+              mountPath: {{ $cfg.mountPath }}
+                {{- end }}
+                {{- end }}
+            {{- end }}
+          resources:
+            requests:
+              cpu: "100m"       # garantee 0.1 ядра
+              memory: "256Mi"   # garantee 256 МБ
+            limits:
+              cpu: "200m"       # max 0.2 ядра
+              memory: "512Mi"     # max 512 МБ
+          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)}}
+      volumes:
+        {{- range $key, $cm := .Values.trembita_config.configMaps }}
+        {{- if and (kindIs "map" $cm) $cm.enabled }}
+        - name: {{ $cm.name }}-volume
+          configMap:
+            name: {{ $cm.name }}
+        {{- end }}
+        {{- end }}
+        {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+        {{- if $cfg.enabled }}
+        - name: {{ $name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
+        {{- end }}
+        {{- end }}
+      {{- end }}
+      restartPolicy: Always

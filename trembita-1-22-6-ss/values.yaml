@@ -340,8 +340,13 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
 
-  trembita_identity_provider_rest_api: # settins specific for configuration client component
+  trembita_identity_provider_rest_api_pod: # settins specific for configuration client component
     image: kshypachov/trembita_identity_provider_rest_api_1.22.7:v1.0.1
+    env:
+      TZ: Europe/Kyiv
+
+  trembita_ocsp_cahce_pod:
+    image: kshypachov/trembita_ocsp_cahce_1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
 
