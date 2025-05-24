@@ -508,13 +508,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled .verifier_log_logback.enabled}}
+{{- if and .enabled .verifier_logback.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .verifier_log_logback.name}}
+  name: {{ .verifier_logback.name}}
 data:
-  {{ default "verifier-rest-api-logback.xml" .verifier_log_logback.subPath}}: |
+  {{ default "verifier-rest-api-logback.xml" .verifier_logback.subPath}}: |
     <?xml version="1.0" encoding="UTF-8" ?>
       <configuration scan="true" scanPeriod="30 seconds">
 

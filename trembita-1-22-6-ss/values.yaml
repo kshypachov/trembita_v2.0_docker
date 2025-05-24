@@ -283,9 +283,9 @@ trembita_config:
       mountPath: /etc/uxp/conf.d/ocsp-cache-logback.xml
       subPath: ocsp-cache-logback.xml
 
-    verifier_log_logback:
+    verifier_logback:
       enabled: true
-      name: verifier_log
+      name: verifier
       mountPath: /etc/uxp/conf.d/verifier-rest-api-logback
       subPath: verifier-rest-api-logback
 
