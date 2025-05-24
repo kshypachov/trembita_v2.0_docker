@@ -1,11 +1,13 @@
+{{- with .Values.trembita_config.trembita_ocsp_cache_pod}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: ocsp-cache-admin-port-service
+  name: {{.name}}-admin-port-service
 spec:
   type: ClusterIP
   ports:
     - port: 6766
       targetPort: 6766
   selector:
-    app: ocsp-cache
+    app: {{.name}}
+{{- end}}

@@ -1,32 +1,33 @@
+{{- with .Values.trembita_config.trembita_verifier_pod}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: trembita-verifier
+  name: {{.name}}
   labels:
-    app: verifier
+    app: {{.name}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: verifier
+      app: {{.name}}
   template:
     metadata:
-      name: verifier
+      name: {{.name}}
       labels:
-        app: verifier
+        app: {{.name}}
     spec:
-      {{- with .Values.trembita_config.trembita_verifier_pod}}
       containers:
         - name: sidecar
           image: alpine/socat
           command: [ "sh", "-c", "
-            socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork TCP:identity-provider-rest-api-service:8087
+            socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork \
+             TCP:{{ $.Values.trembita_config.trembita_identity_provider_rest_api_pod.name}}:8087
           " ]
           ports:
-            - containerPort: 8087    {{/*Call to identity provider*/}}
             - containerPort: 8086    {{/*REST api port*/}}
         - name: verifier
           image: {{.image}}
+          imagePullPolicy: IfNotPresent
           {{if .env}}
           env:
             {{- range $k, $v := .env }}
@@ -34,8 +35,7 @@ spec:
               value: {{ $v | quote }}
             {{- end }}
           {{- end }}
-      {{- end}}
-          imagePullPolicy: IfNotPresent
+{{- end}}
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)
            (.Values.trembita_config.trembita_verifier_pod) }}
           volumeMounts:

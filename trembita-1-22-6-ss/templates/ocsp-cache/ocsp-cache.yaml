@@ -1,21 +1,21 @@
+{{- with .Values.trembita_config.trembita_ocsp_cache_pod}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: trembita-ocsp-cache
+  name: {{.name}}
   labels:
-    app: ocsp-cache
+    app: {{.name}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ocsp-cache
+      app: {{.name}}
   template:
     metadata:
-      name: ocsp-cache
+      name: {{.name}}
       labels:
-        app: ocsp-cache
+        app: {{.name}}
     spec:
-      {{- with .Values.trembita_config.trembita_ocsp_cahce_pod}}
       containers:
         - name: sidecar
           image: alpine/socat
@@ -28,6 +28,7 @@ spec:
             - containerPort: 6766    {{/*admin port over socat proxy*/}}
         - name: ocsp-cache
           image: {{.image}}
+          imagePullPolicy: IfNotPresent
           {{if .env}}
           env:
             {{- range $k, $v := .env }}
@@ -35,10 +36,9 @@ spec:
               value: {{ $v | quote }}
             {{- end }}
           {{- end }}
-      {{- end}}
-          imagePullPolicy: IfNotPresent
+{{- end}}
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)
-           (.Values.trembita_config.trembita_ocsp_cahce_pod) }}
+           (.Values.trembita_config.trembita_ocsp_cache_pod) }}
           volumeMounts:
               {{- range $key, $cm := .Values.trembita_config.configMaps }}
               {{- if and (kindIs "map" $cm) $cm.enabled }}
@@ -56,7 +56,7 @@ spec:
               mountPath: {{ $cfg.mountPath }}
                 {{- end }}
                 {{- end }}
-              {{- range  .Values.trembita_config.trembita_ocsp_cahce_pod.ephemeralVolumeRAM}}
+              {{- range  .Values.trembita_config.trembita_ocsp_cache_pod.ephemeralVolumeRAM}}
             - name: {{ .name }}-ram-vol
               mountPath: {{ .mountPath }}
               {{- end}}
@@ -69,7 +69,7 @@ spec:
               cpu: "200m"       # max 0.2 ядра
               memory: "512Mi"     # max 512 МБ
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)
-          (.Values.trembita_config.trembita_ocsp_cahce_pod)}}
+          (.Values.trembita_config.trembita_ocsp_cache_pod)}}
       volumes:
         {{- range $key, $cm := .Values.trembita_config.configMaps }}
         {{- if and (kindIs "map" $cm) $cm.enabled }}
@@ -85,7 +85,7 @@ spec:
             claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
         {{- end }}
         {{- end }}
-        {{- range .Values.trembita_config.trembita_ocsp_cahce_pod.ephemeralVolumeRAM}}
+        {{- range .Values.trembita_config.trembita_ocsp_cache_pod.ephemeralVolumeRAM}}
         - name: {{.name}}-ram-vol
           emptyDir:
             medium: Memory
