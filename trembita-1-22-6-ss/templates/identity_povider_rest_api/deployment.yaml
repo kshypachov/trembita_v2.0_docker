@@ -1,27 +1,29 @@
+{{- with .Values.trembita_config.trembita_identity_provider_rest_api_pod}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: trembita-identity-provider-rest-api
+  name: {{.name}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: identity-provider-rest-api
+      app: {{.name}}
   template:
     metadata:
       labels:
-        app: identity-provider-rest-api
+        app: {{.name}}
     spec:
       containers:
-        - name: identity-provider-rest-api
-          image: {{.Values.trembita_config.trembita_identity_provider_rest_api_pod.image}}
-          {{if .Values.trembita_config.trembita_identity_provider_rest_api_pod.env}}
+        - name: {{ .name}}
+          image: {{.image}}
+          {{if .env}}
           env:
-            {{- range $k, $v := .Values.trembita_config.trembita_identity_provider_rest_api_pod.env }}
+            {{- range $k, $v := .env }}
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
           {{- end }}
+{{- end }}
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) }}
           volumeMounts:
             {{- range $key, $cm := .Values.trembita_config.configMaps }}
