@@ -6,6 +6,6 @@ spec:
   type: ClusterIP
   ports:
     - port: 6766
-      targetPort: 6577
+      targetPort: 6766
   selector:
     app: ocsp-cache
