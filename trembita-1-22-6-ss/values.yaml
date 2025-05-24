@@ -355,7 +355,7 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
     ephemeralVolumeRAM:
-      - name: ocsp-ca
+      - name: ocsp-cache
         mountPath: /var/cache/uxp
         sizeLimit: "100Mi"
 
