@@ -38,9 +38,9 @@ spec:
       containers:
         - name: sidecar
           image: alpine/socat
-          command: ["sh", "-c",
-                    "socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork TCP:identity-provider-rest-api-service:8087 &&
-                    socat -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:ocsp-service:6577 &&
+          command: ["sh", "-c","
+                    socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork TCP:identity-provider-rest-api-service:8087 &
+                    socat -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:ocsp-service:6577 &
                     socat -d TCP-LISTEN:5766,bind=127.0.0.1,reuseaddr,fork TCP:ocsp-cache-admin-port-service:6766
                     "]
           ports:
