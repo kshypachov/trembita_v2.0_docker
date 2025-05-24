@@ -286,7 +286,7 @@ trembita_config:
     verifier_logback:
       enabled: true
       name: verifier
-      mountPath: /etc/uxp/conf.d/verifier-rest-api-logback
+      mountPath: /etc/uxp/conf.d/verifier-rest-api-logback.xml
       subPath: verifier-rest-api-logback
 
   trembita_main_app_container_tags:
