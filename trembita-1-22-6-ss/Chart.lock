@@ -2,8 +2,5 @@ dependencies:
 - name: minio
   repository: https://charts.bitnami.com/bitnami
   version: 16.0.10
-- name: fluent-bit
-  repository: https://fluent.github.io/helm-charts
-  version: 0.46.7
-digest: sha256:3c7e732badc7b1cca0acbcc949335137b250d99dd9a1faba0be4ab0ff33e5c7a
-generated: "2025-05-25T23:01:26.52369+03:00"
+digest: sha256:e3bea4489b441f32f94e103fe69650f43529b5985d5a6261bedc4153de0afc16
+generated: "2025-05-25T23:34:35.557318+03:00"
