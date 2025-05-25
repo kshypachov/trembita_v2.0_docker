@@ -455,10 +455,20 @@ minio:
 vector:
   role: Aggregator
   fullnameOverride: vector
-  vectorConfig:
+  defaultConfig:
+    enabled: false
+
+  customConfig:
+    data_dir: /vector-data-dir
     sources:
       http_input:
         type: http_server
         address: 0.0.0.0:2080
 
-
+    sinks:
+      null_sink:
+        type: file
+        inputs: [ http_input ]
+        path: "/dev/null"
+        encoding:
+          codec: json
