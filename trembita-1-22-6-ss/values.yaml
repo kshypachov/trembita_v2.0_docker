@@ -398,6 +398,7 @@ trembita_config:
     image: kshypachov/trembita_proxy_v1.22.7:v1.0.5
     env:
       TZ: Europe/Kyiv
+      UXP_TOKEN_PASS: 1234
 
 
 
