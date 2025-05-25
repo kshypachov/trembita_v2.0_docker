@@ -22,8 +22,8 @@ spec:
           command: [ "sh", "-c", "
             socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork \
             TCP:{{ $.Values.trembita_config.trembita_identity_provider_rest_api_pod.name}}-service:8087 &
-            socat -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577 &
-            socat -d TCP-LISTEN:5766,bind=127.0.0.1,reuseaddr,fork TCP:{{.Values.trembita_config.trembita_ocsp_cache_pod.name}}-admin-port-service:6766
+            socat -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577 &
+            socat -d TCP-LISTEN:5766,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_ocsp_cache_pod.name}}-admin-port-service:6766
           " ]
           ports:
             - containerPort: 8086    {{/*REST api port outgoing connection*/}}
