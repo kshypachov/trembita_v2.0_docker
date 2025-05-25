@@ -28,10 +28,6 @@ dependencies:
     version: 16.0.10         # выбери нужную версию
     repository: https://charts.bitnami.com/bitnami
 
-  - name: fluent-bit
-    version: 0.46.7             # проверь актуальную версию на ArtifactHub
-    repository: https://fluent.github.io/helm-charts
-    alias: fluentbit
 #dependencies:
 #  - name: postgresql
 #    version: 16.0.1   # зависит от Bitnami

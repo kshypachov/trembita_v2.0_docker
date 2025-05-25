@@ -452,32 +452,3 @@ minio:
     enabled: true
     ingressClassName: "nginx"
     hostname: api.minio.trembita.office
-
-fluentbit:
-  fullnameOverride: "fluentbit"
-  service:
-    type: ClusterIP
-    port: 2080
-#      - name: http
-#        port: 2080
-#        targetPort: 2080
-
-  config:
-    inputs: |
-      [INPUT]
-          Name    http
-          Listen  0.0.0.0
-          Port    2080
-          Tag     http_data
-          Tag_Key path
-
-    filters: |
-      [FILTER]
-          Name    grep
-          Match   http_data
-          Regex   path   ^/store_data$
-
-    outputs: |
-      [OUTPUT]
-          Name    stdout
-          Match   http_data
