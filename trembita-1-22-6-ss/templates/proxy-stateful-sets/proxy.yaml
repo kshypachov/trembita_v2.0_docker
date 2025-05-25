@@ -65,11 +65,11 @@ spec:
             {{- end }}
           resources:
             requests:
-              cpu: "500m"       # garantee 0.1 ядра
-              memory: "368Mi"   # garantee 256 МБ
+              cpu: "2000m"       # garantee 0.1 ядра
+              memory: "512Mi"   # garantee 256 МБ
             limits:
-              cpu: "1000m"       # max 0.2 ядра
-              memory: "512Mi"     # max 512 МБ
+              cpu: "3000m"       # max 0.2 ядра
+              memory: "1024Mi"     # max 512 МБ
           {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)
           (.Values.trembita_config.trembita_verifier_pod)}}
       volumes:
