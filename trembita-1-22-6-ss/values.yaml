@@ -468,15 +468,16 @@ fluentbit:
           Name    http
           Listen  0.0.0.0
           Port    2080
-          URI     /store_data
+          Tag     http_data
+          Tag_Key path
 
     filters: |
       [FILTER]
-          Name    modify
-          Match   *
-          Add     input_type http
+          Name    grep
+          Match   http_data
+          Regex   path   ^/store_data$
 
     outputs: |
       [OUTPUT]
           Name    stdout
-          Match   *
+          Match   http_data
