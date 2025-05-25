@@ -624,13 +624,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled . monitor_agent_logback.enabled}}
+{{- if and .enabled .monitor_agent_logback.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ . monitor_agent_logback.name}}
+  name: {{ .monitor_agent_logback.name}}
 data:
-  {{ default "proxy-monitor-agent-logback.xml" . monitor_agent_logback.subPath}}: |
+  {{ default "proxy-monitor-agent-logback.xml" .monitor_agent_logback.subPath}}: |
     <?xml version="1.0" encoding="UTF-8" ?>
       <configuration scan="true" scanPeriod="30 seconds">
 
