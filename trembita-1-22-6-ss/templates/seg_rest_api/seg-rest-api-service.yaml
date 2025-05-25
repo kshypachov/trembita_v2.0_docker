@@ -1,0 +1,13 @@
+{{- with .Values.trembita_config.trembita_seg_rest_api_pod}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.name}}-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8085
+      targetPort: 8085 {{/*Port for access to SEG REST API*/}}
+  selector:
+    app: {{.name}}
+{{- end}}
