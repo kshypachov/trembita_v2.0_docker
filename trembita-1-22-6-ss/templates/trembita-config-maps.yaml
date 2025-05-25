@@ -534,3 +534,33 @@ data:
       </configuration>
 {{- end}}
 {{- end}}
+
+------
+
+{{- with .Values.trembita_config.configMaps}}
+{{- if and .enabled .seg_rest_api.enabled}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .verifier_logback.name}}
+data:
+  {{ default "securityserver-rest-api-logback.xml" .seg_rest_api.subPath}}: |
+    <?xml version="1.0" encoding="UTF-8" ?>
+      <configuration scan="true" scanPeriod="30 seconds">
+
+          <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+              <encoder>
+                  <pattern>%d [%thread] %-5level %logger{36} - %msg%n</pattern>
+                  <charset>UTF-8</charset>
+              </encoder>
+          </appender>
+
+          <logger name="ee.cyber.uxp" level="INFO"/>
+
+          <root level="INFO">
+              <appender-ref ref="CONSOLE"/>
+          </root>
+
+      </configuration>
+{{- end}}
+{{- end}}

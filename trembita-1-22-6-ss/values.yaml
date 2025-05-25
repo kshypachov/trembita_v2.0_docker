@@ -289,6 +289,12 @@ trembita_config:
       mountPath: /etc/uxp/conf.d/verifier-rest-api-logback.xml
       subPath: verifier-rest-api-logback
 
+    seg_rest_api:
+      enabled: true
+      name: seg-rest-api
+      mountPath: /etc/uxp/conf.d/securityserver-rest-api-logback.xml
+      subPath: securityserver-rest-api-logback.xml
+
   trembita_main_app_container_tags:
     enabled: true
     tags:
