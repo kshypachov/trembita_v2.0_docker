@@ -17,14 +17,16 @@ spec:
         app: {{.name}}
     spec:
       containers:
-{{/*        - name: sidecar*/}}
-{{/*          image: alpine/socat*/}}
-{{/*          command: [ "sh", "-c", "*/}}
-{{/*            socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork \*/}}
-{{/*             TCP:{{ $.Values.trembita_config.trembita_identity_provider_rest_api_pod.name}}-service:8087*/}}
-{{/*          " ]*/}}
-{{/*          ports:*/}}
-{{/*            - containerPort: 8086    */}}{{/*REST api port*/}}
+        - name: sidecar
+          image: alpine/socat
+          command: [ "sh", "-c", "
+            socat -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577
+          " ]
+          ports:
+            - containerPort: 5500   {{/*External API port for connection between SEGs*/}}
+            - containerPort: 80     {{/*Internal HTTP API port for internal connection clients*/}}
+            - containerPort: 443    {{/*Internal HTTPS API port for connection between SEGs, not used in k8s*/}}
+            - containerPort: 5566   {{/*Internal HTTP API port for admin porpuses, not used in k8s*/}}
         - name: {{.name}}
           image: {{.image}}
           imagePullPolicy: IfNotPresent
