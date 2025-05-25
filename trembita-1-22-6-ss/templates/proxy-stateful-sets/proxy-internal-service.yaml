@@ -1,0 +1,13 @@
+{{- with .Values.trembita_config.trembita_proxy_pod}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.name}}-internal-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80 {{/*Port for access to verifier REST API*/}}
+  selector:
+    app: {{.name}}
+{{- end}}

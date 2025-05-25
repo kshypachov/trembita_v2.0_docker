@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{.name}}-service
+  name: {{.name}}-external-service
 spec:
   type: ClusterIP
   ports:
