@@ -307,6 +307,12 @@ trembita_config:
       mountPath: /etc/uxp/conf.d/proxy-monitor-agent-logback.xml
       subPath: proxy-monitor-agent-logback.xml
 
+    monitor_agent_addon_logback:
+      name: monitor-agent-logback
+      mountPath: /etc/uxp/conf.d/addons/proxy-monitor-agent-logback.xml
+      subPath: proxy-monitor-agent-logback.xml
+
+
   trembita_main_app_container_tags:
     enabled: true
     tags:
