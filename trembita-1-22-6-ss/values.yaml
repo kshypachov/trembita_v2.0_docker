@@ -295,6 +295,12 @@ trembita_config:
       mountPath: /etc/uxp/conf.d/securityserver-rest-api-logback.xml
       subPath: securityserver-rest-api-logback.xml
 
+    proxy_logback:
+      enabled: true
+      name: proxy-logback
+      mountPath: /etc/uxp/conf.d/proxy-logback.xml
+      subPath: proxy-logback.xml
+
   trembita_main_app_container_tags:
     enabled: true
     tags:
@@ -384,6 +390,12 @@ trembita_config:
   trembita_seg_rest_api_pod:
     name: seg-rest-api
     image: kshypachov/trembita_seg_rest_api_v1.22.7:v1.0.0
+    env:
+      TZ: Europe/Kyiv
+
+  trembita_proxy:
+    name: proxy
+    image: kshypachov/trembita_proxy_v1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
 
