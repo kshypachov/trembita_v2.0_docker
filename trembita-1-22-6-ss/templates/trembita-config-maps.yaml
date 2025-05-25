@@ -542,7 +542,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .verifier_logback.name}}
+  name: {{ .seg_rest_api.name}}
 data:
   {{ default "securityserver-rest-api-logback.xml" .seg_rest_api.subPath}}: |
     <?xml version="1.0" encoding="UTF-8" ?>
