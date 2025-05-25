@@ -454,6 +454,7 @@ minio:
     hostname: api.minio.trembita.office
 
 fluentbit:
+  fullnameOverride: "fluentbit"
   service:
     type: ClusterIP
     ports:
