@@ -20,7 +20,7 @@ spec:
         - name: sidecar
           image: alpine/socat
           command: [ "sh", "-c", "
-            socat -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577
+            socat -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577
           " ]
           ports:
             - containerPort: 5500   {{/*External API port for connection between SEGs*/}}
