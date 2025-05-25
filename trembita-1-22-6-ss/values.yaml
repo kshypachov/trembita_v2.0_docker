@@ -393,7 +393,7 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
 
-  trembita_proxy:
+  trembita_proxy_pod:
     name: proxy
     image: kshypachov/trembita_proxy_v1.22.7:v1.0.0
     env:
