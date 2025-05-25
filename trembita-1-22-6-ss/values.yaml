@@ -452,8 +452,13 @@ minio:
     ingressClassName: "nginx"
     hostname: api.minio.trembita.office
 
-
-
-
+vector:
+  role: Aggregator
+  fullnameOverride: vector
+  vectorConfig:
+    sources:
+      http_input:
+        type: http_server
+        address: 0.0.0.0:2080
 
 

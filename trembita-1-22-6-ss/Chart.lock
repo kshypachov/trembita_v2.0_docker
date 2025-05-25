@@ -2,5 +2,8 @@ dependencies:
 - name: minio
   repository: https://charts.bitnami.com/bitnami
   version: 16.0.10
-digest: sha256:e3bea4489b441f32f94e103fe69650f43529b5985d5a6261bedc4153de0afc16
-generated: "2025-05-23T17:38:10.241478+03:00"
+- name: vector
+  repository: https://helm.vector.dev
+  version: 0.43.0
+digest: sha256:7e26324483453cd5823e5a8e86a349ed240152e2e13e62c2a43134e5a5010459
+generated: "2025-05-25T22:20:42.439127+03:00"

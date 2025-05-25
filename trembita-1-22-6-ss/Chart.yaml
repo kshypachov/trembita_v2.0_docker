@@ -27,6 +27,11 @@ dependencies:
   - name: minio
     version: 16.0.10         # выбери нужную версию
     repository: https://charts.bitnami.com/bitnami
+
+  - name: vector
+    version: 0.43.0           # актуальная версия — проверь в https://artifacthub.io/packages/helm/vector/vector
+    repository: https://helm.vector.dev
+    alias: vector
 #dependencies:
 #  - name: postgresql
 #    version: 16.0.1   # зависит от Bitnami
