@@ -26,7 +26,9 @@ spec:
             socat -d TCP-LISTEN:6588,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:5588
           " ]
           ports:
-            - containerPort: 8086    REST api port
+            - containerPort: 2080    {{/**/}}
+            - containerPort: 2082    {{/**/}}
+            - containerPort: 5588    {{/**/}}
         - name: {{.name}}
           image: {{.image}}
           imagePullPolicy: IfNotPresent
