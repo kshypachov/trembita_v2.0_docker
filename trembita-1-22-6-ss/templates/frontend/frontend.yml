@@ -1,0 +1,99 @@
+{{- with .Values.trembita_config.trembita_frontend_pod}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.name}}
+  labels:
+    app: {{.name}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{.name}}
+  template:
+    metadata:
+      name: {{.name}}
+      labels:
+        app: {{.name}}
+    spec:
+      containers:
+        - name: sidecar
+          image: alpine/socat
+          command: [ "sh", "-c", "
+            socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork \
+            TCP:{{ $.Values.trembita_config.trembita_identity_provider_rest_api_pod.name}}-service:8087 &
+            socat -d TCP-LISTEN:8085,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_seg_rest_api_pod.name}}-service:8085 &
+            socat -d TCP-LISTEN:8086,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_verifier_pod.name}}-service:8086
+          " ]
+          ports:
+            - containerPort: 8086    {{/*REST api port outgoing connection*/}}
+        - name: {{.name}}
+          image: {{.image}}
+          imagePullPolicy: IfNotPresent
+          {{if .env}}
+          env:
+            {{- range $k, $v := .env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          {{- end }}
+          ports:
+            - containerPort: 8085  {{/*SEG REST api port incoming conections*/}}
+
+{{- end}}
+          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)
+           (.Values.trembita_config.trembita_verifier_pod) }}
+          volumeMounts:
+              {{- range $key, $cm := .Values.trembita_config.configMaps }}
+              {{- if and (kindIs "map" $cm) $cm.enabled }}
+            - name: {{ $cm.name }}-volume
+              mountPath: {{ $cm.mountPath }}
+                {{- if $cm.subPath}}
+              subPath: {{ $cm.subPath }}
+                {{- end }}
+              readOnly: true
+              {{- end }}
+              {{- end }}
+              {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+                {{- if $cfg.enabled }}
+            - name: {{ $name }}-volume
+              mountPath: {{ $cfg.mountPath }}
+                {{- end }}
+                {{- end }}
+              {{- range  .Values.trembita_config.trembita_verifier_pod.ephemeralVolumeRAM}}
+            - name: {{ .name }}-ram-vol
+              mountPath: {{ .mountPath }}
+              {{- end}}
+            {{- end }}
+          resources:
+            requests:
+              cpu: "200m"       # garantee 0.2 ядра
+              memory: "256Mi"   # garantee 256 МБ
+            limits:
+              cpu: "300m"       # max 0.3 ядра
+              memory: "512Mi"     # max 512 МБ
+          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)
+          (.Values.trembita_config.trembita_verifier_pod)}}
+      volumes:
+        {{- range $key, $cm := .Values.trembita_config.configMaps }}
+        {{- if and (kindIs "map" $cm) $cm.enabled }}
+        - name: {{ $cm.name }}-volume
+          configMap:
+            name: {{ $cm.name }}
+        {{- end }}
+        {{- end }}
+        {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
+        {{- if $cfg.enabled }}
+        - name: {{ $name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
+        {{- end }}
+        {{- end }}
+        {{- range .Values.trembita_config.trembita_verifier_pod.ephemeralVolumeRAM}}
+        - name: {{.name}}-ram-vol
+          emptyDir:
+            medium: Memory
+            sizeLimit: {{ .sizeLimit }}
+        {{- end }}
+      {{- end }}
+      restartPolicy: Always
