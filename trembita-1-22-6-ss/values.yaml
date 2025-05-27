@@ -424,6 +424,8 @@ trembita_config:
     image:  kshypachov/trembita_frontend_v1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
+    ingress:
+      host: trembita2-main.office
 
 
   sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
