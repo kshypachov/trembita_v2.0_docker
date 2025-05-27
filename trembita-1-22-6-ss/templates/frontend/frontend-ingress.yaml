@@ -1,31 +1,31 @@
 # Helm ingress template
-{{- with .Values.trembita_config.trembita_frontend_pod}}
-{{- end}}
-
-{{/*{{- .Values.trembita_config.trembita_frontend_pod}}*/}}
-{{/*apiVersion: networking.k8s.io/v1*/}}
-{{/*kind: Ingress*/}}
-{{/*metadata:*/}}
-{{/*  annotations:*/}}
-{{/*    nginx.ingress.kubernetes.io/ssl-redirect: "true"  # <— важно, чтобы отключить HTTP*/}}
-{{/*    kubernetes.io/ingress.class: "nginx"*/}}
-{{/*  labels:*/}}
-{{/*    app: {{.name}}*/}}
-{{/*  name: {{.name}}-ingress*/}}
-{{/*spec:*/}}
-{{/*  rules:*/}}
-{{/*    - host: {{.ingress.host}}*/}}
-{{/*      http:*/}}
-{{/*        paths:*/}}
-{{/*          - backend:*/}}
-{{/*              service:*/}}
-{{/*                name: {{.name}}-service*/}}
-{{/*                port:*/}}
-{{/*                  number: 80*/}}
-{{/*            path: /*/}}
-{{/*            pathType: Prefix*/}}
-{{/*  tls:*/}}
-{{/*    - hosts:*/}}
-{{/*        - {{.ingress.host}}*/}}
-{{/*      secretName: {{.name}}-tls-secret*/}}
+{{/*{{- with .Values.trembita_config.trembita_frontend_pod}}*/}}
 {{/*{{- end}}*/}}
+
+{{- with  .Values.trembita_config.trembita_frontend_pod}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"  # <— важно, чтобы отключить HTTP
+    kubernetes.io/ingress.class: "nginx"
+  labels:
+    app: {{.name}}
+  name: {{.name}}-ingress
+spec:
+  rules:
+    - host: {{.ingress.host}}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{.name}}-service
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - {{.ingress.host}}
+      secretName: {{.name}}-tls-secret
+{{- end}}
