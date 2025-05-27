@@ -1,113 +1,113 @@
-{{- if .Values.trembita_config.trembita_worker_pods.enabled }}
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ include "trembita-1-22-6-ss.fullname" . }}-worker
-  labels:
-    {{- include "trembita-1-22-6-ss.labels" . | nindent 4 }}
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      {{- include "trembita-1-22-6-ss.selectorLabels" . | nindent 6 }}
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/component: worker
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}
-        {{- with .Values.trembita_config.trembita_workers_tags}}
-        {{- if and .enabled .tags }}
-        {{- toYaml .tags | nindent 8 }}
-        {{- end }}
-        {{- end }}
-    spec:
-      containers:
-        - name: sidecar
-          image: alpine/socat
-          command: ["sh", "-c","
-                    socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork TCP:identity-provider-rest-api-service:8087 &
-                    socat -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:ocsp-service:6577 &
-                    socat -d TCP-LISTEN:5766,bind=127.0.0.1,reuseaddr,fork TCP:ocsp-cache-admin-port-service:6766 &
-                    socat -d TCP-LISTEN:8086,bind=127.0.0.1,reuseaddr,fork TCP:verifier-service:8086
-                    "]
-          ports:
-            - containerPort: 8087
-            - containerPort: 5577
-            - containerPort: 5766
+{{/*{{- if .Values.trembita_config.trembita_worker_pods.enabled }}*/}}
+{{/*apiVersion: apps/v1*/}}
+{{/*kind: Deployment*/}}
+{{/*metadata:*/}}
+{{/*  name: {{ include "trembita-1-22-6-ss.fullname" . }}-worker*/}}
+{{/*  labels:*/}}
+{{/*    {{- include "trembita-1-22-6-ss.labels" . | nindent 4 }}*/}}
+{{/*spec:*/}}
+{{/*  replicas: 1*/}}
+{{/*  selector:*/}}
+{{/*    matchLabels:*/}}
+{{/*      {{- include "trembita-1-22-6-ss.selectorLabels" . | nindent 6 }}*/}}
+{{/*  template:*/}}
+{{/*    metadata:*/}}
+{{/*      labels:*/}}
+{{/*        app.kubernetes.io/component: worker*/}}
+{{/*        app.kubernetes.io/instance: {{ .Release.Name }}*/}}
+{{/*        app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}*/}}
+{{/*        {{- with .Values.trembita_config.trembita_workers_tags}}*/}}
+{{/*        {{- if and .enabled .tags }}*/}}
+{{/*        {{- toYaml .tags | nindent 8 }}*/}}
+{{/*        {{- end }}*/}}
+{{/*        {{- end }}*/}}
+{{/*    spec:*/}}
+{{/*      containers:*/}}
+{{/*        - name: sidecar*/}}
+{{/*          image: alpine/socat*/}}
+{{/*          command: ["sh", "-c","*/}}
+{{/*                    socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork TCP:identity-provider-rest-api-service:8087 &*/}}
+{{/*                    socat -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:ocsp-service:6577 &*/}}
+{{/*                    socat -d TCP-LISTEN:5766,bind=127.0.0.1,reuseaddr,fork TCP:ocsp-cache-admin-port-service:6766 &*/}}
+{{/*                    socat -d TCP-LISTEN:8086,bind=127.0.0.1,reuseaddr,fork TCP:verifier-service:8086*/}}
+{{/*                    "]*/}}
+{{/*          ports:*/}}
+{{/*            - containerPort: 8087*/}}
+{{/*            - containerPort: 5577*/}}
+{{/*            - containerPort: 5766*/}}
 
-        - name: worker
-          image: "{{ .Values.trembita_config.trembita_worker_pods.image}}"
-          imagePullPolicy: IfNotPresent
-          env:
-            {{- range $k, $v := .Values.trembita_config.trembita_worker_pods.env }}
-            - name: {{ $k }}
-              value: {{ $v | quote }}
-            {{- end }}
-          ports:
-          {{- range $key, $val := .Values.trembita_config }}
-            {{- if and $val.service $val.service.enabled }}
-            - containerPort: {{ $val.service.port }}
-              name: {{ $val.service.portName | default $key }}
-              protocol: TCP
-          {{- end }}
-          {{- end }}
-          {{- with .Values.livenessProbe }}
-          livenessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.readinessProbe }}
-          readinessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-{{/*          {{- with .Values.resources }}*/}}
-          resources:
-            requests:
-              cpu: "3000m"       # гарантированно 0.25 ядра
-              memory: "3Gi"   # гарантировано 512 МБ
-            limits:
-              cpu: "4000m"       # максимум 0.5 ядра
-              memory: "6Gi"     # максимум 1 ГБ
+{{/*        - name: worker*/}}
+{{/*          image: "{{ .Values.trembita_config.trembita_worker_pods.image}}"*/}}
+{{/*          imagePullPolicy: IfNotPresent*/}}
+{{/*          env:*/}}
+{{/*            {{- range $k, $v := .Values.trembita_config.trembita_worker_pods.env }}*/}}
+{{/*            - name: {{ $k }}*/}}
+{{/*              value: {{ $v | quote }}*/}}
+{{/*            {{- end }}*/}}
+{{/*          ports:*/}}
+{{/*          {{- range $key, $val := .Values.trembita_config }}*/}}
+{{/*            {{- if and $val.service $val.service.enabled }}*/}}
+{{/*            - containerPort: {{ $val.service.port }}*/}}
+{{/*              name: {{ $val.service.portName | default $key }}*/}}
+{{/*              protocol: TCP*/}}
+{{/*          {{- end }}*/}}
+{{/*          {{- end }}*/}}
+{{/*          {{- with .Values.livenessProbe }}*/}}
+{{/*          livenessProbe:*/}}
 {{/*            {{- toYaml . | nindent 12 }}*/}}
 {{/*          {{- end }}*/}}
-          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) (.Values.trembita_config.trembita_worker_pods.secrets)}}
-          {{- with .Values.trembita_config.trembita_worker_pods.lifecycle }}
-          lifecycle:
-          {{- toYaml . | nindent 12 }}
-          {{- end}}
-          volumeMounts:
-              {{- with .Values.volumeMounts }}
-              {{- toYaml . | nindent 12 }}
-              {{- end}}
-              {{- with .Values.trembita_config.configMaps}}
-              {{- range $key, $cm := . }}
-              {{- if and (kindIs "map" $cm) $cm.enabled }}
-            - name: {{ $cm.name }}-volume
-              mountPath: {{ $cm.mountPath }}
-                {{- if $cm.subPath}}
-              subPath: {{ $cm.subPath }}
-                {{- end }}
-              readOnly: true
-              {{- end }}
-              {{- end }}
-              {{- end }}
-              {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
-              {{- if $cfg.enabled }}
-            - name: {{ $name }}-volume
-              mountPath: {{ $cfg.mountPath }}
-              {{- end }}
-              {{- end }}
-              {{- with .Values.trembita_config.trembita_worker_pods.secrets }}
-              {{- range $name, $cfg := . }}
-              {{- if $cfg.enabled }}
-            - name: {{ $name }}-secret
-              mountPath: {{ $cfg.mountpoint }}
-              subPath: {{ $cfg.filename }}
-              readOnly: true
-              {{- end }}
-              {{- end }}
-              {{- end }}
-            {{- end }}
+{{/*          {{- with .Values.readinessProbe }}*/}}
+{{/*          readinessProbe:*/}}
+{{/*            {{- toYaml . | nindent 12 }}*/}}
+{{/*          {{- end }}*/}}
+{{/*          {{- with .Values.resources }}*/}}
+{{/*          resources:*/}}
+{{/*            requests:*/}}
+{{/*              cpu: "3000m"       # гарантированно 0.25 ядра*/}}
+{{/*              memory: "3Gi"   # гарантировано 512 МБ*/}}
+{{/*            limits:*/}}
+{{/*              cpu: "4000m"       # максимум 0.5 ядра*/}}
+{{/*              memory: "6Gi"     # максимум 1 ГБ*/}}
+{{/*            {{- toYaml . | nindent 12 }}*/}}
+{{/*          {{- end }}*/}}
+{{/*          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) (.Values.trembita_config.trembita_worker_pods.secrets)}}*/}}
+{{/*          {{- with .Values.trembita_config.trembita_worker_pods.lifecycle }}*/}}
+{{/*          lifecycle:*/}}
+{{/*          {{- toYaml . | nindent 12 }}*/}}
+{{/*          {{- end}}*/}}
+{{/*          volumeMounts:*/}}
+{{/*              {{- with .Values.volumeMounts }}*/}}
+{{/*              {{- toYaml . | nindent 12 }}*/}}
+{{/*              {{- end}}*/}}
+{{/*              {{- with .Values.trembita_config.configMaps}}*/}}
+{{/*              {{- range $key, $cm := . }}*/}}
+{{/*              {{- if and (kindIs "map" $cm) $cm.enabled }}*/}}
+{{/*            - name: {{ $cm.name }}-volume*/}}
+{{/*              mountPath: {{ $cm.mountPath }}*/}}
+{{/*                {{- if $cm.subPath}}*/}}
+{{/*              subPath: {{ $cm.subPath }}*/}}
+{{/*                {{- end }}*/}}
+{{/*              readOnly: true*/}}
+{{/*              {{- end }}*/}}
+{{/*              {{- end }}*/}}
+{{/*              {{- end }}*/}}
+{{/*              {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}*/}}
+{{/*              {{- if $cfg.enabled }}*/}}
+{{/*            - name: {{ $name }}-volume*/}}
+{{/*              mountPath: {{ $cfg.mountPath }}*/}}
+{{/*              {{- end }}*/}}
+{{/*              {{- end }}*/}}
+{{/*              {{- with .Values.trembita_config.trembita_worker_pods.secrets }}*/}}
+{{/*              {{- range $name, $cfg := . }}*/}}
+{{/*              {{- if $cfg.enabled }}*/}}
+{{/*            - name: {{ $name }}-secret*/}}
+{{/*              mountPath: {{ $cfg.mountpoint }}*/}}
+{{/*              subPath: {{ $cfg.filename }}*/}}
+{{/*              readOnly: true*/}}
+{{/*              {{- end }}*/}}
+{{/*              {{- end }}*/}}
+{{/*              {{- end }}*/}}
+{{/*            {{- end }}*/}}
 {{/*          {{- with .Values.trembita_config.trembita_worker_pods.lifecycle }}*/}}
 {{/*          {{- if and .enabled .postStart.exec.command }}*/}}
 {{/*          lifecycle:*/}}
@@ -117,42 +117,42 @@ spec:
 {{/*                  {{- toYaml .postStart.exec.command | nindent 12 }}*/}}
 {{/*          {{- end }}*/}}
 {{/*          {{- end }}*/}}
-        {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) (.Values.trembita_config.trembita_worker_pods.secrets)}}
-      volumes:
-          {{- range $key, $cm := .Values.trembita_config.configMaps }}
-          {{- if and (kindIs "map" $cm) $cm.enabled }}
-          - name: {{ $cm.name }}-volume
-            configMap:
-              name: {{ $cm.name }}
-          {{- end }}
-          {{- end }}
-          {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
-          {{- if $cfg.enabled }}
-          - name: {{ $name }}-volume
-            persistentVolumeClaim:
-              claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
-          {{- end }}
-          {{- end }}
-          {{- with .Values.trembita_config.trembita_worker_pods.secrets }}
-          {{- range $name, $cfg := . }}
-          {{- if $cfg.enabled }}
-          - name: {{ $name }}-secret
-            secret:
-              secretName: {{ printf "%s-%s" $.Release.Name $name }}
-          {{- end }}
-          {{- end }}
-          {{- end }}
-        {{- end }}
-        {{- with .Values.nodeSelector }}
-      nodeSelector:
-          {{- toYaml . | nindent 8 }}
-        {{- end }}
-        {{- with .Values.affinity }}
-        affinity:
-          {{- toYaml . | nindent 8 }}
-        {{- end }}
-        {{- with .Values.tolerations }}
-        tolerations:
-          {{- toYaml . | nindent 8 }}
-        {{- end }}
-{{- end }}
+{{/*        {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) (.Values.trembita_config.trembita_worker_pods.secrets)}}*/}}
+{{/*      volumes:*/}}
+{{/*          {{- range $key, $cm := .Values.trembita_config.configMaps }}*/}}
+{{/*          {{- if and (kindIs "map" $cm) $cm.enabled }}*/}}
+{{/*          - name: {{ $cm.name }}-volume*/}}
+{{/*            configMap:*/}}
+{{/*              name: {{ $cm.name }}*/}}
+{{/*          {{- end }}*/}}
+{{/*          {{- end }}*/}}
+{{/*          {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}*/}}
+{{/*          {{- if $cfg.enabled }}*/}}
+{{/*          - name: {{ $name }}-volume*/}}
+{{/*            persistentVolumeClaim:*/}}
+{{/*              claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}*/}}
+{{/*          {{- end }}*/}}
+{{/*          {{- end }}*/}}
+{{/*          {{- with .Values.trembita_config.trembita_worker_pods.secrets }}*/}}
+{{/*          {{- range $name, $cfg := . }}*/}}
+{{/*          {{- if $cfg.enabled }}*/}}
+{{/*          - name: {{ $name }}-secret*/}}
+{{/*            secret:*/}}
+{{/*              secretName: {{ printf "%s-%s" $.Release.Name $name }}*/}}
+{{/*          {{- end }}*/}}
+{{/*          {{- end }}*/}}
+{{/*          {{- end }}*/}}
+{{/*        {{- end }}*/}}
+{{/*        {{- with .Values.nodeSelector }}*/}}
+{{/*      nodeSelector:*/}}
+{{/*          {{- toYaml . | nindent 8 }}*/}}
+{{/*        {{- end }}*/}}
+{{/*        {{- with .Values.affinity }}*/}}
+{{/*        affinity:*/}}
+{{/*          {{- toYaml . | nindent 8 }}*/}}
+{{/*        {{- end }}*/}}
+{{/*        {{- with .Values.tolerations }}*/}}
+{{/*        tolerations:*/}}
+{{/*          {{- toYaml . | nindent 8 }}*/}}
+{{/*        {{- end }}*/}}
+{{/*{{- end }}*/}}
