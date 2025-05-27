@@ -1,0 +1,13 @@
+{{- with .Values.trembita_config.trembita_configuration_client_pod}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.name}}-admin-port-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6666
+      targetPort: 6666
+  selector:
+    app: {{.name}}
+{{- end}}
