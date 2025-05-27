@@ -1,3 +1,4 @@
+# Helm ingress template
 {{-with .Values.trembita_config.trembita_frontend_pod}}
 {{-end}}
 
