@@ -1,7 +1,3 @@
-{{-with .Values.trembita_config}}
-{{-end}}
-
-
 {{/*{{- .Values.trembita_config.trembita_frontend_pod}}*/}}
 {{/*apiVersion: networking.k8s.io/v1*/}}
 {{/*kind: Ingress*/}}
