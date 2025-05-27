@@ -2,25 +2,25 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
-replicaCount: 1
+## This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+#replicaCount: 1
+#
+## This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+#image:
+#  repository: kshypachov/trembita_ss_v1.22.7
+#  # This sets the pull policy for images.
+#  pullPolicy: IfNotPresent
+#  # Overrides the image tag whose default is the chart appVersion.
+#  tag: "v1.0.0-WCC-WMLA-WP-WIDPRA-WOC-WVRA-WREST"
 
-# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
-image:
-  repository: kshypachov/trembita_ss_v1.22.7
-  # This sets the pull policy for images.
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.0.0-WCC-WMLA-WP-WIDPRA-WOC-WVRA-WREST"
-
-# This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-imagePullSecrets: []
-# This is to override the chart name.
-nameOverride: ""
-fullnameOverride: ""
-
-cloudPostgresDatabase:
-  enabled: true
+## This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+#imagePullSecrets: []
+## This is to override the chart name.
+#nameOverride: ""
+#fullnameOverride: ""
+#
+#cloudPostgresDatabase:
+#  enabled: true
 
 # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
@@ -34,58 +34,58 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-# This is for setting Kubernetes Annotations to a Pod.
-# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
-podAnnotations: {}
-# This is for setting Kubernetes Labels to a Pod.
-# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
-podLabels: {}
+## This is for setting Kubernetes Annotations to a Pod.
+## For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+#podAnnotations: {}
+## This is for setting Kubernetes Labels to a Pod.
+## For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+#podLabels: {}
+#
+#podSecurityContext: {}
+#  # fsGroup: 2000
+#
+#securityContext: {}
 
-podSecurityContext: {}
-  # fsGroup: 2000
+## This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+#services: []
+#
+#
+#resources: {}
+#
+## This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+#livenessProbe: []
+##  httpGet:
+##    path: /
+##    port: http
+#readinessProbe: []
+##  httpGet:
+##    path: /
+##    port: http
 
-securityContext: {}
+## This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
+#autoscaling:
+#  enabled: false
+#  minReplicas: 1
+#  maxReplicas: 100
+#  targetCPUUtilizationPercentage: 80
+#  # targetMemoryUtilizationPercentage: 80
 
-# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
-services: []
-
-
-resources: {}
-
-# This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-livenessProbe: []
-#  httpGet:
-#    path: /
-#    port: http
-readinessProbe: []
-#  httpGet:
-#    path: /
-#    port: http
-
-# This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
-# Additional volumes on the output Deployment definition.
-volumes: []
-
-# Additional volumeMounts on the output Deployment definition.
-volumeMounts: {}
-#  - name: db-config
-#    mountPath: /etc/uxp/db.properties
-#    subPath: db.properties
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
-
-configMap: {}
+## Additional volumes on the output Deployment definition.
+#volumes: []
+#
+## Additional volumeMounts on the output Deployment definition.
+#volumeMounts: {}
+##  - name: db-config
+##    mountPath: /etc/uxp/db.properties
+##    subPath: db.properties
+#
+#nodeSelector: {}
+#
+#tolerations: []
+#
+#affinity: {}
+#
+#configMap: {}
 #  name: uxp-db-config
 
 
@@ -166,60 +166,60 @@ trembita_config:
     PMONITOR_ADMIN_DB_PASS: opmonitor_adminp
 
 
-  internal_api_access:
-    service:
-      enabled: true
-      type: ClusterIP
-      selectors:
-        trembita.io/internalport: tcp80
-      port: 80
-      portName: uxp-internal
-
-    ingress:
-      enabled: true
-      className: "nginx"
-      hosts:
-        - host: api.trembita2.remote
-          paths:
-          - path: /
-            pathType: Prefix
-            port: 80
-
-  external_api_access:
-    service:
-      enabled: true
-      type: LoadBalancer
-      selectors:
-        trembita.io/externalport: tcp5500
-      port: 5500
-      portName: uxp-external
-
-
-  web_ui_access:
-    service:
-      enabled: true
-      type: ClusterIP
-      selectors:
-        trembita.io/webport: tcp4000
-      port: 4000
-      portName: uxp-web
-
-
-    ingress:
-      enabled: true
-      className: "nginx"
-      hosts:
-        - host: trembita2.remote
-          paths:
-          - path: /
-            pathType: Prefix
-            port: 4000
-
-      tls:
-        - hosts:
-            - trembita2.remote
-          secretName: trembita-tls
-
+#  internal_api_access:
+#    service:
+#      enabled: true
+#      type: ClusterIP
+#      selectors:
+#        trembita.io/internalport: tcp80
+#      port: 80
+#      portName: uxp-internal
+#
+#    ingress:
+#      enabled: true
+#      className: "nginx"
+#      hosts:
+#        - host: api.trembita2.remote
+#          paths:
+#          - path: /
+#            pathType: Prefix
+#            port: 80
+#
+#  external_api_access:
+#    service:
+#      enabled: true
+#      type: LoadBalancer
+#      selectors:
+#        trembita.io/externalport: tcp5500
+#      port: 5500
+#      portName: uxp-external
+#
+#
+#  web_ui_access:
+#    service:
+#      enabled: true
+#      type: ClusterIP
+#      selectors:
+#        trembita.io/webport: tcp4000
+#      port: 4000
+#      portName: uxp-web
+#
+#
+#    ingress:
+#      enabled: true
+#      className: "nginx"
+#      hosts:
+#        - host: trembita2.remote
+#          paths:
+#          - path: /
+#            pathType: Prefix
+#            port: 4000
+#
+#      tls:
+#        - hosts:
+#            - trembita2.remote
+#          secretName: trembita-tls
+#
 
   configMaps:
     enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
