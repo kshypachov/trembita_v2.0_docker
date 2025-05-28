@@ -157,12 +157,6 @@ trembita_config:
       mountPath: /etc/uxp/conf.d/proxy-monitor-agent-logback.xml
       subPath: proxy-monitor-agent-logback.xml
 
-    monitor_agent_addon_logback:
-      enabled: true
-      name: monitor-agent-addon-logback
-      mountPath: /etc/uxp/conf.d/addons/proxy-monitor-agent-logback.xml
-      subPath: proxy-monitor-agent-logback.xml
-
 
 # Section for configuration every separate pod
   trembita_configuration_client_pod:  # settins specific for configuration client component
@@ -233,6 +227,12 @@ trembita_config:
       TZ: Europe/Kyiv
     ingress:
       host: trembita2-main.office
+    sharedVolumes: # add name of shared volumes which need to connect to this pod
+    configMaps: # add name of config maps which need to connect to this pod
+      - default-uxp
+      - uxp-identity-provider-rest-api
+      - uxp-securityserver-rest-api
+
 
 
   sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
