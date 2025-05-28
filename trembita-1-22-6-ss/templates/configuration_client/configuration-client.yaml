@@ -48,7 +48,7 @@ spec:
             {{- end }}
             {{- end }}
             {{- range $name, $cfg := $.Values.trembita_config.sharedVolumes }}
-              {{- if and ($cfg.enabled) (.sharedVolumes.$cfg )}}
+              {{- if and ($cfg.enabled .sharedVolumes.$cfg )}}
             - name: {{ $name }}-volume
               mountPath: {{ $cfg.mountPath }}
               {{- end }}
