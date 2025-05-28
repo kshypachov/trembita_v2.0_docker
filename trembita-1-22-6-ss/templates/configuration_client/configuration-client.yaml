@@ -35,7 +35,7 @@ spec:
 
           ports:
             - containerPort: 5666 {{/*Admin port for imideatly download global config*/}}
-          {{- if and ( or ($.Values.trembita_config.sharedVolumes $.Values.trembita_config.configMaps.enabled) .sharedVolumes) }}
+          {{- if and ( or $.Values.trembita_config.sharedVolumes $.Values.trembita_config.configMaps.enabled) .sharedVolumes }}
           volumeMounts:
             {{- range $key, $cm := $.Values.trembita_config.configMaps }}
             {{- if and (kindIs "map" $cm) $cm.enabled }}
