@@ -1,4 +1,5 @@
 {{- with .Values.trembita_config.trembita_frontend_pod}}
+{{- $ctx := . }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -39,32 +40,6 @@ spec:
           {{- end }}
           ports:
             - containerPort: 8085  {{/*SEG REST api port incoming conections*/}}
-
-{{- end}}
-          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)
-           (.Values.trembita_config.trembita_verifier_pod) }}
-          volumeMounts:
-              {{- range $key, $cm := .Values.trembita_config.configMaps }}
-              {{- if and (kindIs "map" $cm) $cm.enabled }}
-            - name: {{ $cm.name }}-volume
-              mountPath: {{ $cm.mountPath }}
-                {{- if $cm.subPath}}
-              subPath: {{ $cm.subPath }}
-                {{- end }}
-              readOnly: true
-              {{- end }}
-              {{- end }}
-              {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
-                {{- if $cfg.enabled }}
-            - name: {{ $name }}-volume
-              mountPath: {{ $cfg.mountPath }}
-                {{- end }}
-                {{- end }}
-              {{- range  .Values.trembita_config.trembita_verifier_pod.ephemeralVolumeRAM}}
-            - name: {{ .name }}-ram-vol
-              mountPath: {{ .mountPath }}
-              {{- end}}
-            {{- end }}
           resources:
             requests:
               cpu: "200m"       # garantee 0.2 ядра
@@ -72,28 +47,51 @@ spec:
             limits:
               cpu: "300m"       # max 0.3 ядра
               memory: "512Mi"     # max 512 МБ
-          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)
-          (.Values.trembita_config.trembita_verifier_pod)}}
+          {{- if or (and $.Values.trembita_config.configMaps.enabled .configMaps) ( and .sharedVolumes  $.Values.trembita_config.sharedVolumes)}}
+          volumeMounts:
+
+            {{- range $key, $cm := $.Values.trembita_config.configMaps }}
+              {{- if and (kindIs "map" $cm) ($.Values.trembita_config.configMaps.enabled) }}
+                {{- if and $cm.enabled (has $key $ctx.configMaps)}}
+
+            - name: {{ $cm.name }}-cf-volume
+              mountPath: {{ $cm.mountPath }}
+              {{- if $cm.subPath}}
+              subPath: {{ $cm.subPath }}
+              readOnly: true
+
+              {{- end}}
+                {{- end}}
+              {{- end}}
+            {{- end}}
+            {{- range $name, $cfg := $.Values.trembita_config.sharedVolumes }}
+              {{- if and $cfg.enabled ( has $name $ctx.sharedVolumes)}}
+
+            - name: {{ $name }}-volume
+              mountPath: {{ $cfg.mountPath }}
+
+              {{- end}}
+            {{- end}}
       volumes:
-        {{- range $key, $cm := .Values.trembita_config.configMaps }}
-        {{- if and (kindIs "map" $cm) $cm.enabled }}
-        - name: {{ $cm.name }}-volume
+      {{- range $key, $cm := $.Values.trembita_config.configMaps }}
+        {{- if and (kindIs "map" $cm) ($.Values.trembita_config.configMaps.enabled) }}
+          {{- if and $cm.enabled (has $key $ctx.configMaps)}}
+
+        - name: {{ $cm.name }}-cf-volume
           configMap:
             name: {{ $cm.name }}
+
+          {{- end }}
         {{- end }}
-        {{- end }}
-        {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
-        {{- if $cfg.enabled }}
+      {{- end }}
+      {{- range $name, $cfg := $.Values.trembita_config.sharedVolumes }}
+         {{- if and $cfg.enabled (has  $name $ctx.sharedVolumes)}}
+
         - name: {{ $name }}-volume
           persistentVolumeClaim:
             claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
-        {{- end }}
-        {{- end }}
-        {{- range .Values.trembita_config.trembita_verifier_pod.ephemeralVolumeRAM}}
-        - name: {{.name}}-ram-vol
-          emptyDir:
-            medium: Memory
-            sizeLimit: {{ .sizeLimit }}
-        {{- end }}
+
+         {{- end }}
       {{- end }}
-      restartPolicy: Always
+  {{- end}}
+{{- end}}
