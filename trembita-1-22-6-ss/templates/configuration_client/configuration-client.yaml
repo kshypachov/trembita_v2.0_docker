@@ -34,6 +34,13 @@ spec:
           {{- end }}
           ports:
             - containerPort: 5666 {{/*Admin port for imideatly download global config*/}}
+          resources:
+            requests:
+              cpu: "100m"       # garantee 0.1 ядра
+              memory: "256Mi"   # garantee 256 МБ
+            limits:
+              cpu: "200m"       # max 0.2 ядра
+              memory: "512Mi"     # max 512 МБ
           {{- if or (and $.Values.trembita_config.configMaps.enabled .configMaps) ( and .sharedVolumes  $.Values.trembita_config.sharedVolumes)}}
           volumeMounts:
 
@@ -81,12 +88,4 @@ spec:
          {{- end }}
       {{- end }}
   {{- end}}
-
-      resources:
-        requests:
-          cpu: "100m"       # garantee 0.1 ядра
-          memory: "256Mi"   # garantee 256 МБ
-        limits:
-          cpu: "200m"       # max 0.2 ядра
-          memory: "512Mi"     # max 512 МБ
 {{- end}}
