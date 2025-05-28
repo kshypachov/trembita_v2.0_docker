@@ -233,7 +233,7 @@ trembita_config:
       TZ: Europe/Kyiv
     ingress:
       host: trembita2-main.office
-    sharedVolumes: # add name of shared volumes which need to connect to this pod
+#    sharedVolumes: # add name of shared volumes which need to connect to this pod
     configMaps: # add name of config maps which need to connect to this pod
       - default-uxp
       - uxp-identity-provider-rest-api
