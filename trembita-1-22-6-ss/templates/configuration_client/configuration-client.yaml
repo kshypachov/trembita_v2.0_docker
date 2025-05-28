@@ -35,7 +35,7 @@ spec:
 
           ports:
             - containerPort: 5666 {{/*Admin port for imideatly download global config*/}}
-          {{- if and ( or $.Values.trembita_config.sharedVolumes $.Values.trembita_config.configMaps.enabled) .sharedVolumes }}
+          {{- if and ( or $.Values.trembita_config.sharedVolumes $.Values.trembita_config.configMaps.enabled) (gt (len .sharedVolumes) 0) }}
           volumeMounts:
             {{- range $key, $cm := $.Values.trembita_config.configMaps }}
             {{- if and (kindIs "map" $cm) $cm.enabled }}
@@ -61,7 +61,7 @@ spec:
             limits:
               cpu: "200m"       # max 0.2 ядра
               memory: "512Mi"     # max 512 МБ
-      {{- if and ( or $.Values.trembita_config.sharedVolumes $.Values.trembita_config.configMaps.enabled) true }}
+      {{- if and ( or $.Values.trembita_config.sharedVolumes $.Values.trembita_config.configMaps.enabled) .sharedVolumes }}
       volumes:
         {{- range $key, $cm := $.Values.trembita_config.configMaps }}
         {{- if and (kindIs "map" $cm) $cm.enabled }}
