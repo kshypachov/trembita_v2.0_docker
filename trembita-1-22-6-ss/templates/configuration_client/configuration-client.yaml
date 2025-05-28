@@ -1,82 +1,82 @@
-{{- with .Values.trembita_config.trembita_configuration_client_pod}}
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{.name}}
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: {{.name}}
-  template:
-    metadata:
-      labels:
-        app: {{.name}}
-    spec:
-      containers:
-        - name: sidecar
-          image: alpine/socat
-          command: [ "sh", "-c", "
-            socat -d TCP-LISTEN:6666,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:5666
-          " ]
-          ports:
-            - containerPort: 6577    {{/*OCSP port over socat proxy*/}}
-            - containerPort: 6766    {{/*admin port over socat proxy*/}}
+{{/*{{- with .Values.trembita_config.trembita_configuration_client_pod}}*/}}
+{{/*apiVersion: apps/v1*/}}
+{{/*kind: Deployment*/}}
+{{/*metadata:*/}}
+{{/*  name: {{.name}}*/}}
+{{/*spec:*/}}
+{{/*  replicas: 1*/}}
+{{/*  selector:*/}}
+{{/*    matchLabels:*/}}
+{{/*      app: {{.name}}*/}}
+{{/*  template:*/}}
+{{/*    metadata:*/}}
+{{/*      labels:*/}}
+{{/*        app: {{.name}}*/}}
+{{/*    spec:*/}}
+{{/*      containers:*/}}
+{{/*        - name: sidecar*/}}
+{{/*          image: alpine/socat*/}}
+{{/*          command: [ "sh", "-c", "*/}}
+{{/*            socat -d TCP-LISTEN:6666,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:5666*/}}
+{{/*          " ]*/}}
+{{/*          ports:*/}}
+{{/*            - containerPort: 6577    */}}{{/*OCSP port over socat proxy*/}}
+{{/*            - containerPort: 6766    */}}{{/*admin port over socat proxy*/}}
 
-        - name: {{.name}}
-          image: {{.image}}
-          {{if .env}}
-          env:
-            {{- range $k, $v := .env }}
-            - name: {{ $k }}
-              value: {{ $v | quote }}
-            {{- end }}
-          {{- end }}
+{{/*        - name: {{.name}}*/}}
+{{/*          image: {{.image}}*/}}
+{{/*          {{if .env}}*/}}
+{{/*          env:*/}}
+{{/*            {{- range $k, $v := .env }}*/}}
+{{/*            - name: {{ $k }}*/}}
+{{/*              value: {{ $v | quote }}*/}}
+{{/*            {{- end }}*/}}
+{{/*          {{- end }}*/}}
 
-          ports:
-            - containerPort: 5666 {{/*Admin port for imideatly download global config*/}}
+{{/*          ports:*/}}
+{{/*            - containerPort: 5666 */}}{{/*Admin port for imideatly download global config*/}}
 {{/*          {{- if and ( or $.Values.trembita_config.sharedVolumes $.Values.trembita_config.configMaps.enabled) (gt (len .sharedVolumes) 0) }}*/}}
-          {{- if and $.Values.trembita_config.configMaps.enabled $.Values.trembita_config.sharedVolumes  }}
-          volumeMounts:
-            {{- range $key, $cm := $.Values.trembita_config.configMaps }}
-            {{- if and (kindIs "map" $cm) $cm.enabled }}
-            - name: {{ $cm.name }}-volume
-              mountPath: {{ $cm.mountPath }}
-              {{- if $cm.subPath}}
-              subPath: {{ $cm.subPath }}
-              {{- end }}
-              readOnly: true
-            {{- end }}
-            {{- end }}
-            {{- range $name, $cfg := $.Values.trembita_config.sharedVolumes }}
-              {{- if and ($cfg.enabled hasKey .sharedVolumes $name )}}
-            - name: {{ $name }}-volume
-              mountPath: {{ $cfg.mountPath }}
-              {{- end }}
-              {{- end }}
-          {{- end }}
-          resources:
-            requests:
-              cpu: "100m"       # garantee 0.1 ядра
-              memory: "256Mi"   # garantee 256 МБ
-            limits:
-              cpu: "200m"       # max 0.2 ядра
-              memory: "512Mi"     # max 512 МБ
-      {{- if and ( or $.Values.trembita_config.sharedVolumes $.Values.trembita_config.configMaps.enabled) .sharedVolumes }}
-      volumes:
-        {{- range $key, $cm := $.Values.trembita_config.configMaps }}
-        {{- if and (kindIs "map" $cm) $cm.enabled }}
-        - name: {{ $cm.name }}-volume
-          configMap:
-            name: {{ $cm.name }}
-        {{- end }}
-        {{- end }}
-        {{- range $name, $cfg := $.Values.trembita_config.sharedVolumes }}
-        {{- if and $cfg.enabled ( hasKey .sharedVolumes $name )}}
-        - name: {{ $name }}-volume
-          persistentVolumeClaim:
-            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
-        {{- end }}
-        {{- end }}
-      {{- end }}
-{{- end }}
+{{/*          {{- if and $.Values.trembita_config.configMaps.enabled $.Values.trembita_config.sharedVolumes  }}*/}}
+{{/*          volumeMounts:*/}}
+{{/*            {{- range $key, $cm := $.Values.trembita_config.configMaps }}*/}}
+{{/*            {{- if and (kindIs "map" $cm) $cm.enabled }}*/}}
+{{/*            - name: {{ $cm.name }}-volume*/}}
+{{/*              mountPath: {{ $cm.mountPath }}*/}}
+{{/*              {{- if $cm.subPath}}*/}}
+{{/*              subPath: {{ $cm.subPath }}*/}}
+{{/*              {{- end }}*/}}
+{{/*              readOnly: true*/}}
+{{/*            {{- end }}*/}}
+{{/*            {{- end }}*/}}
+{{/*            {{- range $name, $cfg := $.Values.trembita_config.sharedVolumes }}*/}}
+{{/*              {{- if and ($cfg.enabled hasKey .sharedVolumes $name )}}*/}}
+{{/*            - name: {{ $name }}-volume*/}}
+{{/*              mountPath: {{ $cfg.mountPath }}*/}}
+{{/*              {{- end }}*/}}
+{{/*              {{- end }}*/}}
+{{/*          {{- end }}*/}}
+{{/*          resources:*/}}
+{{/*            requests:*/}}
+{{/*              cpu: "100m"       # garantee 0.1 ядра*/}}
+{{/*              memory: "256Mi"   # garantee 256 МБ*/}}
+{{/*            limits:*/}}
+{{/*              cpu: "200m"       # max 0.2 ядра*/}}
+{{/*              memory: "512Mi"     # max 512 МБ*/}}
+{{/*      {{- if and ( or $.Values.trembita_config.sharedVolumes $.Values.trembita_config.configMaps.enabled) .sharedVolumes }}*/}}
+{{/*      volumes:*/}}
+{{/*        {{- range $key, $cm := $.Values.trembita_config.configMaps }}*/}}
+{{/*        {{- if and (kindIs "map" $cm) $cm.enabled }}*/}}
+{{/*        - name: {{ $cm.name }}-volume*/}}
+{{/*          configMap:*/}}
+{{/*            name: {{ $cm.name }}*/}}
+{{/*        {{- end }}*/}}
+{{/*        {{- end }}*/}}
+{{/*        {{- range $name, $cfg := $.Values.trembita_config.sharedVolumes }}*/}}
+{{/*        {{- if and $cfg.enabled ( hasKey .sharedVolumes $name )}}*/}}
+{{/*        - name: {{ $name }}-volume*/}}
+{{/*          persistentVolumeClaim:*/}}
+{{/*            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}*/}}
+{{/*        {{- end }}*/}}
+{{/*        {{- end }}*/}}
+{{/*      {{- end }}*/}}
+{{/*{{- end }}*/}}

@@ -150,7 +150,7 @@ trembita_config:
 # section for define config maps.Config maps will connect to all containers deployed this helm chart
   configMaps:
     enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
-    db_properties: # For testing only!!!!!! ConfigMap not suitable for storing sensitive data like a DB password
+    db-properties: # For testing only!!!!!! ConfigMap not suitable for storing sensitive data like a DB password
       enabled: true
       name: db-properties
       mountPath: /etc/uxp/db.properties
