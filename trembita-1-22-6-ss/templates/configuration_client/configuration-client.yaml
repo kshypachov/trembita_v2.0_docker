@@ -71,7 +71,7 @@ spec:
         {{- end }}
         {{- end }}
         {{- range $name, $cfg := $.Values.trembita_config.sharedVolumes }}
-        {{- if and (($cfg.enabled) hasKey .sharedVolumes $name )}}
+        {{- if and $cfg.enabled ( hasKey .sharedVolumes $name )}}
         - name: {{ $name }}-volume
           persistentVolumeClaim:
             claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
