@@ -48,7 +48,8 @@ spec:
 
           1: and $.Values.trembita_config.configMaps.enabled .configMaps
           2: and .sharedVolumes  $.Values.trembita_config.sharedVolumes
-          {{- if or (and $.Values.trembita_config.configMaps.enabled .configMaps) ( and .sharedVolumes  $.Values.trembita_config.sharedVolumes)}}
+{{/*          {{- if or (and $.Values.trembita_config.configMaps.enabled .configMaps) ( and .sharedVolumes  $.Values.trembita_config.sharedVolumes)}}*/}}
+        {{- if (and $.Values.trembita_config.configMaps.enabled .configMaps) }}
         - name: {{.name}}-TEST
   {{- end}}
 {{- end}}
