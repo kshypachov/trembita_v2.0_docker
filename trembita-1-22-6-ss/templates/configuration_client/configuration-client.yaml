@@ -1,4 +1,39 @@
 {{- with .Values.trembita_config.trembita_configuration_client_pod}}
 {{- $ctx := . }}
-
-{{- end }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.name}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{.name}}
+  template:
+    metadata:
+      labels:
+        app: {{.name}}
+    spec:
+      containers:
+        - name: sidecar
+          image: alpine/socat
+          command: [ "sh", "-c", "
+            socat -d TCP-LISTEN:6666,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:5666
+          " ]
+          ports:
+            - containerPort: 6577    {{/*OCSP port over socat proxy*/}}
+            - containerPort: 6766    {{/*admin port over socat proxy*/}}
+        - name: {{.name}}
+          image: {{.image}}
+          {{if .env}}
+          env:
+            {{- range $k, $v := .env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          {{- end }}
+          ports:
+            - containerPort: 5666 {{/*Admin port for imideatly download global config*/}}
+          {{- if or (and $.Values.trembita_config.configMaps.enabled .configMaps) ( and .sharedVolumes  $.Values.trembita_config.sharedVolumes)}}
+  {{- end}}
+{{- end}}
