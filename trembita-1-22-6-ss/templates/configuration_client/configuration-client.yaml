@@ -34,11 +34,18 @@ spec:
           {{- end }}
           ports:
             - containerPort: 5666 {{/*Admin port for imideatly download global config*/}}
-          {{$.Values.trembita_config.configMaps.enabled}}
-          {{.configMaps}}
-          {{.sharedVolumes}}
-          {{ $.Values.trembita_config.sharedVolumes}}
+          # Значение флага enabled для configMaps
+          configMaps.enabled: {{ $.Values.trembita_config.configMaps.enabled }}
+
+          # Локальное поле .configMaps внутри текущего pod (если используется)
+          .configMaps: {{ .configMaps }}
+
+          # Локальное поле .sharedVolumes внутри текущего pod
+          .sharedVolumes: {{ .sharedVolumes }}
+
+          # Глобальный список sharedVolumes
+          $.Values.trembita_config.sharedVolumes: {{ $.Values.trembita_config.sharedVolumes }}
           {{- if or (and $.Values.trembita_config.configMaps.enabled .configMaps) ( and .sharedVolumes  $.Values.trembita_config.sharedVolumes)}}
-          test:
+        - name: {{.name}}-TEST
   {{- end}}
 {{- end}}
