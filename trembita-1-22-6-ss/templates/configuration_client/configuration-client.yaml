@@ -1,3 +1,4 @@
+{{- if eq $.Values.debugTarget "configuration-client" }}
 {{- with .Values.trembita_config.trembita_configuration_client_pod}}
 {{- $ctx := . }}
 apiVersion: apps/v1
@@ -34,22 +35,60 @@ spec:
           {{- end }}
           ports:
             - containerPort: 5666 {{/*Admin port for imideatly download global config*/}}
-          # Значение флага enabled для configMaps
-          configMaps.enabled: {{ $.Values.trembita_config.configMaps.enabled }}
+          {{- if or (and $.Values.trembita_config.configMaps.enabled .configMaps) ( and .sharedVolumes  $.Values.trembita_config.sharedVolumes)}}
+          volumeMounts:
 
-          # Локальное поле .configMaps внутри текущего pod (если используется)
-          .configMaps: {{ .configMaps }}
+            {{- range $key, $cm := $.Values.trembita_config.configMaps }}
+              {{- if and (kindIs "map" $cm) ($.Values.trembita_config.configMaps.enabled) }}
+                {{- if and $cm.enabled (has $key $ctx.configMaps)}}
 
-          # Локальное поле .sharedVolumes внутри текущего pod
-          .sharedVolumes: {{ .sharedVolumes }}
+            - name: {{ $cm.name }}-cf-volume
+              mountPath: {{ $cm.mountPath }}
+              {{- if $cm.subPath}}
+              subPath: {{ $cm.subPath }}
+              readOnly: true
 
-          # Глобальный список sharedVolumes
-          $.Values.trembita_config.sharedVolumes: {{ $.Values.trembita_config.sharedVolumes }}
+              {{- end}}
+                {{- end}}
+              {{- end}}
+            {{- end}}
+            {{- range $name, $cfg := $.Values.trembita_config.sharedVolumes }}
+              {{- if and $cfg.enabled ( has $name $ctx.sharedVolumes)}}
 
-          1: and $.Values.trembita_config.configMaps.enabled .configMaps
-          2: and .sharedVolumes  $.Values.trembita_config.sharedVolumes
-{{/*          {{- if or (and $.Values.trembita_config.configMaps.enabled .configMaps) ( and .sharedVolumes  $.Values.trembita_config.sharedVolumes)}}*/}}
-        {{- if (and .sharedVolumes  $.Values.trembita_config.sharedVolumes) }}
-        - name: {{.name}}-TEST
+            - name: {{ $name }}-volume
+              mountPath: {{ $cfg.mountPath }}
+
+              {{- end}}
+            {{- end}}
+      volumes:
+      {{- range $key, $cm := $.Values.trembita_config.configMaps }}
+        {{- if and (kindIs "map" $cm) ($.Values.trembita_config.configMaps.enabled) }}
+          {{- if and $cm.enabled (has $key $ctx.configMaps)}}
+
+        - name: {{ $cm.name }}-cf-volume
+          configMap:
+            name: {{ $cm.name }}
+
+          {{- end }}
+        {{- end }}
+      {{- end }}
+      {{- range $name, $cfg := $.Values.trembita_config.sharedVolumes }}
+         {{- if and $cfg.enabled (has  $name $ctx.sharedVolumes)}}
+
+        - name: {{ $name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
+
+         {{- end }}
+      {{- end }}
   {{- end}}
+
+      resources:
+        requests:
+          cpu: "100m"       # garantee 0.1 ядра
+          memory: "256Mi"   # garantee 256 МБ
+        limits:
+          cpu: "200m"       # max 0.2 ядра
+          memory: "512Mi"     # max 512 МБ
+{{- end}}
 {{- end}}
