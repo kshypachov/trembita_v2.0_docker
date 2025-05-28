@@ -45,6 +45,9 @@ spec:
 
           # Глобальный список sharedVolumes
           $.Values.trembita_config.sharedVolumes: {{ $.Values.trembita_config.sharedVolumes }}
+
+          1: and $.Values.trembita_config.configMaps.enabled .configMaps
+          2: and .sharedVolumes  $.Values.trembita_config.sharedVolumes
           {{- if or (and $.Values.trembita_config.configMaps.enabled .configMaps) ( and .sharedVolumes  $.Values.trembita_config.sharedVolumes)}}
         - name: {{.name}}-TEST
   {{- end}}
