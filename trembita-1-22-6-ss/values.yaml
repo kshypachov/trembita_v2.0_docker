@@ -88,7 +88,7 @@ serviceAccount:
 #configMap: {}
 #  name: uxp-db-config
 
-
+##
 postgresql_init:
   initJob:
     containerImageName: kshypachov/trembita_ss_v1.22.6-pg-init
@@ -123,32 +123,9 @@ postgresql_init:
       - name: OPMONITOR_ADMIN_DB_PASS
         value: opmonitor_adminp
 
-postgresql:
-  containerName: postgres
-  image: postgres:16
-  username: postgres
-  password: mysecretpassword
-  database: appdb
-  port: 5432
-  max_connections: 200
-
-  persistence:
-    enabled: true
-    size: 1Gi
-    storageClass: ""
-
-  env:
-    - name: PGDATA
-      value: /var/lib/postgresql/data/pgdata
-    - name: POSTGRES_USER
-      value: postgres
-    - name: POSTGRES_PASSWORD
-      value: mysecretpassword
-    - name: POSTGRES_DB
-      value: appdb
 
 
-
+# Main config section for Trembita application
 trembita_config:
   init_job:
     image: kshypachov/trembita_ss_v1.22.7:v1.0.0-WCC-WMLA-WP-WIDPRA-WOC-WVRA-WREST
@@ -169,61 +146,8 @@ trembita_config:
     PMONITOR_ADMIN_DB_PASS: opmonitor_adminp
 
 
-#  internal_api_access:
-#    service:
-#      enabled: true
-#      type: ClusterIP
-#      selectors:
-#        trembita.io/internalport: tcp80
-#      port: 80
-#      portName: uxp-internal
-#
-#    ingress:
-#      enabled: true
-#      className: "nginx"
-#      hosts:
-#        - host: api.trembita2.remote
-#          paths:
-#          - path: /
-#            pathType: Prefix
-#            port: 80
-#
-#  external_api_access:
-#    service:
-#      enabled: true
-#      type: LoadBalancer
-#      selectors:
-#        trembita.io/externalport: tcp5500
-#      port: 5500
-#      portName: uxp-external
-#
-#
-#  web_ui_access:
-#    service:
-#      enabled: true
-#      type: ClusterIP
-#      selectors:
-#        trembita.io/webport: tcp4000
-#      port: 4000
-#      portName: uxp-web
-#
-#
-#    ingress:
-#      enabled: true
-#      className: "nginx"
-#      hosts:
-#        - host: trembita2.remote
-#          paths:
-#          - path: /
-#            pathType: Prefix
-#            port: 4000
-#
-#      tls:
-#        - hosts:
-#            - trembita2.remote
-#          secretName: trembita-tls
-#
 
+# section for define config maps.Config maps will connect to all containers deployed this helm chart
   configMaps:
     enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
     db_properties: # For testing only!!!!!! ConfigMap not suitable for storing sensitive data like a DB password
@@ -317,63 +241,18 @@ trembita_config:
       subPath: proxy-monitor-agent-logback.xml
 
 
-#  trembita_main_app_container_tags:
-#    enabled: true
-#    tags:
-#      app.kubernetes.io/component: trembita
-#      trembita.io/webport: tcp4000
-#      trembita.io/internalport: tcp80
-#      trembita.io/externalport: tcp5500
-#
-#  trembita_workers_tags:
-#    enabled: true
-#    tags:
-#      app.kubernetes.io/component: trembita
-##      trembita.io/webport: tcp4000
-#      trembita.io/internalport: tcp80
-#      trembita.io/externalport: tcp5500
-#
-#  trembita_worker_pods:
-#    enabled: true
-#    image: kshypachov/trembita_ss_v1.22.7:v1.0.0-WCC-WMLA-WP-WIDPRA-WOC-WVRA
-#    autoscaling:
-#      enabled: true
-#      min: 1
-#      max: 2
-#      cpuUtilization: 80
-#    secrets:
-#      auto-login:
-#        enabled: true
-#        mountpoint: /run/secrets/trembita.io/autologin.secret.json
-#        filename: autologin.json.secret
-#        values:
-#          USERNAME: "token-login"
-#          PASSWORD: "123456789012"
-#          REDIRECT_URI: "https://trembita2.remote"
-#          CLIENT_ID: "uxp-ss-ui"
-#          SECURITY_SERVER_ADDRESS: "http://127.0.0.1:4000"
-#          TOKEN_CREDENTIALS: "0:1234"
-#          OAUTH_RETRIES: "3"
-#    lifecycle: {}
-##      postStart:
-##        exec:
-##          command:
-##            - /bin/sh
-##            - -c
-##            - |
-##              python3 /usr/share/uxp/bin/tokens-autologin.py
-#    env:
-#      TZ: Europe/Kyiv
-#
-#  trembita_main_app_pod:
-#    env:
-#      TZ: Europe/Kyiv
-
+# Section for configuration every separate pod
   trembita_configuration_client_pod:  # settins specific for configuration client component
     name: conf-client
     image: kshypachov/trembita_configuration_client_1.12.7:v1.0.5
     env:
       TZ: Europe/Kyiv
+    sharedVolumes: # add name of shared volumes which need to connect to this pod
+      etc-uxp:
+      usr-share-uxp:
+      var-lib-uxp:
+    configMaps:  # add name of config maps which need to connect to this pod
+
 
   trembita_message_log_archiver_pod:  # settins specific for configuration client component
     name: message-log
@@ -481,3 +360,27 @@ minio:
     enabled: true
     ingressClassName: "nginx"
     hostname: api.minio.trembita.office
+
+postgresql:
+  containerName: postgres
+  image: postgres:16
+  username: postgres
+  password: mysecretpassword
+  database: appdb
+  port: 5432
+  max_connections: 200
+
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: ""
+
+  env:
+    - name: PGDATA
+      value: /var/lib/postgresql/data/pgdata
+    - name: POSTGRES_USER
+      value: postgres
+    - name: POSTGRES_PASSWORD
+      value: mysecretpassword
+    - name: POSTGRES_DB
+      value: appdb
