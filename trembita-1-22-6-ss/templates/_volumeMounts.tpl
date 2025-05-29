@@ -31,28 +31,28 @@
 {{/*              mountPath: {{ .mountPath }}*/}}
 {{/*              {{- end}}*/}}
 
-        volumes:
-           {{- range $key, $cm := $root.Values.trembita_config.configMaps }}
-             {{- if and (kindIs "map" $cm) ($root.Values.trembita_config.configMaps.enabled) }}
-               {{- if and $cm.enabled (has $key $start_context.configMaps) }}
-           - name: {{ $cm.name }}-cf-volume
-             configMap:
-               name: {{ $cm.name }}
+      volumes:
+         {{- range $key, $cm := $root.Values.trembita_config.configMaps }}
+           {{- if and (kindIs "map" $cm) ($root.Values.trembita_config.configMaps.enabled) }}
+             {{- if and $cm.enabled (has $key $start_context.configMaps) }}
+         - name: {{ $cm.name }}-cf-volume
+           configMap:
+             name: {{ $cm.name }}
                {{- end }}
              {{- end }}
            {{- end }}
            {{- range $name, $cfg := $root.Values.trembita_config.sharedVolumes }}
              {{- if and $cfg.enabled (has $name $start_context.sharedVolumes) }}
-           - name: {{ $name }}-volume
-             persistentVolumeClaim:
-               claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $root) $name }}
+         - name: {{ $name }}-volume
+           persistentVolumeClaim:
+             claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $root) $name }}
              {{- end }}
            {{- end }}
            {{- range $start_context.ephemeralVolumeRAM}}
-           - name: {{.name}}-ram-vol
-             emptyDir:
-               medium: Memory
-               sizeLimit: {{ .sizeLimit }}
+         - name: {{.name}}-ram-vol
+           emptyDir:
+             medium: Memory
+             sizeLimit: {{ .sizeLimit }}
            {{- end }}
      {{- end }}
 {{- end }}
