@@ -37,7 +37,7 @@ metadata:
 data:
   {{ default "uxp-default" .default_uxp.subPath}}: |
     server {
-      listen 4000;
+      listen 80;
 
       location /test {
           return 200 "OK - nginx is working\n";
