@@ -278,8 +278,6 @@ trembita_config:
       host: trembita2-main.office
 
 
-
-
   sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
     etc-uxp:
       enabled: true
