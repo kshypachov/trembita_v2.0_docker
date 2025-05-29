@@ -86,7 +86,7 @@ trembita_config:
       subPath: local.ini
 
     default_uxp:
-      enabled: false
+      enabled: true
       name: default-uxp
       mountPath: /etc/nginx/sites-enabled/default-uxp
       subPath: default-uxp
@@ -184,18 +184,36 @@ trembita_config:
     image: kshypachov/trembita_message_log_archiver_1.12.7:v1.0.2
     env:
       TZ: Europe/Kyiv
+    sharedVolumes: # add name of shared volumes which need to connect to this pod
+      - etc-uxp
+      - usr-share-uxp
+      - var-lib-uxp
+    configMaps:  # add name of config maps which need to connect to this pod
+      - db_properties
+      - local_ini
+      - message_log_archiver_logback
+
 
   trembita_identity_provider_rest_api_pod: # settins specific for configuration client component
     name: identity-rest-api
     image: kshypachov/trembita_identity_provider_rest_api_1.22.7:v1.0.1
     env:
       TZ: Europe/Kyiv
+    sharedVolumes: # add name of shared volumes which need to connect to this pod
+      - etc-uxp
+      - usr-share-uxp
+      - var-lib-uxp
+
 
   trembita_ocsp_cache_pod:
     name: ocsp-cache
     image: kshypachov/trembita_ocsp_cahce_1.22.7:v1.0.1
     env:
       TZ: Europe/Kyiv
+    sharedVolumes: # add name of shared volumes which need to connect to this pod
+      - etc-uxp
+      - usr-share-uxp
+      - var-lib-uxp
     ephemeralVolumeRAM:
       - name: ocsp-cache # volume in tmpfs for store ocsp answers
         mountPath: /var/cache/uxp
@@ -206,12 +224,22 @@ trembita_config:
     image: kshypachov/trembita_verifier_v1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
+    sharedVolumes: # add name of shared volumes which need to connect to this pod
+      - etc-uxp
+      - usr-share-uxp
+      - var-lib-uxp
+
 
   trembita_seg_rest_api_pod:
     name: seg-rest-api
     image: kshypachov/trembita_seg_rest_api_v1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
+    sharedVolumes: # add name of shared volumes which need to connect to this pod
+      - etc-uxp
+      - usr-share-uxp
+      - var-lib-uxp
+
 
   trembita_proxy_pod:
     name: proxy
@@ -219,18 +247,29 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
       UXP_TOKEN_PASS: 1234
+    sharedVolumes: # add name of shared volumes which need to connect to this pod
+      - etc-uxp
+      - usr-share-uxp
+      - var-lib-uxp
+
 
   trembita_monitor_pod:
     name: monitor
     image: kshypachov/trembita_monitor_v1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
+    sharedVolumes: # add name of shared volumes which need to connect to this pod
+      - etc-uxp
+      - usr-share-uxp
+      - var-lib-uxp
+
 
   trembita_frontend_pod:
     name: frontend
     image:  kshypachov/trembita_frontend_v1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
+
     sharedVolumes: # add name of shared volumes which need to connect to this pod
     configMaps: # add name of config maps which need to connect to this pod
       - default_uxp
