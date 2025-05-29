@@ -7,7 +7,7 @@
 {{- $hasSV := and $start_context.sharedVolumes $root.Values.trembita_config.sharedVolumes }}
 {{- if or $hasCM $hasSV $start_context.ephemeralVolumeRAM }}
 
-        volumeMounts:
+      volumeMounts:
         {{- range $key, $cm := $root.Values.trembita_config.configMaps }}
           {{- if and (kindIs "map" $cm) ($root.Values.trembita_config.configMaps.enabled) }}
             {{- if and $cm.enabled (has $key $start_context.configMaps) }}
@@ -30,8 +30,7 @@
         - name: {{ .name }}-ram-vol
           mountPath: {{ .mountPath }}
           {{- end}}
-
-    volumes:
+  volumes:
     {{- range $key, $cm := $root.Values.trembita_config.configMaps }}
       {{- if and (kindIs "map" $cm) ($root.Values.trembita_config.configMaps.enabled) }}
         {{- if and $cm.enabled (has $key $start_context.configMaps) }}
