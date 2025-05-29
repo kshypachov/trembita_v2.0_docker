@@ -7,29 +7,29 @@
 {{- $hasSV := and $start_context.sharedVolumes $root.Values.trembita_config.sharedVolumes }}
 {{- if or $hasCM $hasSV $start_context.ephemeralVolumeRAM }}
 
-    volumeMounts:
-    {{- range $key, $cm := $root.Values.trembita_config.configMaps }}
-      {{- if and (kindIs "map" $cm) ($root.Values.trembita_config.configMaps.enabled) }}
-        {{- if and $cm.enabled (has $key $start_context.configMaps) }}
-    - name: {{ $cm.name }}-cf-volume
-      mountPath: {{ $cm.mountPath }}
-      {{- if $cm.subPath }}
-      subPath: {{ $cm.subPath }}
-      readOnly: true
-      {{- end }}
+        volumeMounts:
+        {{- range $key, $cm := $root.Values.trembita_config.configMaps }}
+          {{- if and (kindIs "map" $cm) ($root.Values.trembita_config.configMaps.enabled) }}
+            {{- if and $cm.enabled (has $key $start_context.configMaps) }}
+        - name: {{ $cm.name }}-cf-volume
+          mountPath: {{ $cm.mountPath }}
+          {{- if $cm.subPath }}
+          subPath: {{ $cm.subPath }}
+          readOnly: true
+          {{- end }}
+            {{- end }}
+          {{- end }}
         {{- end }}
-      {{- end }}
-    {{- end }}
-    {{- range $name, $cfg := $root.Values.trembita_config.sharedVolumes }}
-      {{- if and $cfg.enabled (has $name $start_context.sharedVolumes) }}
-    - name: {{ $name }}-volume
-      mountPath: {{ $cfg.mountPath }}
-      {{- end }}
-    {{- end }}
-    {{- range  $start_context.ephemeralVolumeRAM}}
-    - name: {{ .name }}-ram-vol
-      mountPath: {{ .mountPath }}
-      {{- end}}
+        {{- range $name, $cfg := $root.Values.trembita_config.sharedVolumes }}
+          {{- if and $cfg.enabled (has $name $start_context.sharedVolumes) }}
+        - name: {{ $name }}-volume
+          mountPath: {{ $cfg.mountPath }}
+          {{- end }}
+        {{- end }}
+        {{- range  $start_context.ephemeralVolumeRAM}}
+        - name: {{ .name }}-ram-vol
+          mountPath: {{ .mountPath }}
+          {{- end}}
 
     volumes:
     {{- range $key, $cm := $root.Values.trembita_config.configMaps }}
