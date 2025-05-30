@@ -129,13 +129,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled .uxp_securityserver_rest_api.enabled }}
+{{- if and .enabled .uxp_seg_rest_api_ng_include.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .uxp_securityserver_rest_api.name}}
+  name: {{ .uxp_seg_rest_api_ng_include.name}}
 data:
-  {{default "uxp-securityserver-rest-api-location.include" .uxp_securityserver_rest_api.subPath}}: |
+  {{default "uxp-securityserver-rest-api-location.include" .uxp_seg_rest_api_ng_include.subPath}}: |
     # REST API location.
       location /api {
         proxy_pass http://127.0.0.1:8085;
@@ -416,13 +416,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled .conf_client_logback.enabled}}
+{{- if and .enabled .uxp_conf_client_logback.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .conf_client_logback.name}}
+  name: {{ .uxp_conf_client_logback.name}}
 data:
-  {{ default "confclient-logback.xml" .conf_client_logback.subPath}}: |
+  {{ default "confclient-logback.xml" .uxp_conf_client_logback.subPath}}: |
     <?xml version="1.0" encoding="UTF-8" ?>
       <configuration scan="true" scanPeriod="30 seconds">
       <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -445,13 +445,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled .message_log_archiver_logback.enabled}}
+{{- if and .enabled .uxp_message_log_archiver_logback.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .message_log_archiver_logback.name}}
+  name: {{ .uxp_message_log_archiver_logback.name}}
 data:
-  {{ default "messagelog-archiver-logback.xml" .message_log_archiver_logback.subPath}}: |
+  {{ default "messagelog-archiver-logback.xml" .uxp_message_log_archiver_logback.subPath}}: |
     <?xml version="1.0" encoding="UTF-8" ?>
       <configuration scan="true" scanPeriod="30 seconds">
 
@@ -474,13 +474,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled .identity_provider_rest_api_logback.enabled}}
+{{- if and .enabled .uxp_identity_provider_rest_api_logback.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .identity_provider_rest_api_logback.name}}
+  name: {{ .uxp_identity_provider_rest_api_logback.name}}
 data:
-  {{ default "identity-provider-rest-api-logback.xml" .identity_provider_rest_api_logback.subPath}}: |
+  {{ default "identity-provider-rest-api-logback.xml" .uxp_identity_provider_rest_api_logback.subPath}}: |
     <?xml version="1.0" encoding="UTF-8" ?>
       <configuration scan="true" scanPeriod="30 seconds">
 
@@ -504,13 +504,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled .ocsp_cache_logback.enabled}}
+{{- if and .enabled .uxp_ocsp_cache_logback.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .ocsp_cache_logback.name}}
+  name: {{ .uxp_ocsp_cache_logback.name}}
 data:
-  {{ default "ocsp-cache-logback.xml" .ocsp_cache_logback.subPath}}: |
+  {{ default "ocsp-cache-logback.xml" .uxp_ocsp_cache_logback.subPath}}: |
     <?xml version="1.0" encoding="UTF-8" ?>
       <configuration scan="true" scanPeriod="30 seconds">
 
@@ -534,13 +534,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled .verifier_logback.enabled}}
+{{- if and .enabled .uxp_verifier_logback.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .verifier_logback.name}}
+  name: {{ .uxp_verifier_logback.name}}
 data:
-  {{ default "verifier-rest-api-logback.xml" .verifier_logback.subPath}}: |
+  {{ default "verifier-rest-api-logback.xml" .uxp_verifier_logback.subPath}}: |
     <?xml version="1.0" encoding="UTF-8" ?>
       <configuration scan="true" scanPeriod="30 seconds">
 
@@ -564,13 +564,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled .seg_rest_api_logback.enabled}}
+{{- if and .enabled .uxp_seg_rest_api_logback.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .seg_rest_api_logback.name}}
+  name: {{ .uxp_seg_rest_api_logback.name}}
 data:
-  {{ default "securityserver-rest-api-logback.xml" .seg_rest_api_logback.subPath}}: |
+  {{ default "securityserver-rest-api-logback.xml" .uxp_seg_rest_api_logback.subPath}}: |
     <?xml version="1.0" encoding="UTF-8" ?>
       <configuration scan="true" scanPeriod="30 seconds">
 
@@ -594,13 +594,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled .proxy_logback.enabled}}
+{{- if and .enabled .uxp_proxy_logback.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .proxy_logback.name}}
+  name: {{ .uxp_proxy_logback.name}}
 data:
-  {{ default "proxy-logback.xml" .proxy_logback.subPath}}: |
+  {{ default "proxy-logback.xml" .uxp_proxy_logback.subPath}}: |
     <?xml version="1.0" encoding="UTF-8" ?>
       <configuration scan="true" scanPeriod="30 seconds">
 
@@ -624,13 +624,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled .monitor_agent_logback.enabled}}
+{{- if and .enabled .uxp_monitor_agent_logback.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .monitor_agent_logback.name}}
+  name: {{ .uxp_monitor_agent_logback.name}}
 data:
-  {{ default "proxy-monitor-agent-logback.xml" .monitor_agent_logback.subPath}}: |
+  {{ default "proxy-monitor-agent-logback.xml" .uxp_monitor_agent_logback.subPath}}: |
     <?xml version="1.0" encoding="UTF-8" ?>
       <configuration scan="true" scanPeriod="30 seconds">
 
@@ -654,13 +654,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled .monitor_agent_addon_logback.enabled}}
+{{- if and .enabled .uxp_monitor_agent_addon_logback.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .monitor_agent_addon_logback.name}}
+  name: {{ .uxp_monitor_agent_addon_logback.name}}
 data:
-  {{ default "proxy-monitor-agent-logback.xml" .monitor_agent_addon_logback.subPath}}: |
+  {{ default "proxy-monitor-agent-logback.xml" .uxp_monitor_agent_addon_logback.subPath}}: |
     <?xml version="1.0" encoding="UTF-8" ?>
       <configuration scan="true" scanPeriod="30 seconds">
 
