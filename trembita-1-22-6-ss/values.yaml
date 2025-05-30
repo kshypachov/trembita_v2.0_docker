@@ -208,8 +208,6 @@ trembita_config:
       - local_ini
       - identity_provider_rest_api_logback
 
-
-
   trembita_ocsp_cache_pod:
     name: ocsp-cache
     image: kshypachov/trembita_ocsp_cahce_1.22.7:v1.0.1
