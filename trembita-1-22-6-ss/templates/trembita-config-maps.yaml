@@ -710,13 +710,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled .uxp_lic.enabled}}
+{{- if and .enabled .uxp_license.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .uxp_lic.name}}
+  name: {{ .uxp_license.name}}
 data:
-  {{ default "license.lic" .uxp_anchor.subPath}}: |
+  {{ default "license.lic" .uxp_license.subPath}}: |
       --BOUNDARY
       content-id: UXP-LICENSE
       license-version: 2.0
