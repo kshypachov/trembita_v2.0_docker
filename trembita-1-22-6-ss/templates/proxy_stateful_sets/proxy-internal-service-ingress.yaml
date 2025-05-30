@@ -1,0 +1,24 @@
+# Helm ingress template
+{{- with  .Values.trembita_config.trembita_proxy_pod}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ingress.class: "nginx"
+  labels:
+    app: {{.name}}
+  name: {{.name}}-internal-ingress
+spec:
+  rules:
+    - host: {{.ingress.host}}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{.name}}-internal-service
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+{{- end}}

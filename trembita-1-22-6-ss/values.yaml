@@ -267,6 +267,8 @@ trembita_config:
       - etc-uxp
       - usr-share-uxp
       - var-lib-uxp
+    ingress:
+      host: api.trembita.office
 
 
   trembita_monitor_pod:
