@@ -45,10 +45,20 @@ spec:
             limits:
               cpu: "200m"       # max 0.2 ядра
               memory: "512Mi"     # max 512 МБ
+
           livenessProbe:
             tcpSocket:
-              port: 6666
-            initialDelaySeconds: 10
+              port: 6766
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 5
+
+          readinessProbe:
+            tcpSocket:
+              port: 6766
+            initialDelaySeconds: 120
             periodSeconds: 10
             failureThreshold: 3
             successThreshold: 1
