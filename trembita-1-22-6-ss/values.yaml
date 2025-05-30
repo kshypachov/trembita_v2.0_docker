@@ -178,7 +178,7 @@ trembita_config:
 #      - db_properties
 #      - uxp_conf_client_logback
     ephemeralVolumeRAM:
-      - name: uxp_conf_client_java_cache # volume in tmpfs
+      - name: uxp-conf-client-java-cache # volume in tmpfs
         mountPath: /tmp/java
         sizeLimit: "100Mi"
 
