@@ -181,6 +181,9 @@ trembita_config:
       - name: uxp-conf-client-java-cache # volume in tmpfs
         mountPath: /tmp/java
         sizeLimit: "100Mi"
+      - name: uxp-conf-client-dummy # volume re defined by -D option, but still checked
+        mountPath: /var/tmp/uxp
+        sizeLimit: "2Mi"
 
 
 
