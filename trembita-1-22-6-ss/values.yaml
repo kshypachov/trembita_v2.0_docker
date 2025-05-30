@@ -284,7 +284,6 @@ trembita_config:
       - local_ini
       - db_properties
       - uxp_proxy_logback
-
     ingress:
       host: api.trembita.office
       secure_host: secure-api.trembita.office
@@ -317,7 +316,7 @@ trembita_config:
       - uxp_identity_provider_rest_api
       - uxp_seg_rest_api_ng_include
     ingress:
-      host: trembita2-main.office
+      host: trembita.office
 
 
   sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
