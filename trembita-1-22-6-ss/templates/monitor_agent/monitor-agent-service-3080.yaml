@@ -1,0 +1,13 @@
+{{- with .Values.trembita_config.trembita_monitor_pod}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.name}}-service-3080
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3080
+      targetPort: 3080 {{/*Port for access to monitor REST API*/}}
+  selector:
+    app: {{.name}}
+{{- end}}

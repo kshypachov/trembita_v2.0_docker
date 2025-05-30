@@ -22,7 +22,9 @@ spec:
           image: alpine/socat
           command: [ "sh", "-c", "
             socat -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577 &
-            socat -d TCP-LISTEN:2080,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service:3080
+            socat -d TCP-LISTEN:2080,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-3080:3080 &
+            socat -d TCP-LISTEN:2082,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-3082:3082 &
+            socat -d TCP-LISTEN:5588,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-admin-port:6588
           " ]
           ports:
             - containerPort: 5500   {{/*External API port for connection between SEGs*/}}
