@@ -48,7 +48,7 @@ spec:
 
           livenessProbe:
             tcpSocket:
-              port: 6766
+              port: 8086
             initialDelaySeconds: 120
             periodSeconds: 10
             failureThreshold: 3
@@ -57,7 +57,7 @@ spec:
 
           readinessProbe:
             tcpSocket:
-              port: 6766
+              port: 8086
             initialDelaySeconds: 120
             periodSeconds: 10
             failureThreshold: 3
