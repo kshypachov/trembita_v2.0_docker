@@ -4,7 +4,6 @@ kind: PersistentVolumeClaim
 metadata:
   annotations:
     "helm.sh/hook": pre-install
-    "helm.sh/hook-delete-policy": hook-succeeded
   name: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres-pvc
 spec:
   accessModes:
