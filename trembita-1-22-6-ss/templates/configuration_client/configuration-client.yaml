@@ -42,8 +42,7 @@ spec:
               cpu: "200m"       # max 0.2 ядра
               memory: "512Mi"     # max 512 МБ
           livenessProbe:
-            httpGet:
-              path: /execute
+            tcpSocket:
               port: 6666
             initialDelaySeconds: 10
             periodSeconds: 10
