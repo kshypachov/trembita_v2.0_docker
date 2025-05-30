@@ -255,8 +255,6 @@ trembita_config:
       - db_properties
       - uxp_seg_rest_api_logback
 
-
-
   trembita_proxy_pod:
     name: proxy
     image: kshypachov/trembita_proxy_v1.22.7:v1.0.5
@@ -267,6 +265,11 @@ trembita_config:
       - etc-uxp
       - usr-share-uxp
       - var-lib-uxp
+    configMaps: # add name of config maps which need to connect to this pod
+      - local_ini
+      - db_properties
+      - uxp_proxy_logback
+
     ingress:
       host: api.trembita.office
       secure_host: secure-api.trembita.office

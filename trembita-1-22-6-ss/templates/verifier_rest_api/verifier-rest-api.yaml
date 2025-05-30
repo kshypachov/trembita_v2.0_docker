@@ -45,23 +45,5 @@ spec:
             limits:
               cpu: "400m"       # max 0.2 ядра
               memory: "512Mi"     # max 512 МБ
-
-          livenessProbe:
-            tcpSocket:
-              port: 8086
-            initialDelaySeconds: 120
-            periodSeconds: 10
-            failureThreshold: 3
-            successThreshold: 1
-            timeoutSeconds: 5
-
-          readinessProbe:
-            tcpSocket:
-              port: 8086
-            initialDelaySeconds: 120
-            periodSeconds: 10
-            failureThreshold: 3
-            successThreshold: 1
-            timeoutSeconds: 5
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}
