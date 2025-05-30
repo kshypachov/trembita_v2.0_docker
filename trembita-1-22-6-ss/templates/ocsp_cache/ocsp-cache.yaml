@@ -1,4 +1,5 @@
 {{- with .Values.trembita_config.trembita_ocsp_cache_pod}}
+{{- $ctx := . }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:

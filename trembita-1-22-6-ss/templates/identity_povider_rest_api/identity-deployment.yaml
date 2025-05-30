@@ -1,4 +1,5 @@
 {{- with .Values.trembita_config.trembita_identity_provider_rest_api_pod}}
+{{- $ctx := . }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
