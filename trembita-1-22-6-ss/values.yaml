@@ -217,6 +217,8 @@ trembita_config:
       - etc-uxp
       - usr-share-uxp
       - var-lib-uxp
+    configMaps:  # add name of config maps which need to connect to this pod
+      - ocsp_cache_logback
     ephemeralVolumeRAM:
       - name: ocsp-cache # volume in tmpfs for store ocsp answers
         mountPath: /var/cache/uxp

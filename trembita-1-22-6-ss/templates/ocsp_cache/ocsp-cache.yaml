@@ -36,31 +36,6 @@ spec:
               value: {{ $v | quote }}
             {{- end }}
           {{- end }}
-{{- end}}
-          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)
-           (.Values.trembita_config.trembita_ocsp_cache_pod) }}
-          volumeMounts:
-              {{- range $key, $cm := .Values.trembita_config.configMaps }}
-              {{- if and (kindIs "map" $cm) $cm.enabled }}
-            - name: {{ $cm.name }}-volume
-              mountPath: {{ $cm.mountPath }}
-                {{- if $cm.subPath}}
-              subPath: {{ $cm.subPath }}
-                {{- end }}
-              readOnly: true
-              {{- end }}
-              {{- end }}
-              {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
-                {{- if $cfg.enabled }}
-            - name: {{ $name }}-volume
-              mountPath: {{ $cfg.mountPath }}
-                {{- end }}
-                {{- end }}
-              {{- range  .Values.trembita_config.trembita_ocsp_cache_pod.ephemeralVolumeRAM}}
-            - name: {{ .name }}-ram-vol
-              mountPath: {{ .mountPath }}
-              {{- end}}
-            {{- end }}
           resources:
             requests:
               cpu: "100m"       # garantee 0.1 ядра
@@ -68,28 +43,5 @@ spec:
             limits:
               cpu: "200m"       # max 0.2 ядра
               memory: "512Mi"     # max 512 МБ
-          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)
-          (.Values.trembita_config.trembita_ocsp_cache_pod)}}
-      volumes:
-        {{- range $key, $cm := .Values.trembita_config.configMaps }}
-        {{- if and (kindIs "map" $cm) $cm.enabled }}
-        - name: {{ $cm.name }}-volume
-          configMap:
-            name: {{ $cm.name }}
-        {{- end }}
-        {{- end }}
-        {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
-        {{- if $cfg.enabled }}
-        - name: {{ $name }}-volume
-          persistentVolumeClaim:
-            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
-        {{- end }}
-        {{- end }}
-        {{- range .Values.trembita_config.trembita_ocsp_cache_pod.ephemeralVolumeRAM}}
-        - name: {{.name}}-ram-vol
-          emptyDir:
-            medium: Memory
-            sizeLimit: {{ .sizeLimit }}
-        {{- end }}
-      {{- end }}
-      restartPolicy: Always
+{{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
+{{- end}}
