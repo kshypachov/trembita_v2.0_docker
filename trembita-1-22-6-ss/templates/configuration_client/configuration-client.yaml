@@ -58,5 +58,8 @@ spec:
             - "-cp"
             - "/app/configuration-client.jar:/app/jlib/addon/proxy/cipher-jce-provider-1.22.7.jar:/app/jlib/addon/proxy/ciplus-jce/*"
             - "ee.cyber.uxp.common.conf.globalconf.ConfigurationClientMain"
+
+          securityContext:
+            readOnlyRootFilesystem: true
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}
