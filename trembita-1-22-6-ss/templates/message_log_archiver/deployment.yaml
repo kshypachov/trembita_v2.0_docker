@@ -1,4 +1,5 @@
 {{- with .Values.trembita_config.trembita_message_log_archiver_pod}}
+{{- $ctx := . }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,28 +24,8 @@ spec:
               value: {{ $v | quote }}
             {{- end }}
           {{- end }}
-{{- end }}
           ports:
             - containerPort: 5765 {{/*Admin port for starting archive process imidiatly*/}}
-          {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled) }}
-          volumeMounts:
-            {{- range $key, $cm := .Values.trembita_config.configMaps }}
-            {{- if and (kindIs "map" $cm) $cm.enabled }}
-            - name: {{ $cm.name }}-volume
-              mountPath: {{ $cm.mountPath }}
-              {{- if $cm.subPath}}
-              subPath: {{ $cm.subPath }}
-              {{- end }}
-              readOnly: true
-            {{- end }}
-            {{- end }}
-            {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
-              {{- if $cfg.enabled }}
-            - name: {{ $name }}-volume
-              mountPath: {{ $cfg.mountPath }}
-              {{- end }}
-              {{- end }}
-          {{- end }}
           resources:
             requests:
               cpu: "100m"       # garantee 0.1 ядра
@@ -52,20 +33,5 @@ spec:
             limits:
               cpu: "200m"       # max 0.2 ядра
               memory: "512Mi"     # max 512 МБ
-      {{- if or (.Values.trembita_config.sharedVolumes) (.Values.trembita_config.configMaps.enabled)}}
-      volumes:
-        {{- range $key, $cm := .Values.trembita_config.configMaps }}
-        {{- if and (kindIs "map" $cm) $cm.enabled }}
-        - name: {{ $cm.name }}-volume
-          configMap:
-            name: {{ $cm.name }}
-        {{- end }}
-        {{- end }}
-        {{- range $name, $cfg := .Values.trembita_config.sharedVolumes }}
-        {{- if $cfg.enabled }}
-        - name: {{ $name }}-volume
-          persistentVolumeClaim:
-            claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $name }}
-        {{- end }}
-        {{- end }}
-      {{- end }}
+{{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
+{{- end }}
