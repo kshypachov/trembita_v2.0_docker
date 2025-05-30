@@ -47,7 +47,7 @@ spec:
             - "-XX:MaxMetaspaceSize=70m"
             - "-XX:+UseG1GC"
             - "-Xshare:on"
-            - "-Dorg.bytedeco.javacpp.cachedir=/tmp/javacpp"
+            - "-Dorg.bytedeco.javacpp.cachedir=/tmp/java"
             - "-Dfile.encoding=UTF-8"
             - "-Djava.library.path=/app/lib"
             - "-Dlogback.configurationFile=/app/confclient-logback.xml"
