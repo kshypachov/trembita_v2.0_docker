@@ -41,5 +41,22 @@ spec:
             limits:
               cpu: "200m"       # max 0.2 ядра
               memory: "512Mi"     # max 512 МБ
+          command: ["java"]
+          args:
+            - "-Xmx50m"
+            - "-XX:MaxMetaspaceSize=70m"
+            - "-XX:+UseG1GC"
+            - "-Xshare:on"
+            - "-Dfile.encoding=UTF-8"
+            - "-Djava.library.path=/app/lib"
+            - "-Dlogback.configurationFile=/app/confclient-logback.xml"
+            - "-Dorg.bytedeco.javacpp.noPointerGC=true"
+            - "-Dorg.bytedeco.javacpp.maxBytes=0"
+            - "-Duxp.configuration-client.port=5564"
+            - "-Duxp.common.temp-files-path=/etc/uxp/tmp/"
+            - "-Dorg.bytedeco.javacpp.maxPhysicalBytes=0"
+            - "-cp"
+            - "/app/configuration-client.jar:/app/jlib/addon/proxy/cipher-jce-provider-1.22.7.jar:/app/jlib/addon/proxy/ciplus-jce/*"
+            - "ee.cyber.uxp.common.conf.globalconf.ConfigurationClientMain"
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}
