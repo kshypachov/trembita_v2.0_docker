@@ -2,6 +2,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-delete-policy": hook-succeeded
   name: {{ include "trembita-1-22-6-ss.fullname" . }}-init
   labels:
     app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}
