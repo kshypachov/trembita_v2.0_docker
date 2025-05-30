@@ -51,7 +51,7 @@ postgresql_init:
 # Main config section for Trembita application
 trembita_config:
   init_job:
-    image: kshypachov/trembita_ss_v1.22.7:v1.0.0-WCC-WMLA-WP-WIDPRA-WOC-WVRA-WREST
+    image: kshypachov/trembita_ss_v1.22.7:v1.0.1-WCC-WMLA-WP-WIDPRA-WOC-WVRA-WREST
 
   ss_to_db_access:
     PGPORT: 5432

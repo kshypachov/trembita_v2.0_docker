@@ -55,6 +55,10 @@ RUN printf  '#!/bin/sh\nexit 101\n' > /usr/sbin/policy-rc.d && chmod +x /usr/sbi
     && printf  "#!/bin/sh\nexit 0\n" > /usr/sbin/service && chmod +x /usr/sbin/service \
     && printf '#!/bin/sh\nexit 0\n' > /bin/systemctl && chmod +x /bin/systemctl
 
+RUN groupadd -g 104 uxp && \
+    useradd -m -u 104 -g 104 -d /var/lib/uxp -s /usr/sbin/nologin -p '' uxp
+
+
 RUN pg_ctlcluster 16 main start \
     && apt-get -qq update \
     && apt-get -qq -y --no-install-recommends install uxp-securityserver-trembita  \
