@@ -139,7 +139,7 @@ trembita_config:
       mountPath: /etc/uxp/conf.d/verifier-rest-api-logback.xml
       subPath: verifier-rest-api-logback
 
-    seg_rest_api:
+    seg_rest_api_logback:
       enabled: true
       name: seg-rest-api
       mountPath: /etc/uxp/conf.d/securityserver-rest-api-logback.xml
@@ -218,6 +218,7 @@ trembita_config:
       - usr-share-uxp
       - var-lib-uxp
     configMaps:  # add name of config maps which need to connect to this pod
+      - local_ini
       - db_properties
       - ocsp_cache_logback
     ephemeralVolumeRAM:
@@ -245,6 +246,11 @@ trembita_config:
       - etc-uxp
       - usr-share-uxp
       - var-lib-uxp
+    configMaps: # add name of config maps which need to connect to this pod
+      - local_ini
+      - db_properties
+      - seg_rest_api_logback
+
 
 
   trembita_proxy_pod:

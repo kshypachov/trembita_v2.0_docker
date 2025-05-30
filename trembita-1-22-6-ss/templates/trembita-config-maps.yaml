@@ -564,13 +564,13 @@ data:
 ------
 
 {{- with .Values.trembita_config.configMaps}}
-{{- if and .enabled .seg_rest_api.enabled}}
+{{- if and .enabled .seg_rest_api_logback.enabled}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .seg_rest_api.name}}
+  name: {{ .seg_rest_api_logback.name}}
 data:
-  {{ default "securityserver-rest-api-logback.xml" .seg_rest_api.subPath}}: |
+  {{ default "securityserver-rest-api-logback.xml" .seg_rest_api_logback.subPath}}: |
     <?xml version="1.0" encoding="UTF-8" ?>
       <configuration scan="true" scanPeriod="30 seconds">
 
