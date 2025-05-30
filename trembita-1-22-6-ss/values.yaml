@@ -269,6 +269,7 @@ trembita_config:
       - db_properties
       - local_ini
       - monitor_agent_logback
+      - monitor_agent_addon_logback
 
 
   trembita_frontend_pod:
