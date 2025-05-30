@@ -706,3 +706,59 @@ data:
       </ns3:configurationAnchor>
 {{- end}}
 {{- end}}
+
+------
+
+{{- with .Values.trembita_config.configMaps}}
+{{- if and .enabled .uxp_lic.enabled}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .uxp_lic.name}}
+data:
+  {{ default "license.lic" .uxp_anchor.subPath}}: |
+      --BOUNDARY
+      content-id: UXP-LICENSE
+      license-version: 2.0
+
+      {
+        "common": {
+          "licenseNumber": "7304-2163-2956-3274",
+          "licenseHolder": "Міністерство цифрової трансформації України",
+          "validUntil": "2025-06-30"
+        },
+        "products": {
+          "uxp-security-server": {
+            "licensedOwners": [
+              {
+                "instances": [
+                  "test1"
+                ]
+              }
+            ],
+            "maxClients": "unlimited"
+          },
+          "uxp-data-privacy-solution": {
+            "licensedMembers": [
+              {
+                "instances": [
+                  "test1"
+                ]
+              }
+            ],
+            "consentManagement": true,
+            "maxServices": "unlimited",
+            "maxProviders": "unlimited",
+            "maxClients": "unlimited"
+          }
+        }
+      }
+      --BOUNDARY
+      content-id: SIGNATURE
+      signing-key: 035fdfc0-9b5e-4b78-9f73-bdc2d90363fe
+      signing-algorithm: SHA512withRSA
+
+      bJUISmXgEGzsW5tB6DPkZc38y5MXUADmPojMbtLrg1v+eVaXmy1iqUA8pAPBgb9ogY4a3jMqyi3YW0bjwzMfGj8G2pGVxvhLp525zolbZV7wSnttA/LulQF9DJoaRySb3LrODMRLjIsUNTw4vxHNhgtTqqTrg1ItoirgruE5KN2zJVM3hTI6MrFkMnU5wwbCFADUPqsg89swKekNXO0Jo3g/uIFB193XT7xtejpBrjWtuORfS6PKaIqs0OQzKskSj9N4HiyHOJbFp3QAx52CDj2H2+R8alHJ8LMxVJTjPuLdxYuuVj77NCSzXFllCN9XKIsfgSBUc7z/9CpCiZWtqNzQRFPgizgBGWitXuXAed+55wGeEoXrEpoMi381Y/kZSRL/alPDu1368Nyvvc6lVE/q62MNFIo4HqlULrMet6zM5xklqFKx1bQH6qUq27qFPHXKLXbAU7+KjbY0N15wtQEKrRwqBdfgEZz5NBa4B05Kg1Sl0oFT+EKHBn3Bmn8EwFKIyb/OCIGoSKdLPWjbEWwCdgtO3lDi8wv12GoSCzGQnqr5AJBi3NdybdpnRXcVLQXmnY3lEM7e1BxynZWGdeIw/AgrzEIbwIUAGJqi1wOlA4SpKrF9YEZ/w9FkrK7lwBYE3NzcQOTAl9vtR9U0RSLvudxNYdmpurtfZMcz7lA=
+      --BOUNDARY--
+{{- end}}
+{{- end}}

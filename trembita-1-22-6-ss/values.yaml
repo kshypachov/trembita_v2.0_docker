@@ -169,6 +169,12 @@ trembita_config:
       mountPath: /etc/uxp/configuration-anchor.xml
       subPath: configuration-anchor.xml
 
+    uxp_license:
+      enabled: true
+      name: uxp-license
+      mountPath: /etc/uxp/license.lic
+      subPath: license.lic
+
 
 # Section for configuration every separate pod
   trembita_configuration_client_pod:  # settins specific for configuration client component
@@ -182,6 +188,7 @@ trembita_config:
 #      - var-lib-uxp
     configMaps:  # add name of config maps which need to connect to this pod
       - uxp_anchor
+      - uxp_license
 #      - db_properties
 #      - uxp_conf_client_logback
     ephemeralVolumeRAM:
@@ -223,6 +230,7 @@ trembita_config:
       - local_ini
       - uxp_identity_provider_rest_api_logback
       - uxp_anchor
+      - uxp_license
 
   trembita_ocsp_cache_pod:
     name: ocsp-cache
@@ -272,6 +280,7 @@ trembita_config:
       - db_properties
       - uxp_seg_rest_api_logback
       - uxp_anchor
+      - uxp_license
 
   trembita_proxy_pod:
     name: proxy
@@ -288,6 +297,7 @@ trembita_config:
       - db_properties
       - uxp_proxy_logback
       - uxp_anchor
+      - uxp_license
     ingress:
       host: api.trembita.office
       secure_host: secure-api.trembita.office
