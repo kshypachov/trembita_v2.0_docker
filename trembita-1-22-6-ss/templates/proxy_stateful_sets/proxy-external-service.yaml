@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: {{.name}}-external-service
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 5500
       targetPort: 5500 {{/*Port for access to verifier REST API*/}}
