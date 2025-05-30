@@ -44,11 +44,19 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: 5666
+              port: 6666
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 3
             successThreshold: 1
             timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 6666
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}
