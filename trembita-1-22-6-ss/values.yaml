@@ -110,7 +110,7 @@ trembita_config:
       subPath: tokens-autologin.py
 
     uxp_conf_client_logback:
-      enabled: true
+      enabled: false
       name: conf-client-logback
       mountPath: /etc/uxp/conf.d/confclient-logback.xml
       subPath: confclient-logback.xml
