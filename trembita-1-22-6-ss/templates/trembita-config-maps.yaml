@@ -680,3 +680,29 @@ data:
       </configuration>
 {{- end}}
 {{- end}}
+
+------
+
+{{- with .Values.trembita_config.configMaps}}
+{{- if and .enabled .uxp_anchor.enabled}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .uxp_anchor.name}}
+data:
+  {{ default "configuration-anchor.xml" .uxp_anchor.subPath}}: |
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+      <ns3:configurationAnchor xmlns:ns2="http://x-road.eu/xsd/identifiers" xmlns:ns3="http://x-road.eu/xsd/xroad.xsd">
+          <generatedAt>2025-03-10T13:15:47.524Z</generatedAt>
+          <instanceIdentifier>test1</instanceIdentifier>
+          <source>
+              <downloadURL>http://192.168.99.180/internalconf</downloadURL>
+              <verificationCert>MIIBWjCB4KADAgECAgEBMAoGCCqGSM49BAMCMA4xDDAKBgNVBAMMA04vQTAeFw03MDAxMDEwMDAwMDBaFw0zODAxMDEwMDAwMDBaMA4xDDAKBgNVBAMMA04vQTB2MBAGByqGSM49AgEGBSuBBAAiA2IABARD0p8U6kXze6tmVux2csWxTNHawwzphueTO+lJoUCqgXUv69EN7p1kAxTUbjfqIWjWTTzJYJEj/ofq3945uCoNAhFxsvsTOSSlxRjTGc17EBpE8YoYfaj3wQdqwTIreaMSMBAwDgYDVR0PAQH/BAQDAgZAMAoGCCqGSM49BAMCA2kAMGYCMQCiWn/Tzs7q62BOY180ED3a//8Gl2HkRpukooTdmfm1hU8HafsPq2/d3Gfj1V8pOmQCMQCvFvVOBaBrFirTVxPNl7R6fg2hPA8rL4mUtNGaJfpoi4Z8haVSlvAdiozuG4NFqlM=</verificationCert>
+          </source>
+          <source>
+              <downloadURL>http://192.168.99.181/internalconf</downloadURL>
+              <verificationCert>MIIBWTCB4KADAgECAgEBMAoGCCqGSM49BAMCMA4xDDAKBgNVBAMMA04vQTAeFw03MDAxMDEwMDAwMDBaFw0zODAxMDEwMDAwMDBaMA4xDDAKBgNVBAMMA04vQTB2MBAGByqGSM49AgEGBSuBBAAiA2IABAZWm0DzpR+Nizfy+Vy/opYg7sguewvmujuExJg0fN53f/o6Kr+iaVwbkYqeKEUmEqIXAnucj9EQqeYMiVP6CL/8jT2xEuyd3qt8rNRybl2pPM8CNo7jCRwcgaruGp97oKMSMBAwDgYDVR0PAQH/BAQDAgZAMAoGCCqGSM49BAMCA2gAMGUCMQCYi8BCHVvEj9OXQeSZYhpJHgH6pb47gTbmiTWug3AvQQqh/1bj61C8wUaU24miFD8CMGwADMJtfcd2iTBNIsBR7ULyu43SxVgmPQ8cncc4J7o+j3PIhDTZiFdbgnYty5DE6A==</verificationCert>
+          </source>
+      </ns3:configurationAnchor>
+{{- end}}
+{{- end}}
