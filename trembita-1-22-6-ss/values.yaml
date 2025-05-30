@@ -269,7 +269,7 @@ trembita_config:
       - var-lib-uxp
     ingress:
       host: api.trembita.office
-      secure_host: api.trembita.office
+      secure_host: secure-api.trembita.office
 
 
   trembita_monitor_pod:
