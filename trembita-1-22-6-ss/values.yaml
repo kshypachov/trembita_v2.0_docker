@@ -310,7 +310,7 @@ trembita_config:
 
   trembita_monitor_pod:
     name: monitor
-    image: kshypachov/trembita_jb_uxp-monitor-agent-v1.22.7:v1.0.0
+    image: kshypachov/trembita_jb_uxp-monitor-agent-v1.22.7:v1.0.1
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
