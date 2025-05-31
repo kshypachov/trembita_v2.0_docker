@@ -237,7 +237,7 @@ trembita_config:
 
   trembita_ocsp_cache_pod:
     name: ocsp-cache
-    image: kshypachov/trembita_ocsp_cahce_1.22.7:v1.0.1
+    image: kshypachov/trembita_ocsp_cahce_1.22.7:v1.0.2
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
