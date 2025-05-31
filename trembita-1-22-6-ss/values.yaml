@@ -51,7 +51,7 @@ postgresql_init:
 # Main config section for Trembita application
 trembita_config:
   init_job:
-    image: kshypachov/trembita_init_img:v1.0.0
+    image: kshypachov/trembita_init_img:v1.0.1
 
   ss_to_db_access:
     PGPORT: 5432
@@ -310,18 +310,18 @@ trembita_config:
 
   trembita_monitor_pod:
     name: monitor
-    image: kshypachov/trembita_monitor_v1.22.7:v1.0.0
+    image: kshypachov/trembita_jb_uxp-monitor-agent-v1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp
-      - usr-share-uxp
-      - var-lib-uxp
+#      - usr-share-uxp
+#      - var-lib-uxp
     configMaps:  # add name of config maps which need to connect to this pod
       - db_properties
       - local_ini
-      - uxp_monitor_agent_logback
-      - uxp_monitor_agent_addon_logback
+#      - uxp_monitor_agent_logback
+#      - uxp_monitor_agent_addon_logback
       - uxp_anchor
       - uxp_license
 

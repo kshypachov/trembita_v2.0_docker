@@ -47,5 +47,32 @@ spec:
             limits:
               cpu: "200m"       # max 0.2 ядра
               memory: "512Mi"     # max 512 МБ
+          command: [ "/opt/java/openjdk/bin/java" ]
+          args:
+            - "-Xms50m"
+            - "-Xmx256m"
+            - "-XX:MaxMetaspaceSize=128m"
+            - "-XX:+UseG1GC"
+            - "-Xshare:on"
+            - "-Dfile.encoding=UTF-8"
+            - "-Djava.library.path=/usr/share/uxp/lib/"
+            - "-Dorg.bytedeco.javacpp.cachedir=/tmp/bc_java/"
+            - "-Dorg.bytedeco.javacpp.noPointerGC=true"
+            - "-Dorg.bytedeco.javacpp.maxBytes=0"
+            - "-Dorg.bytedeco.javacpp.maxPhysicalBytes=0"
+            - "-Duxp.common.temp-files-path=/tmp/java/"
+            - "-Duxp.center.allowed-certificate-profiles=ee.cyber.uxp.common.certificateprofile.ua.UaCertificateProfileInfoProvider"
+            - "-Duxp.common.license-file=/etc/uxp/license.lic"
+            - "-Dlogback.configurationFile=/app/proxy-monitor-agent-logback.xml"
+            - "-Duxp.proxy-monitoring-agent.monitor-agent-conf-file=/app/monitor-agent.ini"
+            - "-Duser.country=UA"
+            - "-Duxp.proxy-monitoring-agent.admin-port=5588"
+            - "-Duxp.status-service.listen-port=2082"
+            - "-Duxp.common.temp-files-path=/etc/uxp/tmp/"
+            - "-Dorg.bytedeco.javacpp.maxPhysicalBytes=0"
+            - "-cp"
+            - "/app/jlib/monitoring-proxy-agent.jar:/app/jlib/signature-xades.jar:/app/jlib/addon/proxy/cipher-jce-provider-1.22.7.jar:/app/jlib/addon/proxy/ciplus-jce/*"
+            - "ee.cyber.uxp.proxymonitoragent.ProxyMonitorAgentMain"
+
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}
