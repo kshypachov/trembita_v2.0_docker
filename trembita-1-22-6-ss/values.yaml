@@ -325,7 +325,7 @@ trembita_config:
       - uxp_anchor
       - uxp_license
     ephemeralVolumeRAM:
-      - name: java_cache # volume in tmpfs for store ocsp answers
+      - name: java-cache # volume in tmpfs for store ocsp answers
         mountPath: /tmp/bc_java/
         sizeLimit: "100Mi"
 
