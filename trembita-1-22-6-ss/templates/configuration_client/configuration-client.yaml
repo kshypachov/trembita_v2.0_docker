@@ -41,7 +41,7 @@ spec:
             limits:
               cpu: "200m"       # max 0.2 ядра
               memory: "512Mi"     # max 512 МБ
-          command: ["java"]
+          command: ["/opt/java/openjdk/bin/java"]
           args:
             - "-Xmx50m"
             - "-XX:MaxMetaspaceSize=70m"
@@ -53,7 +53,7 @@ spec:
             - "-Dlogback.configurationFile=/app/confclient-logback.xml"
             - "-Dorg.bytedeco.javacpp.noPointerGC=true"
             - "-Dorg.bytedeco.javacpp.maxBytes=0"
-            - "-Duxp.configuration-client.port=5564"
+            - "-Duxp.configuration-client.port=15564"
             - "-Duxp.common.temp-files-path=/etc/uxp/tmp/"
             - "-Dorg.bytedeco.javacpp.maxPhysicalBytes=0"
             - "-cp"
