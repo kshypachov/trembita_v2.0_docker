@@ -33,5 +33,31 @@ spec:
             limits:
               cpu: "600m"       # max 0.6 ядра
               memory: "512Mi"     # max 512 МБ
+          command: [ "/opt/java/openjdk/bin/java" ]
+          args:
+            - "-Xmx128m"
+            - "-Xshare:on"
+            - "-XX:MaxMetaspaceSize=256m"
+            - "-XX:+UseG1GC"
+            - "-cp"
+            - "/app/jlib/identity-provider-rest-api.jar"
+            - "-Dfile.encoding=UTF-8"
+            - "-Djava.library.path=/usr/share/uxp/lib/"
+            - "-Dserver.port=8087"
+            - "-Dlogging.config=/app/identity-provider-rest-api-logback.xml"
+            - "-Duxp.identity-provider.security-server-client-id=pvoqbggvvzpon1r4v55b7z8cu0de18cj"
+            - "-Duxp.identity-provider.security-server-client-secret=2DmVrz_VUQUhn3ePNgWm8Ur-TwMK0la_"
+            - "-Duxp.identity-provider.database-properties=/etc/uxp/db.properties"
+{{/*            - "-Duxp.identity-provider.oauth2-issuer-location="*/}}
+            - "-Duxp.identity-provider.bcrypt.log-rounds=10"
+            - "-Duxp.identity-provider.login-max-failed-attempts=5"
+            - "-Duxp.identity-provider.public-client-redirect-uris=https://trembita.office"
+            - "-Duxp.identity-provider.hostname=trembita.office"
+            - "-Duxp.identity-provider.public-client-id=uxp-ss-ui"
+            - "-Duxp.identity-provider.oauth2-introspect-uri=http://localhost:8087/auth-api/v1/oauth2/introspect"
+            - "-Duxp.identity-provider.login-lockout-time-duration=15"
+            - "-Duxp.identity-provider.public-client-access-token-time-to-live=180"
+            - "org.springframework.boot.loader.PropertiesLauncher"
+
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end }}
