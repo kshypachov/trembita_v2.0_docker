@@ -238,6 +238,12 @@ trembita_config:
       - name: identity-provider-java-cache
         mountPath: /tmp/bc_java/
         sizeLimit: "100Mi"
+      - name: identity-provider-jetty-temp
+        mountPath: /tmp/
+        sizeLimit: "100Mi"
+
+
+
 
   trembita_ocsp_cache_pod:
     name: ocsp-cache
