@@ -184,6 +184,7 @@ trembita_config:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp
+      - etc-uxp-globalconf
 #      - usr-share-uxp
 #      - var-lib-uxp
     configMaps:  # add name of config maps which need to connect to this pod
@@ -213,6 +214,7 @@ trembita_config:
       - usr-share-uxp
       - var-lib-uxp
       - var-lib-uxp-messagelog
+      - etc-uxp-globalconf
     configMaps:  # add name of config maps which need to connect to this pod
       - db_properties
       - local_ini
@@ -258,6 +260,7 @@ trembita_config:
       - etc-uxp
       - usr-share-uxp
       - var-lib-uxp
+      - etc-uxp-globalconf
     configMaps:  # add name of config maps which need to connect to this pod
       - local_ini
       - db_properties
@@ -279,6 +282,7 @@ trembita_config:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp
+      - etc-uxp-globalconf
 #      - usr-share-uxp
 #      - var-lib-uxp
       - var-lib-uxp-messagelog
@@ -299,6 +303,7 @@ trembita_config:
       - etc-uxp
       - usr-share-uxp
       - var-lib-uxp
+      - etc-uxp-globalconf
     configMaps: # add name of config maps which need to connect to this pod
       - local_ini
       - db_properties
@@ -317,6 +322,7 @@ trembita_config:
       - usr-share-uxp
       - var-lib-uxp
       - var-lib-uxp-messagelog
+      - etc-uxp-globalconf
     configMaps: # add name of config maps which need to connect to this pod
       - local_ini
       - db_properties
@@ -335,6 +341,7 @@ trembita_config:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp
+      - etc-uxp-globalconf
 #      - usr-share-uxp
 #      - var-lib-uxp
     configMaps:  # add name of config maps which need to connect to this pod
@@ -403,7 +410,7 @@ trembita_config:
         - ReadWriteMany
 
     etc-uxp-globalconf:
-      enabled: false
+      enabled: true
       initCopy: true
       size: 200Mi
       mountPath: /etc/uxp/globalconf/
