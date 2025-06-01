@@ -237,18 +237,18 @@ trembita_config:
 
   trembita_ocsp_cache_pod:
     name: ocsp-cache
-    image: kshypachov/trembita_ocsp_cahce_1.22.7:v1.0.2
+    image: kshypachov/trembita_jb_uxp-ocsp-cache-v1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp
-      - usr-share-uxp
-      - var-lib-uxp
+#      - usr-share-uxp
+#      - var-lib-uxp
     configMaps:  # add name of config maps which need to connect to this pod
       - local_ini
       - db_properties
-      - uxp_ocsp_cache_logback
-      - uxp_license
+#      - uxp_ocsp_cache_logback
+#      - uxp_license
     ephemeralVolumeRAM:
       - name: ocsp-cache # volume in tmpfs for store ocsp answers
         mountPath: /var/cache/uxp
