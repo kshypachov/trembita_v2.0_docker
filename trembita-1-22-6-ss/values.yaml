@@ -281,7 +281,7 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
-      - etc-uxp
+#      - etc-uxp
       - etc-uxp-globalconf
 #      - usr-share-uxp
 #      - var-lib-uxp
