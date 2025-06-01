@@ -66,6 +66,10 @@ spec:
             - "-Duxp.message-log.storage-path=/tmp"
             - "-Duxp.identity-provider.security-server-client-id={{$.Values.trembita_config.trembita_identity_provider_rest_api_pod.access_tokens.security_server_client_id}}"
             - "-Duxp.identity-provider.security-server-client-secret={{$.Values.trembita_config.trembita_identity_provider_rest_api_pod.access_tokens.security_server_client_secret}}"
+            - "-Duxp.message-log.metadata-record-extract-path=/var/lib/uxp/messagelog/old-metadata"
+            - "-Duxp.message-log.storage-path=/var/lib/uxp/messagelog"
+            - "-Duxp.message-log.archive-path=/var/lib/uxp/messagelog/archive"
+            - "-Duxp.message-log.temp-files-path=/var/lib/uxp/messagelog/tmp"
             - "org.springframework.boot.loader.PropertiesLauncher"
 
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
