@@ -70,6 +70,7 @@ spec:
             - "-Duxp.message-log.storage-path=/var/lib/uxp/messagelog"
             - "-Duxp.message-log.archive-path=/var/lib/uxp/messagelog/archive"
             - "-Duxp.message-log.temp-files-path=/var/lib/uxp/messagelog/tmp"
+            - "-Duxp.common.configuration-anchor-file=/etc/uxp/configuration-anchor.xml"
             - "org.springframework.boot.loader.PropertiesLauncher"
 
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
