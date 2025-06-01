@@ -273,17 +273,18 @@ trembita_config:
 
   trembita_verifier_pod:
     name: verifier
-    image: kshypachov/trembita_verifier_v1.22.7:v1.0.0
+    image: kshypachov/trembita_jb_uxp-verifier-v1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
-      - etc-uxp
-      - usr-share-uxp
-      - var-lib-uxp
+#      - etc-uxp
+#      - usr-share-uxp
+#      - var-lib-uxp
+      - var-lib-uxp-messagelog
     configMaps:  # add name of config maps which need to connect to this pod
       - db_properties
 #      - local_ini
-      - uxp_verifier_logback
+#      - uxp_verifier_logback
 #      - uxp_anchor
 #      - uxp_license
 
@@ -391,8 +392,8 @@ trembita_config:
         - ReadWriteMany
 
     var-lib-uxp-messagelog:
-      enabled: false
-      initCopy: false
+      enabled: true
+      initCopy: true
       size: 2Gi
       mountPath: /var/lib/uxp/messagelog/
       storageClassName: "longhorn-rwx"
