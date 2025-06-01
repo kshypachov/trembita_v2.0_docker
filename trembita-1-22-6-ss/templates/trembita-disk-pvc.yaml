@@ -5,7 +5,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   annotations:
-    "helm.sh/hook": pre-install
+{{/*    "helm.sh/hook": pre-install*/}}
   name: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $) $volName }}
 spec:
   accessModes:
