@@ -241,6 +241,11 @@ trembita_config:
       - name: identity-provider-jetty-temp
         mountPath: /tmp/
         sizeLimit: "100Mi"
+    access_tokens:
+      generate_random_tokens: true
+      security_server_client_id: 60997vl7jlgoi53zbyvv2k9iyny1rae2
+      security_server_client_secret: QTK3fBuPu0v0m2DpvEees0AODujEcX3V
+
 
 
 
