@@ -43,6 +43,7 @@ spec:
             - "/app/jlib/identity-provider-rest-api.jar"
             - "-Dfile.encoding=UTF-8"
             - "-Djava.library.path=/usr/share/uxp/lib/"
+            - "-Dorg.bytedeco.javacpp.cachedir=/tmp/bc_java"
             - "-Dserver.port=8087"
             - "-Dlogging.config=/app/identity-provider-rest-api-logback.xml"
             - "-Duxp.identity-provider.security-server-client-id=60997vl7jlgoi53zbyvv2k9iyny1rae2"
@@ -58,6 +59,7 @@ spec:
             - "-Duxp.identity-provider.login-lockout-time-duration=15"
             - "-Duxp.identity-provider.public-client-access-token-time-to-live=180"
             - "org.springframework.boot.loader.PropertiesLauncher"
-
+          securityContext:
+            readOnlyRootFilesystem: true
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end }}

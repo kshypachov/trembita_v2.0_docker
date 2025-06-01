@@ -234,6 +234,10 @@ trembita_config:
 #      - uxp_identity_provider_rest_api_logback
 #      - uxp_anchor
 #      - uxp_license
+    ephemeralVolumeRAM:
+      - name: identity-provider-java-cache
+        mountPath: /tmp/bc_java/
+        sizeLimit: "100Mi"
 
   trembita_ocsp_cache_pod:
     name: ocsp-cache
