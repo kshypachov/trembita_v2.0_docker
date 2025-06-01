@@ -45,8 +45,8 @@ spec:
             - "-Djava.library.path=/usr/share/uxp/lib/"
             - "-Dserver.port=8087"
             - "-Dlogging.config=/app/identity-provider-rest-api-logback.xml"
-            - "-Duxp.identity-provider.security-server-client-id=pvoqbggvvzpon1r4v55b7z8cu0de18cj"
-            - "-Duxp.identity-provider.security-server-client-secret=2DmVrz_VUQUhn3ePNgWm8Ur-TwMK0la_"
+            - "-Duxp.identity-provider.security-server-client-id=60997vl7jlgoi53zbyvv2k9iyny1rae2"
+            - "-Duxp.identity-provider.security-server-client-secret=QTK3fBuPu0v0m2DpvEees0AODujEcX3V"
             - "-Duxp.identity-provider.database-properties=/etc/uxp/db.properties"
 {{/*            - "-Duxp.identity-provider.oauth2-issuer-location="*/}}
             - "-Duxp.identity-provider.bcrypt.log-rounds=10"
