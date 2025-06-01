@@ -212,6 +212,7 @@ trembita_config:
       - etc-uxp
       - usr-share-uxp
       - var-lib-uxp
+      - var-lib-uxp-messagelog
     configMaps:  # add name of config maps which need to connect to this pod
       - db_properties
       - local_ini
@@ -315,6 +316,7 @@ trembita_config:
       - etc-uxp
       - usr-share-uxp
       - var-lib-uxp
+      - var-lib-uxp-messagelog
     configMaps: # add name of config maps which need to connect to this pod
       - local_ini
       - db_properties
@@ -399,6 +401,17 @@ trembita_config:
       storageClassName: "longhorn-rwx"
       accessModes:
         - ReadWriteMany
+
+    etc-uxp-globalconf:
+      enabled: false
+      initCopy: true
+      size: 200Mi
+      mountPath: /etc/uxp/globalconf/
+      storageClassName: "longhorn-rwx"
+      accessModes:
+        - ReadWriteMany
+
+
 
 
 
