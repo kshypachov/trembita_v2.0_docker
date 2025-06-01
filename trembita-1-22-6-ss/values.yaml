@@ -286,7 +286,7 @@ trembita_config:
       - db_properties
 #      - local_ini
 #      - uxp_verifier_logback
-#      - uxp_anchor
+      - uxp_anchor
 #      - uxp_license
 
 
