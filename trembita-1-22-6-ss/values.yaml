@@ -253,6 +253,10 @@ trembita_config:
       - name: ocsp-cache # volume in tmpfs for store ocsp answers
         mountPath: /var/cache/uxp
         sizeLimit: "100Mi"
+      - name: ocsp-cache-java-cache
+        mountPath: /tmp/bc_java/
+        sizeLimit: "100Mi"
+
 
   trembita_verifier_pod:
     name: verifier

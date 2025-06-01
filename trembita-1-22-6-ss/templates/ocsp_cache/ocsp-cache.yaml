@@ -66,6 +66,7 @@ spec:
             - "-Duxp.ocsp-cache.full-update-freshness-divisor=10"
             - "-Duxp.ocsp-cache.client-connect-timeout=10000"
             - "ee.cyber.uxp.ocsp.OcspCacheMain"
-
+          securityContext:
+            readOnlyRootFilesystem: true
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}
