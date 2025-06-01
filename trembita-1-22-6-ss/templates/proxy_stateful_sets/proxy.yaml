@@ -44,10 +44,10 @@ spec:
           {{- end }}
           resources:
             requests:
-              cpu: "2000m"       # garantee 0.1 ядра
+              cpu: "1000m"       # garantee 0.1 ядра
               memory: "512Mi"   # garantee 256 МБ
             limits:
-              cpu: "3000m"       # max 0.2 ядра
+              cpu: "1500m"       # max 0.2 ядра
               memory: "1024Mi"     # max 512 МБ
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}

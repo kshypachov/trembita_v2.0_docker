@@ -42,10 +42,10 @@ spec:
             - containerPort: 8085  {{/*SEG REST api port incoming conections*/}}
           resources:
             requests:
-              cpu: "200m"       # garantee 0.2 ядра
-              memory: "256Mi"   # garantee 256 МБ
+              cpu: "100m"       # garantee 0.2 ядра
+              memory: "32Mi"   # garantee 256 МБ
             limits:
-              cpu: "300m"       # max 0.3 ядра
-              memory: "512Mi"     # max 512 МБ
+              cpu: "150m"       # max 0.3 ядра
+              memory: "64Mi"     # max 512 МБ
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}

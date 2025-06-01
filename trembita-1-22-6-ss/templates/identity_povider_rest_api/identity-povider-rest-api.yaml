@@ -28,10 +28,10 @@ spec:
             - containerPort: 8087 {{/*port for authentication REST api*/}}
           resources:
             requests:
-              cpu: "400m"       # garantee 0.4 ядра
+              cpu: "200m"       # garantee 0.4 ядра
               memory: "256Mi"   # garantee 256 МБ
             limits:
-              cpu: "600m"       # max 0.6 ядра
+              cpu: "400m"       # max 0.6 ядра
               memory: "512Mi"     # max 512 МБ
           command: [ "/opt/java/openjdk/bin/java" ]
           args:
