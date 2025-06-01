@@ -281,7 +281,7 @@ trembita_config:
       - usr-share-uxp
       - var-lib-uxp
     configMaps:  # add name of config maps which need to connect to this pod
-#      - db_properties
+      - db_properties
 #      - local_ini
       - uxp_verifier_logback
 #      - uxp_anchor
