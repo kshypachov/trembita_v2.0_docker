@@ -69,7 +69,7 @@ spec:
             - "-Duxp.message-log.archiver-batch-size=100"
             - "-Duxp.message-log.archive-transfer-command=''"
             - "-Duxp.message-log.archive-storage-type=fs"
-{{/*            - "-Duxp.message-log.archive-storage-type=s3"*/}}
+{{/*            - "-Duxp.message-log.archive-storage-type=s3" */}}
             - "-Duxp.message-log-s3.trusted-certificate=''"
             - "-Duxp.message-log-s3.region=us-west-1"
             - "-Duxp.message-log-s3.bucket-name=''"
