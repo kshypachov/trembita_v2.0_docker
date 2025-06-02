@@ -323,21 +323,21 @@ trembita_config:
 
   trembita_proxy_pod:
     name: proxy
-    image: kshypachov/trembita_proxy_v1.22.7:v1.0.5
+    image: kshypachov/trembita_jb_uxp-proxy-v1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
       UXP_TOKEN_PASS: 1234
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp-signer
-      - etc-uxp
-      - usr-share-uxp
-      - var-lib-uxp
+#      - etc-uxp
+#      - usr-share-uxp
+#      - var-lib-uxp
       - var-lib-uxp-messagelog
       - etc-uxp-globalconf
     configMaps: # add name of config maps which need to connect to this pod
 #      - local_ini
       - db_properties
-      - uxp_proxy_logback
+#      - uxp_proxy_logback
       - uxp_anchor
       - uxp_license
     ingress:
