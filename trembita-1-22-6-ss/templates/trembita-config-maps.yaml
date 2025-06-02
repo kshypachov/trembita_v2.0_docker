@@ -6,11 +6,11 @@ metadata:
   name: {{ .local_ini.name}}
 data:
   {{ default "local.ini" .local_ini.subPath}}: |
-    [identity-provider]
-    security-server-client-id = 60997vl7jlgoi53zbyvv2k9iyny1rae2
-    security-server-client-secret = QTK3fBuPu0v0m2DpvEees0AODujEcX3V
-    public-client-redirect-uris= https://{{$.Values.trembita_config.trembita_frontend_pod.ingress.host}}
-    hostname={{$.Values.trembita_config.trembita_frontend_pod.ingress.host}}
+{{/*    [identity-provider]*/}}
+{{/*    security-server-client-id = 60997vl7jlgoi53zbyvv2k9iyny1rae2*/}}
+{{/*    security-server-client-secret = QTK3fBuPu0v0m2DpvEees0AODujEcX3V*/}}
+{{/*    public-client-redirect-uris= https://{{$.Values.trembita_config.trembita_frontend_pod.ingress.host}}*/}}
+{{/*    hostname={{$.Values.trembita_config.trembita_frontend_pod.ingress.host}}*/}}
 
 
     [message-log]
