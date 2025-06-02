@@ -431,7 +431,7 @@ trembita_config:
         - ReadWriteMany
 
     etc-uxp-signer:
-      enable: true
+      enabled: true
       initCopy: true
       size: 50Mi
       mountPath: /etc/uxp/signer/
