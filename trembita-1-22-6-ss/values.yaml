@@ -295,7 +295,7 @@ trembita_config:
     ephemeralVolumeRAM:
       - name: verifier-java-cache
         mountPath: /tmp/bc_java/
-        sizeLimit: "100i"
+        sizeLimit: "100Mi"
 
 
   trembita_seg_rest_api_pod:
