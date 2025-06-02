@@ -183,6 +183,7 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
+      - etc-uxp-signer
       - etc-uxp
       - etc-uxp-globalconf
 #      - usr-share-uxp
@@ -210,6 +211,7 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
+      - etc-uxp-signer
       - etc-uxp
       - usr-share-uxp
       - var-lib-uxp
@@ -307,6 +309,7 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
+      - etc-uxp-signer
       - etc-uxp
 #      - usr-share-uxp
 #      - var-lib-uxp
@@ -325,6 +328,7 @@ trembita_config:
       TZ: Europe/Kyiv
       UXP_TOKEN_PASS: 1234
     sharedVolumes: # add name of shared volumes which need to connect to this pod
+      - etc-uxp-signer
       - etc-uxp
       - usr-share-uxp
       - var-lib-uxp
@@ -348,6 +352,7 @@ trembita_config:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp
+      - etc-uxp-signer
       - etc-uxp-globalconf
 #      - usr-share-uxp
 #      - var-lib-uxp
@@ -426,8 +431,8 @@ trembita_config:
         - ReadWriteMany
 
     etc-uxp-signer:
-      enable: false
-      initCopy: false
+      enable: true
+      initCopy: true
       size: 50Mi
       mountPath: /etc/uxp/signer/
       storageClassName: "longhorn-rwx"
