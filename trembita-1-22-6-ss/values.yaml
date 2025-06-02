@@ -335,7 +335,7 @@ trembita_config:
       - var-lib-uxp-messagelog
       - etc-uxp-globalconf
     configMaps: # add name of config maps which need to connect to this pod
-      - local_ini
+#      - local_ini
       - db_properties
       - uxp_proxy_logback
       - uxp_anchor
