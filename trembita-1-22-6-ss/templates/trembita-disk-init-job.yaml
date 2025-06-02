@@ -27,6 +27,7 @@ spec:
               {{- if $cfg.initCopy }}
                   echo "[INFO] Starting init container for {{ $name }}"
                   if [ -d "{{ $cfg.mountPath }}" ]; then
+                    rm -rf /mnt/target/{{ $name }}-path/lost+found
                     cp -rp {{ $cfg.mountPath }}/* /mnt/target/{{ $name }}-path || true
                     echo "[INFO] Done copying {{ $cfg.mountPath }} to /mnt/target/{{ $name }}-path"
                     uid_gid=$(stat -c '%u:%g' {{ $cfg.mountPath }})
