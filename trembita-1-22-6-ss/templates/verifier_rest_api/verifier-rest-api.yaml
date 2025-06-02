@@ -58,6 +58,7 @@ spec:
             - "-Djava.library.path=/usr/share/uxp/lib/"
             - "-Duxp.proxy.database-properties=/etc/uxp/db.properties"
             - "-Dfile.encoding=UTF-8"
+            - "-Dorg.bytedeco.javacpp.cachedir=/tmp/bc_java/"
             - "-cp"
             - "/app/verifier-rest-api.jar"
             - "-Duxp.center.allowed-certificate-profiles=ee.cyber.uxp.common.certificateprofile.ua.UaCertificateProfileInfoProvider"
@@ -80,6 +81,7 @@ spec:
             - "-Duxp.common.pkcs12-provider-name=BC"
             - "-Duxp.common.rsa-allowed=true"
             - "org.springframework.boot.loader.PropertiesLauncher"
-
+          securityContext:
+            readOnlyRootFilesystem: true
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}

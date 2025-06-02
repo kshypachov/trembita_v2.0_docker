@@ -292,6 +292,10 @@ trembita_config:
 #      - uxp_verifier_logback
       - uxp_anchor
 #      - uxp_license
+    ephemeralVolumeRAM:
+      - name: verifier-java-cache
+        mountPath: /tmp/bc_java/
+        sizeLimit: "100i"
 
 
   trembita_seg_rest_api_pod:
