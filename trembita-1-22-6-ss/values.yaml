@@ -296,6 +296,9 @@ trembita_config:
       - name: verifier-java-cache
         mountPath: /tmp/bc_java/
         sizeLimit: "100Mi"
+      - name: verifier-jetty-cache
+        mountPath: /tmp/
+        sizeLimit: "20Mi"
 
 
   trembita_seg_rest_api_pod:
