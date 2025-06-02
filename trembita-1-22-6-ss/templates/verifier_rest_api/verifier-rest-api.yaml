@@ -78,7 +78,7 @@ spec:
             - "-Duxp.common.tls-conf-path=/etc/uxp/ssl/"
             - "-Duxp.common.digest-chunk-size=0"
             - "-Duxp.common.license-file=/etc/uxp/license.lic"
-            - "-Duxp.common.pkcs12-provider-name=BC"
+{{/*            - "-Duxp.common.pkcs12-provider-name=BC"*/}}
             - "-Duxp.common.pkcs12-provider-name=CiPlusJCE"
             - "-Duxp.common.rsa-allowed=true"
             - "org.springframework.boot.loader.PropertiesLauncher"
