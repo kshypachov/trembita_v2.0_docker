@@ -40,10 +40,49 @@ spec:
           {{- end }}
           resources:
             requests:
-              cpu: "200m"       # garantee 0.1 ядра
+              cpu: "400m"       # garantee 0.1 ядра
               memory: "256Mi"   # garantee 256 МБ
             limits:
-              cpu: "400m"       # max 0.2 ядра
+              cpu: "800m"       # max 0.2 ядра
               memory: "512Mi"     # max 512 МБ
+          command: [ "/opt/java/openjdk/bin/java" ]
+          args:
+            - "-Xmx128m"
+            - "-XX:MaxMetaspaceSize=128m"
+            - "-XX:+UseG1GC"
+            - "-Xshare:on"
+            - "-Dorg.bytedeco.javacpp.noPointerGC=true"
+            - "-Dorg.bytedeco.javacpp.maxBytes=0"
+            - "-Dorg.bytedeco.javacpp.maxPhysicalBytes=0"
+            - "-Dlogging.config=/app/verifier-rest-api-logback.xml"
+            - "-Djava.library.path=/usr/share/uxp/lib/"
+            - "-Duxp.proxy.database-properties=/etc/uxp/db.properties"
+            - "-Dfile.encoding=UTF-8"
+            - "-Dorg.bytedeco.javacpp.cachedir=/tmp/bc_java/"
+            - "-cp"
+            - "/app/verifier-rest-api.jar"
+            - "-Duxp.center.allowed-certificate-profiles=ee.cyber.uxp.common.certificateprofile.ua.UaCertificateProfileInfoProvider"
+            - "-Dloader.path=/app/jlib/signature-xades.jar,/app/jlib/addon/certprofile-trembita.jar,/app/jlib/addon/proxy/cipher-jce-provider-1.22.7.jar,/app/jlib/addon/proxy/ciplus-jce/*"
+            - "-Dserver.port=8086"
+            - "-Duxp.message-log.storage-path=/tmp"
+            - "-Duxp.identity-provider.security-server-client-id={{$.Values.trembita_config.trembita_identity_provider_rest_api_pod.access_tokens.security_server_client_id}}"
+            - "-Duxp.identity-provider.security-server-client-secret={{$.Values.trembita_config.trembita_identity_provider_rest_api_pod.access_tokens.security_server_client_secret}}"
+            - "-Duxp.message-log.metadata-record-extract-path=/var/lib/uxp/messagelog/old-metadata"
+            - "-Duxp.message-log.storage-path=/var/lib/uxp/messagelog"
+            - "-Duxp.message-log.archive-path=/var/lib/uxp/messagelog/archive"
+            - "-Duxp.message-log.temp-files-path=/var/lib/uxp/messagelog/tmp"
+            - "-Duxp.common.configuration-anchor-file=/etc/uxp/configuration-anchor.xml"
+            - "-Duxp.common.conf-path=/etc/uxp/"
+            - "-Duxp.common.global-conf-path=/etc/uxp/globalconf/"
+            - "-Duxp.common.tls-conf-path=/etc/uxp/ssl/"
+            - "-Duxp.common.tls-conf-path=/etc/uxp/ssl/"
+            - "-Duxp.common.digest-chunk-size=0"
+            - "-Duxp.common.license-file=/etc/uxp/license.lic"
+{{/*            - "-Duxp.common.pkcs12-provider-name=BC"*/}}
+            - "-Duxp.common.pkcs12-provider-name=CiPlusJCE"
+            - "-Duxp.common.rsa-allowed=true"
+            - "org.springframework.boot.loader.PropertiesLauncher"
+          securityContext:
+            readOnlyRootFilesystem: true
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}

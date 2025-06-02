@@ -184,6 +184,7 @@ trembita_config:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp
+      - etc-uxp-globalconf
 #      - usr-share-uxp
 #      - var-lib-uxp
     configMaps:  # add name of config maps which need to connect to this pod
@@ -212,6 +213,8 @@ trembita_config:
       - etc-uxp
       - usr-share-uxp
       - var-lib-uxp
+      - var-lib-uxp-messagelog
+      - etc-uxp-globalconf
     configMaps:  # add name of config maps which need to connect to this pod
       - db_properties
       - local_ini
@@ -254,9 +257,10 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
-      - etc-uxp
-      - usr-share-uxp
-      - var-lib-uxp
+#      - etc-uxp
+#      - usr-share-uxp
+#      - var-lib-uxp
+      - etc-uxp-globalconf
     configMaps:  # add name of config maps which need to connect to this pod
       - local_ini
       - db_properties
@@ -273,19 +277,28 @@ trembita_config:
 
   trembita_verifier_pod:
     name: verifier
-    image: kshypachov/trembita_verifier_v1.22.7:v1.0.0
+    image: kshypachov/trembita_jb_uxp-verifier-v1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
-      - etc-uxp
-      - usr-share-uxp
-      - var-lib-uxp
+#      - etc-uxp
+      - etc-uxp-globalconf
+#      - usr-share-uxp
+#      - var-lib-uxp
+      - var-lib-uxp-messagelog
     configMaps:  # add name of config maps which need to connect to this pod
       - db_properties
-      - local_ini
-      - uxp_verifier_logback
+#      - local_ini
+#      - uxp_verifier_logback
       - uxp_anchor
-      - uxp_license
+#      - uxp_license
+    ephemeralVolumeRAM:
+      - name: verifier-java-cache
+        mountPath: /tmp/bc_java/
+        sizeLimit: "100Mi"
+      - name: verifier-jetty-cache
+        mountPath: /tmp/
+        sizeLimit: "20Mi"
 
 
   trembita_seg_rest_api_pod:
@@ -297,6 +310,7 @@ trembita_config:
       - etc-uxp
       - usr-share-uxp
       - var-lib-uxp
+      - etc-uxp-globalconf
     configMaps: # add name of config maps which need to connect to this pod
       - local_ini
       - db_properties
@@ -314,6 +328,8 @@ trembita_config:
       - etc-uxp
       - usr-share-uxp
       - var-lib-uxp
+      - var-lib-uxp-messagelog
+      - etc-uxp-globalconf
     configMaps: # add name of config maps which need to connect to this pod
       - local_ini
       - db_properties
@@ -332,6 +348,7 @@ trembita_config:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp
+      - etc-uxp-globalconf
 #      - usr-share-uxp
 #      - var-lib-uxp
     configMaps:  # add name of config maps which need to connect to this pod
@@ -391,13 +408,24 @@ trembita_config:
         - ReadWriteMany
 
     var-lib-uxp-messagelog:
-      enabled: false
-      initCopy: false
+      enabled: true
+      initCopy: true
       size: 2Gi
       mountPath: /var/lib/uxp/messagelog/
       storageClassName: "longhorn-rwx"
       accessModes:
         - ReadWriteMany
+
+    etc-uxp-globalconf:
+      enabled: true
+      initCopy: true
+      size: 200Mi
+      mountPath: /etc/uxp/globalconf/
+      storageClassName: "longhorn-rwx"
+      accessModes:
+        - ReadWriteMany
+
+
 
 
 
