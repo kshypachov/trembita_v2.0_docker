@@ -264,7 +264,7 @@ trembita_config:
 #      - var-lib-uxp
       - etc-uxp-globalconf
     configMaps:  # add name of config maps which need to connect to this pod
-      - local_ini
+#      - local_ini
       - db_properties
 #      - uxp_ocsp_cache_logback
 #      - uxp_license
@@ -351,7 +351,7 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
-      - etc-uxp
+#      - etc-uxp
       - etc-uxp-signer
       - etc-uxp-globalconf
 #      - usr-share-uxp
