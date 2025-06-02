@@ -303,18 +303,18 @@ trembita_config:
 
   trembita_seg_rest_api_pod:
     name: seg-rest-api
-    image: kshypachov/trembita_seg_rest_api_v1.22.7:v1.0.0
+    image: kshypachov/trembita_jb_uxp-seg-rest-api-v1.22.7:v1.0.0
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp
-      - usr-share-uxp
-      - var-lib-uxp
+#      - usr-share-uxp
+#      - var-lib-uxp
       - etc-uxp-globalconf
     configMaps: # add name of config maps which need to connect to this pod
-      - local_ini
+#      - local_ini
       - db_properties
-      - uxp_seg_rest_api_logback
+#      - uxp_seg_rest_api_logback
       - uxp_anchor
       - uxp_license
 
@@ -424,6 +424,16 @@ trembita_config:
       storageClassName: "longhorn-rwx"
       accessModes:
         - ReadWriteMany
+
+    etc-uxp-signer:
+      enable: false
+      initCopy: false
+      size: 50Mi
+      mountPath: /etc/uxp/signer/
+      storageClassName: "longhorn-rwx"
+      accessModes:
+        - ReadWriteMany
+
 
 
 
