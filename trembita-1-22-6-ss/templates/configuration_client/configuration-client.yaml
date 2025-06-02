@@ -54,7 +54,7 @@ spec:
             - "-Dorg.bytedeco.javacpp.noPointerGC=true"
             - "-Dorg.bytedeco.javacpp.maxBytes=0"
             - "-Duxp.configuration-client.port=5665"
-            - "-Duxp.common.temp-files-path=/etc/uxp/tmp/"
+            - "-Duxp.common.temp-files-path=/var/tmp/uxp/"
             - "-Dorg.bytedeco.javacpp.maxPhysicalBytes=0"
             - "-cp"
             - "/app/configuration-client.jar:/app/jlib/addon/proxy/cipher-jce-provider-1.22.7.jar:/app/jlib/addon/proxy/ciplus-jce/*"

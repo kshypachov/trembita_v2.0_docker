@@ -51,5 +51,30 @@ spec:
             limits:
               cpu: "800m"       # max 0.3 ядра
               memory: "512Mi"     # max 512 МБ
+          command: [ "/opt/java/openjdk/bin/java" ]
+          args:
+            - "-Xmx128m"
+            - "-Xshare:on"
+            - "-XX:MaxMetaspaceSize=256m"
+            - "-XX:+UseG1GC"
+            - "-Dlogging.config=/app/securityserver-rest-api-logback.xml"
+            - "-Dfile.encoding=UTF-8"
+            - "-Dorg.bytedeco.javacpp.noPointerGC=true"
+            - "-Dorg.bytedeco.javacpp.maxBytes=0"
+            - "-Dorg.bytedeco.javacpp.maxPhysicalBytes=0"
+            - "-Djava.library.path=/usr/share/uxp/lib/"
+            - "-Dloader.path=/app/jlib/signature-xades.jar,/app/jlib/addon/certprofile-trembita.jar,/app/jlib/addon/proxy/cipher-jce-provider-1.22.7.jar,/app/jlib/addon/proxy/ciplus-jce/*"
+            - "-cp"
+            - "/app/securityserver-rest-api.jar"
+            - "-Duxp.common.configuration-anchor-file=/etc/uxp/configuration-anchor.xml"
+            - "-Duxp.common.global-conf-path=/etc/uxp/globalconf/"
+            - "-Duxp.proxy.software-token-key-dir=/etc/uxp/signer/"
+            - "-Duxp.proxy.server-port=5500"
+            - "-Dserver.port=8085"
+            - "-Duxp.identity-provider.security-server-client-id={{$.Values.trembita_config.trembita_identity_provider_rest_api_pod.access_tokens.security_server_client_id}}"
+            - "-Duxp.identity-provider.security-server-client-secret={{$.Values.trembita_config.trembita_identity_provider_rest_api_pod.access_tokens.security_server_client_secret}}"
+            - "-Duxp.proxy.database-properties=/etc/uxp/db.properties"
+            - "-Duxp.identity-provider.database-properties=/etc/uxp/db.properties"
+            - "org.springframework.boot.loader.PropertiesLauncher"
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}
