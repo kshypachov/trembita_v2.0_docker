@@ -326,7 +326,7 @@ trembita_config:
     image: kshypachov/trembita_jb_uxp-proxy-v1.22.7:v1.0.2
     env:
       TZ: Europe/Kyiv
-      UXP_TOKEN_PASS: 1234
+      UXP_TOKENS_PASS: 1234
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp-signer
 #      - etc-uxp
@@ -386,7 +386,7 @@ trembita_config:
 
   sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
     etc-uxp:
-      enabled: true
+      enabled: false
       initCopy: true
       size: 100Mi
       mountPath: /etc/uxp
@@ -395,7 +395,7 @@ trembita_config:
         - ReadWriteMany
 
     usr-share-uxp:
-      enabled: true
+      enabled: false
       initCopy: true
       size: 1.5Gi
       mountPath: /usr/share/uxp/
@@ -404,7 +404,7 @@ trembita_config:
         - ReadWriteMany
 
     var-lib-uxp:
-      enabled: true
+      enabled: false
       initCopy: true
       size: 15Gi
       mountPath: /var/lib/uxp/
