@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "trembita-1-22-6-ss.fullname" . }}-init
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ include "trembita-1-22-6-ss.fullname" . }}-init-sa
+      restartPolicy: OnFailure
+      containers:
+        - name: generate-cert
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Generating cert..."
+              openssl req -x509 -nodes -newkey rsa:2048 -days 365 \
+                -subj "/CN={{ include "trembita-1-22-6-ss.fullname" . }}" \
+                -keyout tls.key -out tls.crt
+
+              echo "Creating secret..."
+              kubectl create secret tls {{ include "trembita-1-22-6-ss.fullname" . }}-cert \
+                --cert=tls.crt --key=tls.key \
+                --namespace={{ .Release.Namespace }} --dry-run=client -o yaml | kubectl apply -f -
