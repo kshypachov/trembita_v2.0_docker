@@ -762,3 +762,23 @@ data:
       --BOUNDARY--
 {{- end}}
 {{- end}}
+
+------
+
+{{- with .Values.trembita_config.configMaps}}
+{{- if and .enabled .osplm_ini.enabled}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .osplm_ini.name}}
+data:
+  {{ default "osplm.ini" .osplm_ini.subPath}}: |
+      [\SOFTWARE\Institute of Informational Technologies\Key Medias\NCM Gryada-301]
+      [\SOFTWARE\Institute of Informational Technologies\Key Medias\NCM Gryada-301\Modules]
+      [\SOFTWARE\Institute of Informational Technologies\Key Medias\NCM Gryada-301\Modules\091]
+      OrderNumber=0
+      SN=091
+      Address=192.168.99.236
+      AddressMask=255.255.255.0
+{{- end}}
+{{- end}}
