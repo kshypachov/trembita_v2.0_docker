@@ -104,7 +104,7 @@ trembita_config:
       subPath: uxp-securityserver-rest-api-location.include
 
     tokens_autologin:
-      enabled: true
+      enabled: false
       name: tokens-autologin
       mountPath: /usr/share/uxp/bin/tokens-autologin.py
       subPath: tokens-autologin.py
@@ -116,49 +116,49 @@ trembita_config:
       subPath: confclient-logback.xml
 
     uxp_message_log_archiver_logback:
-      enabled: true
+      enabled: false
       name: message-log-archiver-logback
       mountPath: /etc/uxp/conf.d/messagelog-archiver-logback.xml
       subPath: messagelog-archiver-logback.xml
 
     uxp_identity_provider_rest_api_logback:
-      enabled: true
+      enabled: false
       name: identity-provider-rest-api-logback
       mountPath: /etc/uxp/conf.d/identity-provider-rest-api-logback.xml
       subPath: identity-provider-rest-api-logback.xml
 
     uxp_ocsp_cache_logback:
-      enabled: true
+      enabled: false
       name: ocsp-cache-logback
       mountPath: /etc/uxp/conf.d/ocsp-cache-logback.xml
       subPath: ocsp-cache-logback.xml
 
     uxp_verifier_logback:
-      enabled: true
+      enabled: false
       name: verifier
       mountPath: /etc/uxp/conf.d/verifier-rest-api-logback.xml
       subPath: verifier-rest-api-logback
 
     uxp_seg_rest_api_logback:
-      enabled: true
+      enabled: false
       name: seg-rest-api
       mountPath: /etc/uxp/conf.d/securityserver-rest-api-logback.xml
       subPath: securityserver-rest-api-logback.xml
 
     uxp_proxy_logback:
-      enabled: true
+      enabled: false
       name: proxy-logback
       mountPath: /etc/uxp/conf.d/proxy-logback.xml
       subPath: proxy-logback.xml
 
     uxp_monitor_agent_logback:
-      enabled: true
+      enabled: false
       name: monitor-agent-logback
       mountPath: /etc/uxp/conf.d/proxy-monitor-agent-logback.xml
       subPath: proxy-monitor-agent-logback.xml
 
     uxp_monitor_agent_addon_logback:
-      enabled: true
+      enabled: false
       name: monitor-agent-addon-logback
       mountPath: /etc/uxp/conf.d/addons/proxy-monitor-agent-logback.xml
       subPath: proxy-monitor-agent-logback.xml
@@ -176,7 +176,7 @@ trembita_config:
       subPath: license.lic
 
     osplm_ini:
-      enabled: true
+      enabled: false
       name: osplm-ini
       mountPath: /usr/share/uxp/lib/osplm.ini
       subPath: osplm.ini
@@ -377,8 +377,6 @@ trembita_config:
         mountPath: /tmp/bc_java/
         sizeLimit: "100Mi"
 
-
-
   trembita_frontend_pod:
     name: frontend
     image:  kshypachov/trembita_frontend_v1.22.7:v1.0.2
@@ -396,7 +394,7 @@ trembita_config:
   sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
     etc-uxp:
       enabled: false
-      initCopy: true
+      initCopy: false
       size: 100Mi
       mountPath: /etc/uxp
       storageClassName: "longhorn-rwx"
@@ -405,7 +403,7 @@ trembita_config:
 
     usr-share-uxp:
       enabled: false
-      initCopy: true
+      initCopy: false
       size: 1.5Gi
       mountPath: /usr/share/uxp/
       storageClassName: "longhorn-rwx"
@@ -414,7 +412,7 @@ trembita_config:
 
     var-lib-uxp:
       enabled: false
-      initCopy: true
+      initCopy: false
       size: 15Gi
       mountPath: /var/lib/uxp/
       storageClassName: "longhorn-rwx"
