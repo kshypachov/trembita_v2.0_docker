@@ -313,6 +313,7 @@ trembita_config:
     image: kshypachov/trembita_jb_uxp-seg-rest-api-v1.22.7:ee2d3d9bc08d
     env:
       TZ: Europe/Kyiv
+      PKCS11_PROXY_SOCKET: tcp://94.131.252.139:23454
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp-signer
 #      - etc-uxp
@@ -333,6 +334,7 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
       UXP_TOKENS_PASS: 1234
+      PKCS11_PROXY_SOCKET: tcp://94.131.252.139:23454
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp-signer
 #      - etc-uxp
