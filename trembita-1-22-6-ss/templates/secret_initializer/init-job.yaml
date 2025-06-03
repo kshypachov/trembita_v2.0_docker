@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "trembita-1-22-6-ss.fullname" . }}-init
+  name: {{ include "trembita-1-22-6-ss.fullname" . }}-init-ca-job
 spec:
   template:
     spec:
