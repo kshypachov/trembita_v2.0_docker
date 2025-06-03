@@ -14,12 +14,10 @@ spec:
             - /bin/sh
             - -c
             - |
-              echo "Generating cert..."
-              openssl req -x509 -nodes -newkey rsa:2048 -days 365 \
-                -subj "/CN={{ include "trembita-1-22-6-ss.fullname" . }}" \
-                -keyout tls.key -out tls.crt
+                openssl req -x509 -nodes -newkey rsa:2048 -days 365 \
+                  -subj "/CN={{ include "trembita-1-22-6-ss.fullname" . }}" \
+                  -keyout /tmp/tls.key -out /tmp/tls.crt
 
-              echo "Creating secret..."
-              kubectl create secret tls {{ include "trembita-1-22-6-ss.fullname" . }}-cert \
-                --cert=tls.crt --key=tls.key \
-                --namespace={{ .Release.Namespace }} --dry-run=client -o yaml | kubectl apply -f -
+                kubectl create secret tls {{ include "trembita-1-22-6-ss.fullname" . }}-cert \
+                  --cert=/tmp/tls.crt --key=/tmp/tls.key \
+                  --namespace={{ .Release.Namespace }} --dry-run=client -o yaml | kubectl apply -f -
