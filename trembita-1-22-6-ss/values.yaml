@@ -310,7 +310,7 @@ trembita_config:
 
   trembita_seg_rest_api_pod:
     name: seg-rest-api
-    image: kshypachov/trembita_jb_uxp-seg-rest-api-v1.22.7:5e3befb7277c
+    image: kshypachov/trembita_jb_uxp-seg-rest-api-v1.22.7:ee2d3d9bc08d
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
