@@ -176,7 +176,7 @@ trembita_config:
       subPath: license.lic
 
     osplm_ini:
-      enabled: false
+      enabled: true
       name: osplm-ini
       mountPath: /usr/share/uxp/lib/osplm.ini
       subPath: osplm.ini
