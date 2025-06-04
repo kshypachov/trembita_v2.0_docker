@@ -336,7 +336,7 @@ trembita_config:
 
   trembita_proxy_pod:
     name: proxy
-    image: kshypachov/trembita_jb_uxp-proxy-v1.22.7:5c23951bb975
+    image: kshypachov/trembita_jb_uxp-proxy-v1.22.7:a69d3af1177d
     env:
       TZ: Europe/Kyiv
       UXP_TOKENS_PASS: "0:1234"
