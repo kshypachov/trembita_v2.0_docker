@@ -429,7 +429,7 @@ trembita_config:
 
     var-lib-uxp-messagelog:
       enabled: true
-      initCopy: true
+      initCopy: false
       size: 2Gi
       mountPath: /var/lib/uxp/messagelog/
       storageClassName: "longhorn-rwx"
