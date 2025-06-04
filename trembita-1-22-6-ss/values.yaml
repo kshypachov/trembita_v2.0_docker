@@ -182,7 +182,7 @@ trembita_config:
       subPath: osplm.ini
 
   secrets:
-    proxy-tls-healthcheck:
+    proxy_tls_healthcheck:
       enabled: true
       name: trembita-tls-healthcheck
       mountPath: /etc/certs
@@ -356,7 +356,7 @@ trembita_config:
       - uxp_license
       - osplm_ini
     secrets:
-      - proxy-tls-healthcheck
+      - proxy_tls_healthcheck
     ingress:
       host: api.trembita.office
       secure_host: secure-api.trembita.office
