@@ -20,7 +20,7 @@ spec:
             - |
                 openssl ecparam -name prime256v1 -out /tmp/ecparams.pem
                 openssl req -x509 -nodes -newkey ec:/tmp/ecparams.pem -days 3650 \
-                  -subj "/CN={{ include "trembita-1-22-6-ss.fullname" . }}" \
+                  -subj "/CN={{ include "trembita-1-22-6-ss.fullname" $ }}" \
                   -keyout /tmp/tls.key -out /tmp/tls.crt
 
                 kubectl create secret tls {{ .name }}-cert \
