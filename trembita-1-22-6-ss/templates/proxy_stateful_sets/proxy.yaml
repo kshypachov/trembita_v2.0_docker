@@ -47,6 +47,7 @@ spec:
             exec:
               command:
                 [ "/bin/trembita-healthcheck" ]
+            timeoutSeconds: 20
             initialDelaySeconds: 20
             periodSeconds: 60
             failureThreshold: 1
@@ -55,6 +56,7 @@ spec:
             exec:
               command:
                 [ "/bin/trembita-healthcheck" ]
+            timeoutSeconds: 20
             initialDelaySeconds: 20
             periodSeconds: 120
             failureThreshold: 10
