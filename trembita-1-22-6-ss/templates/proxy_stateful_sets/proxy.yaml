@@ -63,6 +63,7 @@ spec:
             exec:
               command:
                 - token-initializer
+            timeoutSeconds: 300
             initialDelaySeconds: 20
             periodSeconds: 60
             failureThreshold: 1000000
