@@ -316,7 +316,7 @@ trembita_config:
 
   trembita_seg_rest_api_pod:
     name: seg-rest-api
-    image: kshypachov/trembita_jb_uxp-seg-rest-api-v1.22.7:ee2d3d9bc08d
+    image: kshypachov/trembita_jb_uxp-seg-rest-api-v1.22.7:v1.0.2
     env:
       TZ: Europe/Kyiv
       PKCS11_PROXY_SOCKET: tcp://94.131.252.139:23454
