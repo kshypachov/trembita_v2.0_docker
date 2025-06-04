@@ -33,9 +33,9 @@
               {{- end}}
             {{- range $name, $cfg := $root.Values.trembita_config.secrets }}
              {{- if and $cfg.enabled (has $name $start_context.secrets) }}
-             - name: {{ $name }}-secret-volume
-               mountPath: {{ $cfg.mountPath }}
-               readOnly: true
+            - name: {{ $name }}-secret-volume
+              mountPath: {{ $cfg.mountPath }}
+              readOnly: true
              {{- end }}
             {{- end }}
 
@@ -61,6 +61,13 @@
            emptyDir:
              medium: Memory
              sizeLimit: {{ .sizeLimit }}
+           {{- end }}
+           {{- range $name, $cfg := $root.Values.trembita_config.secrets }}
+             {{- if and $cfg.enabled (has $name $start_context.secrets) }}
+         - name: {{.name}}-secret-volume
+           secret:
+             secretName: {{.name}}-cert
+             {{- end }}
            {{- end }}
      {{- end }}
 {{- end }}
