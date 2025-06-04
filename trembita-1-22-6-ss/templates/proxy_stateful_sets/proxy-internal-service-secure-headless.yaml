@@ -1,0 +1,13 @@
+{{- with  .Values.trembita_config.trembita_proxy_pod}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}-secure-headless
+spec:
+  clusterIP: None
+  selector:
+    app: {{ .name }}
+  ports:
+    - port: 443
+      targetPort: 443
+  {{- end}}

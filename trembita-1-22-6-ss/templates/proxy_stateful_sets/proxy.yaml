@@ -1,12 +1,13 @@
 {{- with .Values.trembita_config.trembita_proxy_pod}}
 {{- $ctx := . }}
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{.name}}
   labels:
     app: {{.name}}
 spec:
+  serviceName: {{ .name }}-secure-headless
   replicas: 1
   selector:
     matchLabels:
