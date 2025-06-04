@@ -1,0 +1,26 @@
+{{- with .Values.trembita_config.secrets.proxy_tls_healthcheck}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .name }}-init-ca-job
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .name }}-init-sa
+      restartPolicy: OnFailure
+      containers:
+        - name: generate-cert
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+                openssl ecparam -name prime256v1 -out /tmp/ecparams.pem
+                openssl req -x509 -nodes -newkey ec:/tmp/ecparams.pem -days 3650 \
+                  -subj "/CN={{ include "trembita-1-22-6-ss.fullname" . }}" \
+                  -keyout /tmp/tls.key -out /tmp/tls.crt
+
+                kubectl create secret tls {{ .name }}-cert \
+                  --cert=/tmp/tls.crt --key=/tmp/tls.key \
+                  --namespace={{ $.Release.Namespace }} --dry-run=client -o yaml | kubectl apply -f -
+{{- end}}

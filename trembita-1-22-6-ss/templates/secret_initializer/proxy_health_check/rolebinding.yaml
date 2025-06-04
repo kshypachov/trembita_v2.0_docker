@@ -1,0 +1,13 @@
+{{- with .Values.trembita_config.secrets.proxy_tls_healthcheck}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ .name }}-secret-writer-binding
+subjects:
+  - kind: ServiceAccount
+    name: {{ .name }}-init-sa
+roleRef:
+  kind: Role
+  name: {{ .name }}-secret-writer
+  apiGroup: rbac.authorization.k8s.io
+{{- end}}

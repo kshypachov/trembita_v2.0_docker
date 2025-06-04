@@ -1,0 +1,10 @@
+{{- with .Values.trembita_config.secrets.proxy_tls_healthcheck}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .name }}-secret-writer
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "create", "update"]
+{{- end}}

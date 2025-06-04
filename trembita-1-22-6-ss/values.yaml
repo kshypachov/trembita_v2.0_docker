@@ -181,6 +181,12 @@ trembita_config:
       mountPath: /usr/share/uxp/lib/osplm.ini
       subPath: osplm.ini
 
+  secrets:
+    proxy_tls_healthcheck:
+      enabled: true
+      name: trembita-tls-healthcheck
+      mountPath: /etc/certs
+
 # Section for configuration every separate pod
   trembita_configuration_client_pod:  # settins specific for configuration client component
     name: conf-client
