@@ -339,7 +339,7 @@ trembita_config:
     image: kshypachov/trembita_jb_uxp-proxy-v1.22.7:v1.0.9
     env:
       TZ: Europe/Kyiv
-      UXP_TOKENS_PASS: "0:1234,ciplus-82-5:##MADCAT##123456789"
+      UXP_TOKENS_PASS: "0:1234,ciplus-78-5:##MADCAT##123456789"
       PKCS11_PROXY_SOCKET: tcp://94.131.252.139:23454
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp-signer
