@@ -33,6 +33,32 @@ spec:
             - containerPort: 80     {{/*Internal HTTP API port for internal connection clients*/}}
             - containerPort: 443    {{/*Internal HTTPS API port for connection between SEGs, not used in k8s*/}}
             - containerPort: 5566   {{/*Internal HTTP API port for admin porpuses, not used in k8s*/}}
+
+          readinessProbe:
+            exec:
+              command:
+                ["trembita-healthcheck"]
+            initialDelaySeconds: 20
+            periodSeconds: 60
+            failureThreshold: 1
+
+          livenessProbe:
+            exec:
+              command:
+                [ "trembita-healthcheck" ]
+            initialDelaySeconds: 20
+            periodSeconds: 120
+            failureThreshold: 10
+
+          startupProbe:
+            exec:
+              command:
+                [ "token-initializer" ]
+            initialDelaySeconds: 20
+            periodSeconds: 60
+            failureThreshold: 1
+
+
         - name: {{.name}}
           image: {{.image}}
           imagePullPolicy: IfNotPresent
