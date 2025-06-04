@@ -5,7 +5,8 @@
 {{/*  {{- if or ( or (and $root.Values.trembita_config.configMaps.enabled $start_context.configMaps) (and $start_context.sharedVolumes $root.Values.trembita_config.sharedVolumes)) .ephemeralVolumeRAM }}*/}}
 {{- $hasCM := and $root.Values.trembita_config.configMaps.enabled $start_context.configMaps }}
 {{- $hasSV := and $start_context.sharedVolumes $root.Values.trembita_config.sharedVolumes }}
-{{- if or $hasCM $hasSV $start_context.ephemeralVolumeRAM }}
+{{- $hasST := and $start_context.secrets $root.Values.trembita_config.secrets}}
+{{- if or $hasCM $hasSV $start_context.ephemeralVolumeRAM $hasST }}
 
           volumeMounts:
             {{- range $key, $cm := $root.Values.trembita_config.configMaps }}
@@ -30,6 +31,13 @@
             - name: {{ .name }}-ram-vol
               mountPath: {{ .mountPath }}
               {{- end}}
+            {{- range $name, $cfg := $root.Values.trembita_config.secrets }}
+             {{- if and $cfg.enabled (has $name $start_context.secrets) }}
+             - name: {{ $name }}-secret-volume
+               mountPath: {{ $cfg.mountPath }}
+               readOnly: true
+             {{- end }}
+            {{- end }}
 
       volumes:
          {{- range $key, $cm := $root.Values.trembita_config.configMaps }}

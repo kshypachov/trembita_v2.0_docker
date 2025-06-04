@@ -355,6 +355,8 @@ trembita_config:
       - uxp_anchor
       - uxp_license
       - osplm_ini
+    secrets:
+      - proxy_tls_healthcheck
     ingress:
       host: api.trembita.office
       secure_host: secure-api.trembita.office

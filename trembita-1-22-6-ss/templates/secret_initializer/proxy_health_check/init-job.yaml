@@ -2,6 +2,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-delete-policy": hook-succeeded
   name: {{ .name }}-init-ca-job
 spec:
   template:
