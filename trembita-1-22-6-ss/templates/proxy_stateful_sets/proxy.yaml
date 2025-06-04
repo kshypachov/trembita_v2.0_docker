@@ -65,7 +65,7 @@ spec:
                 - token-initializer
             initialDelaySeconds: 20
             periodSeconds: 60
-            failureThreshold: 1
+            failureThreshold: 1000000
 
           resources:
             requests:
