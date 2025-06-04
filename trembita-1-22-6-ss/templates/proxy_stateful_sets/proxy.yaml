@@ -33,6 +33,13 @@ spec:
             - containerPort: 80     {{/*Internal HTTP API port for internal connection clients*/}}
             - containerPort: 443    {{/*Internal HTTPS API port for connection between SEGs, not used in k8s*/}}
             - containerPort: 5566   {{/*Internal HTTP API port for admin porpuses, not used in k8s*/}}
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
         - name: {{.name}}
           image: {{.image}}
           imagePullPolicy: IfNotPresent
