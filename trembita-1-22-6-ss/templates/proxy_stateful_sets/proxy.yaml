@@ -33,11 +33,20 @@ spec:
             - containerPort: 80     {{/*Internal HTTP API port for internal connection clients*/}}
             - containerPort: 443    {{/*Internal HTTPS API port for connection between SEGs, not used in k8s*/}}
             - containerPort: 5566   {{/*Internal HTTP API port for admin porpuses, not used in k8s*/}}
-
+        - name: {{.name}}
+          image: {{.image}}
+          imagePullPolicy: IfNotPresent
+          {{if .env}}
+          env:
+            {{- range $k, $v := .env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          {{- end }}
           readinessProbe:
             exec:
               command:
-                ["/bin/trembita-healthcheck"]
+                [ "/bin/trembita-healthcheck" ]
             initialDelaySeconds: 20
             periodSeconds: 60
             failureThreshold: 1
@@ -52,23 +61,12 @@ spec:
 
           startupProbe:
             exec:
-              command: ["java", "-v"]
-{{/*                [ "/bin/token-initializer" ]*/}}
+              command:
+                - token-initializer
             initialDelaySeconds: 20
             periodSeconds: 60
             failureThreshold: 1
 
-
-        - name: {{.name}}
-          image: {{.image}}
-          imagePullPolicy: IfNotPresent
-          {{if .env}}
-          env:
-            {{- range $k, $v := .env }}
-            - name: {{ $k }}
-              value: {{ $v | quote }}
-            {{- end }}
-          {{- end }}
           resources:
             requests:
               cpu: "1000m"       # garantee 0.1 ядра
