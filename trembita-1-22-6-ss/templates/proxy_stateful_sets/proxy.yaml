@@ -52,7 +52,7 @@ spec:
 
           startupProbe:
             exec:
-              command: ["java -v"]
+              command: ["java", "-v"]
 {{/*                [ "/bin/token-initializer" ]*/}}
             initialDelaySeconds: 20
             periodSeconds: 60
