@@ -23,6 +23,14 @@ spec:
           ports:
             - containerPort: 6577    {{/*OCSP port over socat proxy*/}}
             - containerPort: 6766    {{/*admin port over socat proxy*/}}
+          resources:
+            requests:
+              cpu: "10m"       # garantee 0.01 core
+              memory: "32Mi"   # garantee 32 МБ
+            limits:
+              cpu: "20m"       # max 0.02 core
+              memory: "64Mi"     # max 64 МБ
+
         - name: {{.name}}
           image: {{.image}}
           {{if .env}}
