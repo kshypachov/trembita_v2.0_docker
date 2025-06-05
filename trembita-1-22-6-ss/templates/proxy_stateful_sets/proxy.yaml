@@ -72,18 +72,18 @@ spec:
             exec:
               command:
                 - token-initializer
-            timeoutSeconds: 300
+            timeoutSeconds: 1000000
             initialDelaySeconds: 20
             periodSeconds: 20
-            failureThreshold: 1000000
+            failureThreshold: 1
 
           resources:
             requests:
-              cpu: "1000m"       # garantee 0.1 ядра
-              memory: "512Mi"   # garantee 256 МБ
+              cpu: "1000m"       # garantee 1 core
+              memory: "512Mi"   # garantee 512 МБ
             limits:
-              cpu: "1500m"       # max 0.2 ядра
-              memory: "1024Mi"     # max 512 МБ
+              cpu: "1500m"       # max 1.5 core
+              memory: "1024Mi"     # max 1024 МБ
           command: [ "authbind", "java" ]
           args:
             - "-Xms150m"
