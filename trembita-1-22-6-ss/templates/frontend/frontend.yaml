@@ -28,6 +28,13 @@ spec:
           " ]
           ports:
             - containerPort: 8086    {{/*REST api port outgoing connection*/}}
+          resources:
+            requests:
+              cpu: "10m"       # garantee 0.2 ядра
+              memory: "32Mi"   # garantee 256 МБ
+            limits:
+              cpu: "20m"       # max 0.3 ядра
+              memory: "64Mi"     # max 512 МБ
         - name: {{.name}}
           image: {{.image}}
           imagePullPolicy: IfNotPresent
