@@ -47,5 +47,7 @@ spec:
             limits:
               cpu: "150m"       # max 0.3 ядра
               memory: "64Mi"     # max 512 МБ
+          securityContext:
+            readOnlyRootFilesystem: true
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}

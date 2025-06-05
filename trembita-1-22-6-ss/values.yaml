@@ -387,7 +387,7 @@ trembita_config:
 
   trembita_frontend_pod:
     name: frontend
-    image:  kshypachov/trembita_frontend_v1.22.7:v1.0.4
+    image:  kshypachov/trembita_frontend_v1.22.7:v1.0.5
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
@@ -397,6 +397,11 @@ trembita_config:
       - uxp_seg_rest_api_ng_include
     ingress:
       host: trembita.office
+    ephemeralVolumeRAM:
+      - name: nginx-tmp # volume in tmpfs for store nginx tep files
+        mountPath: /tmp/nginx/temp
+        sizeLimit: "20Mi"
+
 
 
   sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
