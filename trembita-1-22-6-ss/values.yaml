@@ -387,7 +387,7 @@ trembita_config:
 
   trembita_frontend_pod:
     name: frontend
-    image:  kshypachov/trembita_frontend_v1.22.7:v1.0.3
+    image:  kshypachov/trembita_frontend_v1.22.7:v1.0.4
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
