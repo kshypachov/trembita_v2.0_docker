@@ -387,7 +387,7 @@ trembita_config:
 
   trembita_frontend_pod:
     name: frontend
-    image:  kshypachov/trembita_frontend_v1.22.7:v1.0.5
+    image:  kshypachov/trembita_frontend_v1.22.7:v1.0.6
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
@@ -399,7 +399,7 @@ trembita_config:
       host: trembita.office
     ephemeralVolumeRAM:
       - name: nginx-tmp # volume in tmpfs for store nginx tep files
-        mountPath: /tmp/nginx/temp
+        mountPath: /tmp/nginx
         sizeLimit: "20Mi"
 
 
