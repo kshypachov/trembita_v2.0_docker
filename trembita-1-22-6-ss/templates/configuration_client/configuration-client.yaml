@@ -53,7 +53,7 @@ spec:
             - "-Dlogback.configurationFile=/app/confclient-logback.xml"
             - "-Dorg.bytedeco.javacpp.noPointerGC=true"
             - "-Dorg.bytedeco.javacpp.maxBytes=0"
-            - "-Duxp.configuration-client.port=5664"
+            - "-Duxp.configuration-client.port=5665"
             - "-Duxp.common.temp-files-path=/var/tmp/uxp/"
             - "-Dorg.bytedeco.javacpp.maxPhysicalBytes=0"
             - "-cp"
