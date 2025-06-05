@@ -36,12 +36,12 @@ spec:
             - containerPort: 5666 {{/*Admin port for imideatly download global config*/}}
           resources:
             requests:
-              cpu: "100m"       # garantee 0.1 ядра
-              memory: "256Mi"   # garantee 256 МБ
+              cpu: "100m"       # garantee 0.1 core
+              memory: "128Mi"   # garantee 256 МБ
             limits:
-              cpu: "200m"       # max 0.2 ядра
-              memory: "512Mi"     # max 512 МБ
-          command: ["/opt/java/openjdk/bin/java"]
+              cpu: "200m"       # max 0.2 core
+              memory: "256Mi"     # max 512 МБ
+          command: ["java"]
           args:
             - "-Xmx50m"
             - "-XX:MaxMetaspaceSize=70m"
@@ -53,7 +53,7 @@ spec:
             - "-Dlogback.configurationFile=/app/confclient-logback.xml"
             - "-Dorg.bytedeco.javacpp.noPointerGC=true"
             - "-Dorg.bytedeco.javacpp.maxBytes=0"
-            - "-Duxp.configuration-client.port=5665"
+            - "-Duxp.configuration-client.port=5664"
             - "-Duxp.common.temp-files-path=/var/tmp/uxp/"
             - "-Dorg.bytedeco.javacpp.maxPhysicalBytes=0"
             - "-cp"
