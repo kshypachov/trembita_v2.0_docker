@@ -218,7 +218,7 @@ trembita_config:
 
   trembita_message_log_archiver_pod:  # settins specific for configuration client component
     name: message-log
-    image: kshypachov/trembita_jb_uxp-message-log-archiver-v1.22.7:v1.0.1
+    image: kshypachov/trembita_jb_uxp-message-log-archiver-v1.22.7:v1.0.2
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
@@ -233,6 +233,11 @@ trembita_config:
 #      - local_ini
 #      - uxp_message_log_archiver_logback
 #      - uxp_license
+    ephemeralVolumeRAM:
+      - name: identity-provider-java-cache
+        mountPath: /tmp/bc_java/
+        sizeLimit: "100Mi"
+
 
 
   trembita_identity_provider_rest_api_pod: # settins specific for configuration client component

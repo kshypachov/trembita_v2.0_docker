@@ -46,6 +46,7 @@ spec:
             - "-Dorg.bytedeco.javacpp.noPointerGC=true"
             - "-Dorg.bytedeco.javacpp.maxBytes=0"
             - "-Dorg.bytedeco.javacpp.maxPhysicalBytes=0"
+            - "-Dorg.bytedeco.javacpp.cachedir=/tmp/bc_java"
             - "-Dlogback.configurationFile=/app/messagelog-archiver-logback.xml"
             - "-Duxp.message-log.archiver-admin-port=5765"
             - "-Duxp.message-log.metadata-persistence-unit=messagelog-metadata"
@@ -79,6 +80,7 @@ spec:
             - "-Duxp.message-log-s3.request-timeout=0"
             - "-Duxp.message-log-s3.address="
             - "ee.cyber.uxp.messagelog.archiving.MessageLogArchiverMain"
-
+          securityContext:
+            readOnlyRootFilesystem: true
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end }}
