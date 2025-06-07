@@ -96,6 +96,7 @@ spec:
             - "-Dorg.bytedeco.javacpp.maxBytes=0"
             - "-Dorg.bytedeco.javacpp.maxPhysicalBytes=0"
             - "-Dorg.bytedeco.javacpp.cachedir=/tmp/bc_java/"
+            - "-Duxp.common.temp-files-path=/tmp/bc_java/"
             - "-Djava.library.path=/usr/share/uxp/lib/"
             - "-Dlogback.configurationFile=/app/proxy-logback.xml"
             - "-Duxp.proxy.clientHandlers=ee.cyber.uxp.proxy.clientproxy.MetadataHandler"
