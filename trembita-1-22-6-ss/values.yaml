@@ -341,6 +341,10 @@ trembita_config:
       - name: seg-rest-api-java-cache
         mountPath: /tmp/bc_java/
         sizeLimit: "100Mi"
+      - name: seg-rest-api-jetty-cache
+        mountPath: /tmp/
+        sizeLimit: "20Mi"
+
 
   trembita_proxy_pod:
     name: proxy
