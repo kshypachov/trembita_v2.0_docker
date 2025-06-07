@@ -295,7 +295,7 @@ trembita_config:
 
   trembita_verifier_pod:
     name: verifier
-    image: kshypachov/trembita_jb_uxp-verifier-v1.22.7:v1.0.0
+    image: kshypachov/trembita_jb_uxp-verifier-v1.22.7:v1.0.1
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
