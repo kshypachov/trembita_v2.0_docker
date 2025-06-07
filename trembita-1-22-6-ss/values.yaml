@@ -292,7 +292,6 @@ trembita_config:
         mountPath: /tmp/bc_java/
         sizeLimit: "100Mi"
 
-
   trembita_verifier_pod:
     name: verifier
     image: kshypachov/trembita_jb_uxp-verifier-v1.22.7:v1.0.1
@@ -321,7 +320,7 @@ trembita_config:
 
   trembita_seg_rest_api_pod:
     name: seg-rest-api
-    image: kshypachov/trembita_jb_uxp-seg-rest-api-v1.22.7:v1.0.2
+    image: kshypachov/trembita_jb_uxp-seg-rest-api-v1.22.7:v1.0.3
     env:
       TZ: Europe/Kyiv
       PKCS11_PROXY_SOCKET: tcp://94.131.252.139:23454
@@ -338,6 +337,10 @@ trembita_config:
       - uxp_anchor
       - uxp_license
       - osplm_ini
+    ephemeralVolumeRAM:
+      - name: seg-rest-api-java-cache
+        mountPath: /tmp/bc_java/
+        sizeLimit: "100Mi"
 
   trembita_proxy_pod:
     name: proxy
@@ -386,7 +389,7 @@ trembita_config:
       - uxp_anchor
       - uxp_license
     ephemeralVolumeRAM:
-      - name: java-cache # volume in tmpfs for store ocsp answers
+      - name: monitor-java-cache # volume in tmpfs for store ocsp answers
         mountPath: /tmp/bc_java/
         sizeLimit: "100Mi"
 
