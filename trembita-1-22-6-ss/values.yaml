@@ -261,7 +261,7 @@ trembita_config:
         sizeLimit: "100Mi"
       - name: identity-provider-jetty-temp
         mountPath: /tmp/
-        sizeLimit: "100Mi"
+        sizeLimit: "20Mi"
     access_tokens:
       generate_random_tokens: true
       security_server_client_id: 60997vl7jlgoi53zbyvv2k9iyny1rae2
@@ -348,7 +348,7 @@ trembita_config:
 
   trembita_proxy_pod:
     name: proxy
-    image: kshypachov/trembita_jb_uxp-proxy-v1.22.7:v1.0.9
+    image: kshypachov/trembita_jb_uxp-proxy-v1.22.7:v1.0.6
     env:
       TZ: Europe/Kyiv
       UXP_TOKENS_PASS: "0:1234,ciplus-78-5:##MADCAT##123456789"
@@ -372,6 +372,10 @@ trembita_config:
     ingress:
       host: api.trembita.office
       secure_host: secure-api.trembita.office
+    ephemeralVolumeRAM:
+      - name: proxy-java-cache
+        mountPath: /tmp/bc_java/
+        sizeLimit: "100Mi"
 
 
   trembita_monitor_pod:
@@ -470,10 +474,6 @@ trembita_config:
       storageClassName: "longhorn-rwx"
       accessModes:
         - ReadWriteMany
-
-
-
-
 
 
 

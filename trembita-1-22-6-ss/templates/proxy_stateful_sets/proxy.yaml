@@ -95,6 +95,7 @@ spec:
             - "-Dorg.bytedeco.javacpp.noPointerGC=true"
             - "-Dorg.bytedeco.javacpp.maxBytes=0"
             - "-Dorg.bytedeco.javacpp.maxPhysicalBytes=0"
+            - "-Dorg.bytedeco.javacpp.cachedir=/tmp/bc_java/"
             - "-Djava.library.path=/usr/share/uxp/lib/"
             - "-Dlogback.configurationFile=/app/proxy-logback.xml"
             - "-Duxp.proxy.clientHandlers=ee.cyber.uxp.proxy.clientproxy.MetadataHandler"
@@ -104,5 +105,7 @@ spec:
             - "/app/proxy.jar:/app/jlib/signature-xades.jar:/app/jlib/addon/certprofile-trembita.jar:/app/jlib/addon/proxy/metaservice-1.22.7.jar:/app/jlib/addon/proxy/monitoring-1.22.7.jar:/app/jlib/addon/proxy/cipher-jce-provider-1.22.7.jar:/app/jlib/addon/proxy/ciplus-jce/*"
             - "ee.cyber.uxp.proxy.ProxyMain"
 
+          securityContext:
+            readOnlyRootFilesystem: true
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}
