@@ -69,6 +69,7 @@ spec:
             - "/app/securityserver-rest-api.jar"
             - "-Duxp.common.configuration-anchor-file=/etc/uxp/configuration-anchor.xml"
             - "-Duxp.common.global-conf-path=/etc/uxp/globalconf/"
+            - "-Duxp.common.temp-files-path=/tmp/bc_java/"
             - "-Duxp.proxy.software-token-key-dir=/etc/uxp/signer/"
             - "-Duxp.proxy.server-port=5500"
             - "-Dserver.port=8085"
