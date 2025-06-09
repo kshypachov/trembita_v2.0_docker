@@ -190,7 +190,7 @@ trembita_config:
     identity_provider:
       enabled: true
       name: trembita-identity-provider
-      mountPath: /etc/uxp/conf.d/identity-provider.ini
+      mountPath: /etc/uxp/conf.d
 
 # Section for configuration every separate pod
   trembita_configuration_client_pod:  # settins specific for configuration client component
