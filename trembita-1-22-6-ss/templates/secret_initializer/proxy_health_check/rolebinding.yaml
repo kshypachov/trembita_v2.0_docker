@@ -4,6 +4,7 @@ kind: RoleBinding
 metadata:
   annotations:
     "helm.sh/hook": pre-install
+    "helm.sh/hook-delete-policy": hook-succeeded
   name: {{ .name }}-secret-writer-binding
 subjects:
   - kind: ServiceAccount

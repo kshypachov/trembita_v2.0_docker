@@ -4,7 +4,7 @@ kind: Role
 metadata:
   annotations:
     "helm.sh/hook": pre-install
-{{/*    "helm.sh/hook-delete-policy": hook-succeeded*/}}
+    "helm.sh/hook-delete-policy": hook-succeeded
   name: {{ .name }}-secret-writer
 rules:
   - apiGroups: [""]
