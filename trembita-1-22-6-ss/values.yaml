@@ -80,7 +80,7 @@ trembita_config:
       subPath: db.properties
 
     local_ini:
-      enabled: true
+      enabled: false
       name: local-ini
       mountPath: /etc/uxp/conf.d/local.ini
       subPath: local.ini
@@ -200,17 +200,10 @@ trembita_config:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp-signer
-#      - etc-uxp
       - etc-uxp-globalconf
-#      - usr-share-uxp
-#      - var-lib-uxp
     configMaps:  # add name of config maps which need to connect to this pod
-#      - db_properties
-#      - local_ini
       - uxp_anchor
       - uxp_license
-#      - db_properties
-#      - uxp_conf_client_logback
     ephemeralVolumeRAM:
       - name: uxp-conf-client-java-cache # volume in tmpfs
         mountPath: /tmp/java
@@ -227,17 +220,9 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
-#      - etc-uxp-signer
-#      - etc-uxp
-#      - usr-share-uxp
-#      - var-lib-uxp
       - var-lib-uxp-messagelog
-#      - etc-uxp-globalconf
     configMaps:  # add name of config maps which need to connect to this pod
       - db_properties
-#      - local_ini
-#      - uxp_message_log_archiver_logback
-#      - uxp_license
     ephemeralVolumeRAM:
       - name: identity-provider-java-cache
         mountPath: /tmp/bc_java/
@@ -251,15 +236,8 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
-#      - etc-uxp
-#      - usr-share-uxp
-#      - var-lib-uxp
     configMaps:  # add name of config maps which need to connect to this pod
       - db_properties
-#      - local_ini
-#      - uxp_identity_provider_rest_api_logback
-#      - uxp_anchor
-#      - uxp_license
     secrets:
       - identity_provider
     ephemeralVolumeRAM:
@@ -277,20 +255,13 @@ trembita_config:
 
   trembita_ocsp_cache_pod:
     name: ocsp-cache
-#    image: kshypachov/trembita_jb_uxp-ocsp-cache-v1.22.7:v1.0.0
     image: kshypachov/trembita_jb_uxp-ocsp-cache-v1.22.7:v1.0.3
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
-#      - etc-uxp
-#      - usr-share-uxp
-#      - var-lib-uxp
       - etc-uxp-globalconf
     configMaps:  # add name of config maps which need to connect to this pod
-#      - local_ini
       - db_properties
-#      - uxp_ocsp_cache_logback
-#      - uxp_license
     ephemeralVolumeRAM:
       - name: ocsp-cache # volume in tmpfs for store ocsp answers
         mountPath: /var/cache/uxp
@@ -305,17 +276,11 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
-#      - etc-uxp
       - etc-uxp-globalconf
-#      - usr-share-uxp
-#      - var-lib-uxp
       - var-lib-uxp-messagelog
     configMaps:  # add name of config maps which need to connect to this pod
       - db_properties
-#      - local_ini
-#      - uxp_verifier_logback
       - uxp_anchor
-#      - uxp_license
     secrets:
       - identity_provider
     ephemeralVolumeRAM:
@@ -335,14 +300,9 @@ trembita_config:
       PKCS11_PROXY_SOCKET: tcp://94.131.252.139:23454
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp-signer
-#      - etc-uxp
-#      - usr-share-uxp
-#      - var-lib-uxp
       - etc-uxp-globalconf
     configMaps: # add name of config maps which need to connect to this pod
-#      - local_ini
       - db_properties
-#      - uxp_seg_rest_api_logback
       - uxp_anchor
       - uxp_license
       - osplm_ini
@@ -366,15 +326,10 @@ trembita_config:
       PKCS11_PROXY_SOCKET: tcp://94.131.252.139:23454
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp-signer
-#      - etc-uxp
-#      - usr-share-uxp
-#      - var-lib-uxp
       - var-lib-uxp-messagelog
       - etc-uxp-globalconf
     configMaps: # add name of config maps which need to connect to this pod
-#      - local_ini
       - db_properties
-#      - uxp_proxy_logback
       - uxp_anchor
       - uxp_license
       - osplm_ini
@@ -395,16 +350,10 @@ trembita_config:
     env:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
-#      - etc-uxp
       - etc-uxp-signer
       - etc-uxp-globalconf
-#      - usr-share-uxp
-#      - var-lib-uxp
     configMaps:  # add name of config maps which need to connect to this pod
       - db_properties
-#      - local_ini
-#      - uxp_monitor_agent_logback
-#      - uxp_monitor_agent_addon_logback
       - uxp_anchor
       - uxp_license
     ephemeralVolumeRAM:
