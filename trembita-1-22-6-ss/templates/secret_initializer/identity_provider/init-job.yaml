@@ -30,6 +30,6 @@ spec:
               kubectl create secret generic {{ .name }} \
                 --from-literal=security-server-client-id=$ID \
                 --from-literal=security-server-client-secret=$SECRET \
-                --namespace={{ .Release.Namespace }} \
+                --namespace={{ $.Release.Namespace }} \
                 --dry-run=client -o yaml | kubectl apply -f -
 {{- end}}
