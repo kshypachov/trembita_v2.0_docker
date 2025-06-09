@@ -46,8 +46,8 @@ spec:
             - "-Dorg.bytedeco.javacpp.cachedir=/tmp/bc_java"
             - "-Dserver.port=8087"
             - "-Dlogging.config=/app/identity-provider-rest-api-logback.xml"
-            - "-Duxp.identity-provider.security-server-client-id={{.access_tokens.security_server_client_id}}"
-            - "-Duxp.identity-provider.security-server-client-secret={{.access_tokens.security_server_client_secret}}"
+{{/*            - "-Duxp.identity-provider.security-server-client-id={{.access_tokens.security_server_client_id}}"*/}}
+{{/*            - "-Duxp.identity-provider.security-server-client-secret={{.access_tokens.security_server_client_secret}}"*/}}
             - "-Duxp.identity-provider.database-properties=/etc/uxp/db.properties"
 {{/*            - "-Duxp.identity-provider.oauth2-issuer-location="*/}}
             - "-Duxp.identity-provider.bcrypt.log-rounds=10"

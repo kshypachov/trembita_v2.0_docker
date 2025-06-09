@@ -65,8 +65,8 @@ spec:
             - "-Dloader.path=/app/jlib/signature-xades.jar,/app/jlib/addon/certprofile-trembita.jar,/app/jlib/addon/proxy/cipher-jce-provider-1.22.7.jar,/app/jlib/addon/proxy/ciplus-jce/*"
             - "-Dserver.port=8086"
             - "-Duxp.message-log.storage-path=/tmp"
-            - "-Duxp.identity-provider.security-server-client-id={{$.Values.trembita_config.trembita_identity_provider_rest_api_pod.access_tokens.security_server_client_id}}"
-            - "-Duxp.identity-provider.security-server-client-secret={{$.Values.trembita_config.trembita_identity_provider_rest_api_pod.access_tokens.security_server_client_secret}}"
+{{/*            - "-Duxp.identity-provider.security-server-client-id={{$.Values.trembita_config.trembita_identity_provider_rest_api_pod.access_tokens.security_server_client_id}}"*/}}
+{{/*            - "-Duxp.identity-provider.security-server-client-secret={{$.Values.trembita_config.trembita_identity_provider_rest_api_pod.access_tokens.security_server_client_secret}}"*/}}
             - "-Duxp.message-log.metadata-record-extract-path=/var/lib/uxp/messagelog/old-metadata"
             - "-Duxp.message-log.storage-path=/var/lib/uxp/messagelog"
             - "-Duxp.message-log.archive-path=/var/lib/uxp/messagelog/archive"
