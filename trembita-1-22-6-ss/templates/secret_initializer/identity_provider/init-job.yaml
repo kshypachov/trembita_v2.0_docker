@@ -19,17 +19,19 @@ spec:
             - -c
             - |
               set -e
-              echo "Generating identity-provider credentials..."
 
               ID=$(head /dev/urandom | tr -dc a-z0-9 | head -c 32)
               SECRET=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64)
 
-              echo "ID: $ID"
-              echo "SECRET: $SECRET"
+              echo "Generated ID: $ID"
+              echo "Generated SECRET: $SECRET"
 
-              kubectl create secret generic {{ .name }} \
-                --from-literal=security-server-client-id=$ID \
-                --from-literal=security-server-client-secret=$SECRET \
+              echo "[identity-provider]" > /tmp/identity-provider.ini
+              echo "security-server-client-id = $ID" >> /tmp/identity-provider.ini
+              echo "security-server-client-secret = $SECRET" >> /tmp/identity-provider.ini
+
+              kubectl create secret generic {{ .name }}-secret \
+                --from-file=identity-provider.ini=/tmp/identity-provider.ini \
                 --namespace={{ $.Release.Namespace }} \
                 --dry-run=client -o yaml | kubectl apply -f -
 {{- end}}
