@@ -1,0 +1,13 @@
+{{- with .Values.trembita_config.secrets.identity_provider}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    "helm.sh/hook": pre-install
+{{/*    "helm.sh/hook-delete-policy": hook-succeeded*/}}
+  name: {{ .name }}-secret-writer
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "create", "update"]
+{{- end}}

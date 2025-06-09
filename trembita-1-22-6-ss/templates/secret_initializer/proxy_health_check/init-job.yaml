@@ -23,7 +23,7 @@ spec:
                   -subj "/CN={{ include "trembita-1-22-6-ss.fullname" $ }}" \
                   -keyout /tmp/tls.key -out /tmp/tls.crt
 
-                kubectl create secret tls {{ .name }}-cert \
+                kubectl create secret tls {{ .name }}-secret \
                   --cert=/tmp/tls.crt --key=/tmp/tls.key \
                   --namespace={{ $.Release.Namespace }} --dry-run=client -o yaml | kubectl apply -f -
 {{- end}}

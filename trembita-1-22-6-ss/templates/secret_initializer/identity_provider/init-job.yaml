@@ -1,0 +1,35 @@
+{{- with .Values.trembita_config.secrets.identity_provider}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    "helm.sh/hook": pre-install
+{{/*    "helm.sh/hook-delete-policy": hook-succeeded*/}}
+  name: {{ .name }}-init-secrets
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .name }}-init-sa
+      restartPolicy: OnFailure
+      containers:
+        - name: generate-cert
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              echo "Generating identity-provider credentials..."
+
+              ID=$(head /dev/urandom | tr -dc a-z0-9 | head -c 32)
+              SECRET=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64)
+
+              echo "ID: $ID"
+              echo "SECRET: $SECRET"
+
+              kubectl create secret generic {{ .name }} \
+                --from-literal=security-server-client-id=$ID \
+                --from-literal=security-server-client-secret=$SECRET \
+                --namespace={{ .Release.Namespace }} \
+                --dry-run=client -o yaml | kubectl apply -f -
+{{- end}}

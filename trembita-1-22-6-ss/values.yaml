@@ -187,6 +187,11 @@ trembita_config:
       name: trembita-tls-healthcheck
       mountPath: /etc/certs
 
+    identity_provider:
+      enabled: true
+      name: trembita-identity-provider
+      mountPath: /etc/uxp/conf.d/global.ini
+
 # Section for configuration every separate pod
   trembita_configuration_client_pod:  # settins specific for configuration client component
     name: conf-client

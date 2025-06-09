@@ -66,7 +66,7 @@
              {{- if and $cfg.enabled (has $name $start_context.secrets) }}
          - name: {{.name}}-secret-volume
            secret:
-             secretName: {{.name}}-cert
+             secretName: {{.name}}-secret
              {{- end }}
            {{- end }}
      {{- end }}
