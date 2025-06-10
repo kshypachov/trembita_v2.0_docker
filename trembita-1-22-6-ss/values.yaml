@@ -197,12 +197,12 @@ trembita_config:
       subPath: osplm.ini
 
   secrets:
-    proxy_tls_healthcheck:
+    healthchecktls:
       enabled: true
       name: trembita-tls-healthcheck
       mountPath: /etc/certs
 
-    identity_provider:
+    identity:
       enabled: true
       name: trembita-identity-provider
       mountPath: /etc/uxp/conf.d
@@ -264,7 +264,7 @@ trembita_config:
     sharedVolumes: # add name of shared volumes which need to connect to this pod
     configMaps:  # add name of config maps which need to connect to this pod
     secrets:
-      - identity_provider
+      - identity
       - postgres
     ephemeralVolumeRAM:
       - name: identity-provider-java-cache
@@ -308,7 +308,7 @@ trembita_config:
     configMaps:  # add name of config maps which need to connect to this pod
       - uxp_anchor
     secrets:
-      - identity_provider
+      - identity
       - postgres
     ephemeralVolumeRAM:
       - name: verifier-java-cache
@@ -333,7 +333,7 @@ trembita_config:
       - uxp_license
       - osplm_ini
     secrets:
-      - identity_provider
+      - identity
       - postgres
     ephemeralVolumeRAM:
       - name: seg-rest-api-java-cache
@@ -360,7 +360,7 @@ trembita_config:
       - uxp_license
       - osplm_ini
     secrets:
-      - proxy_tls_healthcheck
+      - healthchecktls
       - postgres
     ingress:
       host: api.trembita.office
