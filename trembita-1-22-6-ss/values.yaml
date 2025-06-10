@@ -215,7 +215,7 @@ trembita_config:
 
     postgres_op_mon_adm:
       enabled: true
-      name: trembita-postgres-om-mon-adm
+      name: trembita-postgres
       mountPath: /etc/uxp/db.monitor-admin
       subPath: db.monitor-admin
 
