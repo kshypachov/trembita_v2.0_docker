@@ -37,7 +37,7 @@
 
             {{- range $name, $cfg := $root.Values.trembita_config.secrets }}
              {{- if and $cfg.enabled (has $name $start_context.secrets) }}
-            - name: {{ .name }}-secret-volume
+            - name: {{ $name }}-secret-volume
               mountPath: {{ $cfg.mountPath }}
               {{- if $cfg.subPath}}
               subPath: {{$cfg.subPath}}
@@ -79,7 +79,7 @@
 
            {{- range $name, $cfg := $root.Values.trembita_config.secrets }}
              {{- if and $cfg.enabled (has $name $start_context.secrets) }}
-         - name: {{.name}}-secret-volume
+         - name: {{$name}}-secret-volume
            secret:
              secretName: {{.name}}-secret
              {{- end }}
