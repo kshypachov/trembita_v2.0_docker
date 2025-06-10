@@ -63,20 +63,20 @@ trembita_config:
   init_job:
     image: kshypachov/trembita_init_img:v1.0.2
 
-  ss_to_db_access:
-    PGPORT: 5432
-    PGROOT_USER: postgres
-    PGROOT_PASSWORD: mysecretpassword
-    SERVERCONF_DB_USER: serverconf
-    SERVERCONF_DB_PASS: serverconfp
-    MESSAGELOG_DB_USER: messagelog
-    MESSAGELOG_DB_PASS: messagelogp
-    IDENTITY_DB_USER: identityprovider
-    IDENTITY_DB_PASS: identityproviderp
-    OPMONITOR_DB_USER: opmonitor
-    OPMONITOR_DB_PASS: opmonitorp
-    OPMONITOR_ADMIN_DB_USER: opmonitor_admin
-    PMONITOR_ADMIN_DB_PASS: opmonitor_adminp
+#  ss_to_db_access:
+#    PGPORT: 5432
+#    PGROOT_USER: postgres
+#    PGROOT_PASSWORD: mysecretpassword
+#    SERVERCONF_DB_USER: serverconf
+#    SERVERCONF_DB_PASS: serverconfp
+#    MESSAGELOG_DB_USER: messagelog
+#    MESSAGELOG_DB_PASS: messagelogp
+#    IDENTITY_DB_USER: identityprovider
+#    IDENTITY_DB_PASS: identityproviderp
+#    OPMONITOR_DB_USER: opmonitor
+#    OPMONITOR_DB_PASS: opmonitorp
+#    OPMONITOR_ADMIN_DB_USER: opmonitor_admin
+#    PMONITOR_ADMIN_DB_PASS: opmonitor_adminp
 
 
 
@@ -84,7 +84,7 @@ trembita_config:
   configMaps:
     enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
     db_properties: # For testing only!!!!!! ConfigMap not suitable for storing sensitive data like a DB password
-      enabled: true
+      enabled: false
       name: db-properties
       mountPath: /etc/uxp/db.properties
       subPath: db.properties
@@ -237,7 +237,8 @@ trembita_config:
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - var-lib-uxp-messagelog
     configMaps:  # add name of config maps which need to connect to this pod
-      - db_properties
+    secrets:
+      - postgres
     ephemeralVolumeRAM:
       - name: identity-provider-java-cache
         mountPath: /tmp/bc_java/
@@ -252,9 +253,9 @@ trembita_config:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
     configMaps:  # add name of config maps which need to connect to this pod
-      - db_properties
     secrets:
       - identity_provider
+      - postgres
     ephemeralVolumeRAM:
       - name: identity-provider-java-cache
         mountPath: /tmp/bc_java/
@@ -276,7 +277,8 @@ trembita_config:
     sharedVolumes: # add name of shared volumes which need to connect to this pod
       - etc-uxp-globalconf
     configMaps:  # add name of config maps which need to connect to this pod
-      - db_properties
+    secrets:
+      - postgres
     ephemeralVolumeRAM:
       - name: ocsp-cache # volume in tmpfs for store ocsp answers
         mountPath: /var/cache/uxp
@@ -294,10 +296,10 @@ trembita_config:
       - etc-uxp-globalconf
       - var-lib-uxp-messagelog
     configMaps:  # add name of config maps which need to connect to this pod
-      - db_properties
       - uxp_anchor
     secrets:
       - identity_provider
+      - postgres
     ephemeralVolumeRAM:
       - name: verifier-java-cache
         mountPath: /tmp/bc_java/
@@ -317,12 +319,12 @@ trembita_config:
       - etc-uxp-signer
       - etc-uxp-globalconf
     configMaps: # add name of config maps which need to connect to this pod
-      - db_properties
       - uxp_anchor
       - uxp_license
       - osplm_ini
     secrets:
       - identity_provider
+      - postgres
     ephemeralVolumeRAM:
       - name: seg-rest-api-java-cache
         mountPath: /tmp/bc_java/
@@ -344,12 +346,12 @@ trembita_config:
       - var-lib-uxp-messagelog
       - etc-uxp-globalconf
     configMaps: # add name of config maps which need to connect to this pod
-      - db_properties
       - uxp_anchor
       - uxp_license
       - osplm_ini
     secrets:
       - proxy_tls_healthcheck
+      - postgres
     ingress:
       host: api.trembita.office
       secure_host: secure-api.trembita.office
@@ -368,9 +370,10 @@ trembita_config:
       - etc-uxp-signer
       - etc-uxp-globalconf
     configMaps:  # add name of config maps which need to connect to this pod
-      - db_properties
       - uxp_anchor
       - uxp_license
+    secrets:
+      - postgres
     ephemeralVolumeRAM:
       - name: monitor-java-cache # volume in tmpfs for store ocsp answers
         mountPath: /tmp/bc_java/

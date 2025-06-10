@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-#export PGHOST = postgres
-#export PGPORT = 5432
-
 # Путь к файлу db.properties
 DB_PROPERTIES="/etc/uxp/db.properties"
 
@@ -36,25 +33,25 @@ export OPMONITOR_DB_PASS=$(get_value "op-monitor.hibernate.connection.password")
 # Путь к файлу db.monitor-admin
 DB_PROPERTIES="/etc/uxp/db.monitor-admin"
 
-# Админ-пользователь для op-monitor — в файле не задан
+# Админ-пользователь для op-monitor
 export OPMONITOR_ADMIN_DB_USER=$(get_value "op-monitor-admin.username")
 export OPMONITOR_ADMIN_DB_PASS=$(get_value "op-monitor-admin.password")
 
 # Вывод всех переменных
-echo "PGHOST=$PGHOST"
-echo "PGPORT=$PGPORT"
-echo "PGROOT_USER=$PGROOT_USER"
-echo "PGROOT_PASSWORD=$PGROOT_PASSWORD"
-echo "SERVERCONF_DB_USER=$SERVERCONF_DB_USER"
-echo "SERVERCONF_DB_PASS=$SERVERCONF_DB_PASS"
-echo "MESSAGELOG_DB_USER=$MESSAGELOG_DB_USER"
-echo "MESSAGELOG_DB_PASS=$MESSAGELOG_DB_PASS"
-echo "IDENTITY_DB_USER=$IDENTITY_DB_USER"
-echo "IDENTITY_DB_PASS=$IDENTITY_DB_PASS"
-echo "OPMONITOR_DB_USER=$OPMONITOR_DB_USER"
-echo "OPMONITOR_DB_PASS=$OPMONITOR_DB_PASS"
-echo "OPMONITOR_ADMIN_DB_USER=$OPMONITOR_ADMIN_DB_USER"
-echo "OPMONITOR_ADMIN_DB_PASS=$OPMONITOR_ADMIN_DB_PASS"
+#echo "PGHOST=$PGHOST"
+#echo "PGPORT=$PGPORT"
+#echo "PGROOT_USER=$PGROOT_USER"
+#echo "PGROOT_PASSWORD=$PGROOT_PASSWORD"
+#echo "SERVERCONF_DB_USER=$SERVERCONF_DB_USER"
+#echo "SERVERCONF_DB_PASS=$SERVERCONF_DB_PASS"
+#echo "MESSAGELOG_DB_USER=$MESSAGELOG_DB_USER"
+#echo "MESSAGELOG_DB_PASS=$MESSAGELOG_DB_PASS"
+#echo "IDENTITY_DB_USER=$IDENTITY_DB_USER"
+#echo "IDENTITY_DB_PASS=$IDENTITY_DB_PASS"
+#echo "OPMONITOR_DB_USER=$OPMONITOR_DB_USER"
+#echo "OPMONITOR_DB_PASS=$OPMONITOR_DB_PASS"
+#echo "OPMONITOR_ADMIN_DB_USER=$OPMONITOR_ADMIN_DB_USER"
+#echo "OPMONITOR_ADMIN_DB_PASS=$OPMONITOR_ADMIN_DB_PASS"
 
 
 # Проверка обязательных переменных окружения

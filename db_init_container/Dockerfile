@@ -10,5 +10,4 @@ COPY serverconf.sql serverconf.sql
 COPY entrypoint.sh entrypoint.sh
 RUN chmod +x entrypoint.sh
 
-ENTRYPOINT ["top"]
-#ENTRYPOINT ["/bin/bash", "entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "entrypoint.sh"]
