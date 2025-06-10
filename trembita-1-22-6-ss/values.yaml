@@ -58,6 +58,7 @@ trembita_config:
         TZ: Europe/Kyiv
       secrets:
         - postgres
+        - postgres_op_mon_adm
 
     trembita_volumes:
       name: trembita_volumes_init
@@ -211,6 +212,12 @@ trembita_config:
       name: trembita-postgres
       mountPath: /etc/uxp/db.properties
       subPath: db.properties
+
+    postgres_op_mon_adm:
+      enabled: true
+      name: trembita-postgres-om-mon-adm
+      mountPath: /etc/uxp/db.monitor-admin
+      subPath: db.monitor-admin
 
 # Section for configuration every separate pod
   trembita_configuration_client_pod:  # settins specific for configuration client component
