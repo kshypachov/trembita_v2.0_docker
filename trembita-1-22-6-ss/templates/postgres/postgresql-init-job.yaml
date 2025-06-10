@@ -8,8 +8,8 @@ metadata:
 {{/*    "helm.sh/hook-delete-policy": hook-succeeded*/}}
   name: {{.name}}
   labels:
-    app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" $ }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
     app.kubernetes.io/component: {{.name}}
 spec:
   backoffLimit: 1
