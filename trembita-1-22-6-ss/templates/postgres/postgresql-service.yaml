@@ -1,3 +1,4 @@
+{{- with .Values.trembita_config.trembita_postgresql_pod}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -11,3 +12,4 @@ spec:
       targetPort: {{ .Values.postgresql.port }}
   selector:
     app: {{.name}}
+{{- end}}
