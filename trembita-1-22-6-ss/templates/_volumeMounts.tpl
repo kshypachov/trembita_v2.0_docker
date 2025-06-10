@@ -39,6 +39,9 @@
              {{- if and $cfg.enabled (has $name $start_context.secrets) }}
             - name: {{ .name }}-secret-volume
               mountPath: {{ $cfg.mountPath }}
+              {{- if $cfg.subPath}}
+              subPath: {{$cfg.subPath}}
+              {{- end }}
               readOnly: true
              {{- end }}
             {{- end }}

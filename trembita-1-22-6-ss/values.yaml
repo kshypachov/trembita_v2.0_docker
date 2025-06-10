@@ -205,7 +205,8 @@ trembita_config:
     postgres:
       enabled: true
       name: trembita-postgres
-      mountPath: /etc/uxp
+      mountPath: /etc/uxp/db.properties
+      subPath: db.properties
 
 # Section for configuration every separate pod
   trembita_configuration_client_pod:  # settins specific for configuration client component
