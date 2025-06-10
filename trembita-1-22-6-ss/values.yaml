@@ -395,7 +395,7 @@ trembita_config:
 
     persistentStorage:
       - name: postgres
-        mountPath: /var/lib/postgresql/data/pgdata
+        mountPath: /var/lib/postgresql/data
         size: 1Gi
         storageClass: ""
 
