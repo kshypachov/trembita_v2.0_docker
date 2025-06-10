@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-export PGHOST = postgres
-export PGPORT = 5432
+#export PGHOST = postgres
+#export PGPORT = 5432
 
 # Путь к файлу db.properties
 DB_PROPERTIES="/etc/uxp/db.properties"
@@ -17,8 +17,8 @@ export PGHOST=$(get_value "serverconf.hibernate.connection.url" | sed -E 's|jdbc
 export PGPORT=$(get_value "serverconf.hibernate.connection.url" | sed -E 's|jdbc:postgresql://([^:/]+):([0-9]+)/.*|\2|')
 
 # Root-пользователь — не указан в файле, нужно задать отдельно
-export PGROOT_USER="postgres"
-export PGROOT_PASSWORD="<заполни_вручную_или_из_секрета>"
+#export PGROOT_USER="postgres"
+#export PGROOT_PASSWORD="<заполни_вручную_или_из_секрета>"
 
 # Пользователи и пароли
 export SERVERCONF_DB_USER=$(get_value "serverconf.hibernate.connection.username")

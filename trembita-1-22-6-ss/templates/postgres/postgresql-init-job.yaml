@@ -20,13 +20,15 @@ spec:
         - name: {{.name}}
           image: {{.image}}
           imagePullPolicy: IfNotPresent
-          {{if .env}}
           env:
+            - name: PGROOT_USER
+              value: {{$.Values.trembita_config.trembita_postgresql_pod.env.POSTGRES_USER}}
+            - name: PGROOT_PASSWORD
+              value: {{$.Values.trembita_config.trembita_postgresql_pod.env.POSTGRES_PASSWORD}}
             {{- range $k, $v := .env }}
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
-          {{- end }}
           resources:
             requests:
               cpu: "100m"       # garantee 0.1 ядра
