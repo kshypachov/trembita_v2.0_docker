@@ -59,9 +59,13 @@ trembita_config:
       secrets:
         - postgres
 
+    trembita_volumes:
+      name: trembita_volumes_init
+      image: kshypachov/trembita_init_img:v1.0.2
 
-  init_job:
-    image: kshypachov/trembita_init_img:v1.0.2
+
+#  init_job:
+#    image: kshypachov/trembita_init_img:v1.0.2
 
 #  ss_to_db_access:
 #    PGPORT: 5432
@@ -229,7 +233,6 @@ trembita_config:
         sizeLimit: "2Mi"
 
 
-
   trembita_message_log_archiver_pod:  # settins specific for configuration client component
     name: message-log
     image: kshypachov/trembita_jb_uxp-message-log-archiver-v1.22.7:v1.0.2
@@ -244,7 +247,6 @@ trembita_config:
       - name: identity-provider-java-cache
         mountPath: /tmp/bc_java/
         sizeLimit: "100Mi"
-
 
 
   trembita_identity_provider_rest_api_pod: # settins specific for configuration client component
@@ -495,26 +497,26 @@ minio:
     ingressClassName: "nginx"
     hostname: api.minio.trembita.office
 
-postgresql:
-  containerName: postgres
-  image: postgres:16
-  username: postgres
-  password: mysecretpassword
-  database: appdb
-  port: 5432
-  max_connections: 200
-
-  persistence:
-    enabled: true
-    size: 1Gi
-    storageClass: ""
-
-  env:
-    - name: PGDATA
-      value: /var/lib/postgresql/data/pgdata
-    - name: POSTGRES_USER
-      value: postgres
-    - name: POSTGRES_PASSWORD
-      value: mysecretpassword
-    - name: POSTGRES_DB
-      value: appdb
+#postgresql:
+#  containerName: postgres
+#  image: postgres:16
+#  username: postgres
+#  password: mysecretpassword
+#  database: appdb
+#  port: 5432
+#  max_connections: 200
+#
+#  persistence:
+#    enabled: true
+#    size: 1Gi
+#    storageClass: ""
+#
+#  env:
+#    - name: PGDATA
+#      value: /var/lib/postgresql/data/pgdata
+#    - name: POSTGRES_USER
+#      value: postgres
+#    - name: POSTGRES_PASSWORD
+#      value: mysecretpassword
+#    - name: POSTGRES_DB
+#      value: appdb
