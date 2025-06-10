@@ -1,0 +1,40 @@
+{{- with .Values.trembita_config.trembita_postgresql_pod}}
+{{- $ctx := . }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+{{/*    "helm.sh/hook": pre-install*/}}
+  name: {{.name}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{.name}}
+  template:
+    metadata:
+      labels:
+        app: {{.name}}
+    spec:
+      containers:
+        - name: {{.name}}
+          image: {{ .image }}
+          args:
+            - "-c"
+            - "max_connections=200"
+          {{if .env}}
+          env:
+            {{- range $k, $v := .env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          {{- end }}
+          resources:
+            requests:
+              cpu: "100m"       # garantee 0.1 ядра
+              memory: "256Mi"   # garantee 256 МБ
+            limits:
+              cpu: "200m"       # max 0.2 ядра
+              memory: "512Mi"     # max 512 МБ
+{{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
+{{- end}}

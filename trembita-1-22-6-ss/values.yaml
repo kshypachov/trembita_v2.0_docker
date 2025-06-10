@@ -53,20 +53,20 @@ trembita_config:
   init_job:
     image: kshypachov/trembita_init_img:v1.0.2
 
-#  ss_to_db_access:
-#    PGPORT: 5432
-#    PGROOT_USER: postgres
-#    PGROOT_PASSWORD: mysecretpassword
-#    SERVERCONF_DB_USER: serverconf
-#    SERVERCONF_DB_PASS: serverconfp
-#    MESSAGELOG_DB_USER: messagelog
-#    MESSAGELOG_DB_PASS: messagelogp
-#    IDENTITY_DB_USER: identityprovider
-#    IDENTITY_DB_PASS: identityproviderp
-#    OPMONITOR_DB_USER: opmonitor
-#    OPMONITOR_DB_PASS: opmonitorp
-#    OPMONITOR_ADMIN_DB_USER: opmonitor_admin
-#    PMONITOR_ADMIN_DB_PASS: opmonitor_adminp
+  ss_to_db_access:
+    PGPORT: 5432
+    PGROOT_USER: postgres
+    PGROOT_PASSWORD: mysecretpassword
+    SERVERCONF_DB_USER: serverconf
+    SERVERCONF_DB_PASS: serverconfp
+    MESSAGELOG_DB_USER: messagelog
+    MESSAGELOG_DB_PASS: messagelogp
+    IDENTITY_DB_USER: identityprovider
+    IDENTITY_DB_PASS: identityproviderp
+    OPMONITOR_DB_USER: opmonitor
+    OPMONITOR_DB_PASS: opmonitorp
+    OPMONITOR_ADMIN_DB_USER: opmonitor_admin
+    PMONITOR_ADMIN_DB_PASS: opmonitor_adminp
 
 
 
@@ -191,6 +191,11 @@ trembita_config:
       enabled: true
       name: trembita-identity-provider
       mountPath: /etc/uxp/conf.d
+
+    postgres:
+      enabled: true
+      name: trembita-postgres
+      mountPath: /etc/uxp
 
 # Section for configuration every separate pod
   trembita_configuration_client_pod:  # settins specific for configuration client component
@@ -377,6 +382,24 @@ trembita_config:
       - name: nginx-tmp # volume in tmpfs for store nginx tep files
         mountPath: /tmp/nginx
         sizeLimit: "20Mi"
+
+  trembita_postgresql_pod:
+    name: postgres
+    image: postgres:16
+    env:
+      TZ: Europe/Kyiv
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: appdb
+
+    persistentStorage:
+      - name: postgres
+        mountPath: /var/lib/postgresql/data/pgdata
+        size: 1Gi
+        storageClass: ""
+
+
 
 
 
