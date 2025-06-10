@@ -1,29 +1,38 @@
+{{- with .Values.trembita_config.init_jobs.trembita_postgres}}
+{{- $ctx := . }}
 apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
 {{/*    "helm.sh/hook": pre-install*/}}
 {{/*    "helm.sh/hook-delete-policy": hook-succeeded*/}}
-  name: postgres-db-init
+  name: {{.name}}
   labels:
     app.kubernetes.io/name: {{ include "trembita-1-22-6-ss.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: db-init
+    app.kubernetes.io/component: {{.name}}
 spec:
   backoffLimit: 1
   template:
     spec:
       restartPolicy: OnFailure
       containers:
-        - name: db-init
-          image: "{{ .Values.postgresql_init.initJob.containerImageName }}:{{ .Values.postgresql_init.initJob.containerImageVer }}"
+        - name: {{.name}}
+          image: {{.image}}
           imagePullPolicy: IfNotPresent
+          {{if .env}}
           env:
-            - name: PGHOST
-              value: {{ include "trembita-1-22-6-ss.fullname" . }}-postgres
-            - name: PGPORT
-              value: "5432"
-            {{- range .Values.postgresql_init.initJob.env }}
-            - name: {{ .name }}
-              value: {{ .value | quote }}
+            {{- range $k, $v := .env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
             {{- end }}
+          {{- end }}
+          resources:
+            requests:
+              cpu: "100m"       # garantee 0.1 ядра
+              memory: "256Mi"   # garantee 256 МБ
+            limits:
+              cpu: "200m"       # max 0.2 ядра
+              memory: "512Mi"     # max 512 МБ
+{{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
+{{- end }}
