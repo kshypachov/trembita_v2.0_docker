@@ -19,7 +19,7 @@ spec:
       containers:
         - name: {{.name}}
           image: {{.image}}
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           env:
             - name: PGROOT_USER
               value: {{$.Values.trembita_config.trembita_postgresql_pod.env.POSTGRES_USER}}
