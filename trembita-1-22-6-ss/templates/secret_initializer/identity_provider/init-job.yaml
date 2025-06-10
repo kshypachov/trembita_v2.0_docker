@@ -1,11 +1,11 @@
-{{- with .Values.trembita_config.secrets.identity_provider}}
+{{- with .Values.trembita_config.secrets.identity}}
   {{- if .enabled}}
 apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
     "helm.sh/hook": pre-install
-{{/*    "helm.sh/hook-delete-policy": hook-succeeded*/}}
+    "helm.sh/hook-delete-policy": hook-succeeded
   name: {{ .name }}-init-secrets
 spec:
   template:
