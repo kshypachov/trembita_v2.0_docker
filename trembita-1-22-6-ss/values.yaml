@@ -58,7 +58,7 @@ trembita_config:
         TZ: Europe/Kyiv
       secrets:
         - postgres
-        - postgres_op_mon_adm
+        - postgres4mon2adm
 
     trembita_volumes:
       name: trembita_volumes_init
