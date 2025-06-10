@@ -50,6 +50,13 @@ postgresql_init:
 
 # Main config section for Trembita application
 trembita_config:
+  init_jobs:
+    trembita_postgres:
+      name: postgres-init-job
+      image: kshypachov/trembita_ss_v1.22.6-pg-init:v1.0.8
+    secrets:
+
+
   init_job:
     image: kshypachov/trembita_init_img:v1.0.2
 
