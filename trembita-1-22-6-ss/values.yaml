@@ -54,8 +54,8 @@ trembita_config:
     trembita_postgres:
       name: postgres-init-job
       image: kshypachov/trembita_ss_v1.22.6-pg-init:v1.0.8
-    secrets:
-      - postgres
+      secrets:
+        - postgres
 
 
   init_job:
