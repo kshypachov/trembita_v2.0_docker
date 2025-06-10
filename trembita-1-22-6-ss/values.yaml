@@ -213,7 +213,7 @@ trembita_config:
       mountPath: /etc/uxp/db.properties
       subPath: db.properties
 
-    postgres_op_mon_adm:
+    postgres4mon2adm:
       enabled: true
       name: trembita-postgres
       mountPath: /etc/uxp/db.monitor-admin
