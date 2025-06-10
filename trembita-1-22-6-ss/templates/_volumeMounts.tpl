@@ -83,7 +83,7 @@
            {{- end }}
 
            {{- range $start_context.persistentStorage}}
-         - name: {{.name}}-volume
+         - name: {{.name}}-persistent
            persistentVolumeClaim:
              claimName: {{.name}}-pvc
            {{- end }}
