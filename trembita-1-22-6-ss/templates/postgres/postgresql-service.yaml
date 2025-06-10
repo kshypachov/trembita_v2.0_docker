@@ -10,4 +10,4 @@ spec:
     - port: 5432
       targetPort: {{ .Values.postgresql.port }}
   selector:
-    app: {{ include "trembita-1-22-6-ss.name" . }}-postgres
+    app: {{.name}}
