@@ -6,22 +6,22 @@ metadata:
   name: {{ .local_ini.name}}
 data:
   {{ default "local.ini" .local_ini.subPath}}: |
-    [identity-provider]
-{{/*    security-server-client-id = 60997vl7jlgoi53zbyvv2k9iyny1rae2*/}}
-{{/*    security-server-client-secret = QTK3fBuPu0v0m2DpvEees0AODujEcX3V*/}}
-{{/*    public-client-redirect-uris= https://{{$.Values.trembita_config.trembita_frontend_pod.ingress.host}}*/}}
-{{/*    hostname={{$.Values.trembita_config.trembita_frontend_pod.ingress.host}}*/}}
+    ;[identity-provider]
+    ;security-server-client-id = 60997vl7jlgoi53zbyvv2k9iyny1rae2
+    ;security-server-client-secret = QTK3fBuPu0v0m2DpvEees0AODujEcX3V
+    ;public-client-redirect-uris= https://{{$.Values.trembita_config.trembita_frontend_pod.ingress.host}}
+    ;hostname={{$.Values.trembita_config.trembita_frontend_pod.ingress.host}}
 
 
-{{/*    [message-log]*/}}
-{{/*    archive-storage-type = s3*/}}
-{{/*    archive-interval=0 * * * * ? **/}}
+    ;[message-log]
+    ;archive-storage-type = s3
+    ;archive-interval=0 * * * * ? *
 
-{{/*    [message-log-s3]*/}}
-{{/*    bucket-name = uxp-messagelog*/}}
-{{/*    access-key = scmyyP91huXNGdcGgLUu*/}}
-{{/*    secret-key = jFiGQMn8pPngBFUFN1NcrxEjfWPKm11tIolVGmcm*/}}
-{{/*    address = http://minio:9000*/}}
+    ;[message-log-s3]
+    ;bucket-name = uxp-messagelog
+    ;access-key = scmyyP91huXNGdcGgLUu
+    ;secret-key = jFiGQMn8pPngBFUFN1NcrxEjfWPKm11tIolVGmcm
+    ;address = http://minio:9000
 
 {{- end}}
 {{- end}}

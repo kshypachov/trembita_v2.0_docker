@@ -3,6 +3,12 @@
 Этот Helm Chart предназначен для развертывания платформы **Trembita 2.0** в Kubernetes окружении.
 
 ---
+Данный Helm-чарт использует следующие сущности Kubernetes:
+
+1. [ConfigMap](docs/ConfigMaps.md) — конфигурационные файлы для контейнеров
+2. [Общие тома (shared volumes)](docs/sharedVolumes.md) — постоянные тома с доступом из нескольких Pod'ов
+3. [Эфемерные тома (RAM volumes)](docs/ephemeralVolumes.md) — временные тома в оперативной памяти
+4. [Постоянное хранилище (persistent storage)](docs/persistentVolume.md) — постоянное хранилище для одного Pod
 
 ## Подготовка
 
@@ -68,20 +74,20 @@ trembita-1-22-6-ss/values.yaml
 
 > **Важно**: Все образы, указанные ниже, рекомендуется пересобрать и опубликовать в вашем реестре Docker.
 
-| Параметр | Образ | Назначение |
-|---------|-------|------------|
-| `trembita_config.init_jobs.trembita_postgres.image` | db_init_container | Инициализация базы данных |
-| `trembita_config.init_jobs.trembita_volumes.image` | uxp-main | Создание структуры файловой системы |
-| `trembita_config.trembita_configuration_client_pod.image` | uxp-configuration-client | Загрузка конфигурации |
-| `trembita_config.trembita_message_log_archiver_pod.image` | uxp-message-log-archiver | Архивирование транзакций |
-| `trembita_config.trembita_identity_provider_rest_api_pod.image` | uxp-identity-provider-rest-api | API Identity Provider |
-| `trembita_config.trembita_ocsp_cache_pod.image` | uxp-ocsp-cache | Кеширование OCSP ответов |
-| `trembita_config.trembita_verifier_pod.image` | uxp-verifier | Проверка транзакций |
-| `trembita_config.trembita_seg_rest_api_pod.image` | uxp-seg-rest-api | SEG REST API |
-| `trembita_config.trembita_proxy_pod.image` | uxp-proxy | Основной прокси-сервер |
-| `trembita_config.trembita_monitor_pod.image` | uxp-monitor | Мониторинг |
-| `trembita_config.trembita_frontend_pod.image` | uxp-frontend | Веб-интерфейс |
-| `trembita_config.trembita_postgresql_pod.image` | postgres:16 | База данных |
+| Параметр | Образ | Назначение                                                                            |
+|---------|-------|---------------------------------------------------------------------------------------|
+| `trembita_config.init_jobs.trembita_postgres.image` | db_init_container | Инициализация базы данных                                                             |
+| `trembita_config.init_jobs.trembita_volumes.image` | uxp-main | Создание структуры файловой системы                                                   |
+| `trembita_config.trembita_configuration_client_pod.image` | uxp-configuration-client | Служба загружает глобальную конфигурацию из источников указанных в якоре конфигурации |
+| `trembita_config.trembita_message_log_archiver_pod.image` | uxp-message-log-archiver | Архивирование транзакций в файловую систему или s3 хранилище                          |
+| `trembita_config.trembita_identity_provider_rest_api_pod.image` | uxp-identity-provider-rest-api | API OAuth авторизация пользователей веб интерфейса                                    |
+| `trembita_config.trembita_ocsp_cache_pod.image` | uxp-ocsp-cache | Кеширование OCSP ответов                                                              |
+| `trembita_config.trembita_verifier_pod.image` | uxp-verifier | Проверка транзакций                                                                   |
+| `trembita_config.trembita_seg_rest_api_pod.image` | uxp-seg-rest-api | REST API для управления ШБО Trembita 2.0                                              |
+| `trembita_config.trembita_proxy_pod.image` | uxp-proxy | Обработка транзакций (шифрование, дешифрование, подпись)                              |
+| `trembita_config.trembita_monitor_pod.image` | uxp-monitor | Мониторинг, агрегирование транзакционных логов                                        |
+| `trembita_config.trembita_frontend_pod.image` | uxp-frontend | Веб-интерфейс                                                                         |
+| `trembita_config.trembita_postgresql_pod.image` | postgres:16 | База данных                                                                           |
 
 ---
 
@@ -89,17 +95,18 @@ trembita-1-22-6-ss/values.yaml
 
 #### Использование HSM (Cipher или Gryda-301)
 
-- Добавьте в `env` переменную окружения:
+- Добавьте в `env` переменную окружения в секциях `trembita_seg_rest_api_pod:` и `trembita_proxy_pod:` :
 
 ```yaml
 PKCS11_PROXY_SOCKET: tcp://192.168.252.139:12345
 ```
 
-- Если используется **Gryda-301**, раскомментируйте в `configMaps` параметр `osplm_ini`.
+- Если используется **Gryda-301**, раскомментируйте в секциях `trembita_seg_rest_api_pod:` и `trembita_proxy_pod:` в `configMaps` параметр `osplm_ini`.
+- Отредактируйте конфиг мап `osplm_ini` - вписав коректные значения вашей **Gryda-301** (как работают [конфиг мап](docs/ConfigMaps.md) в данном чарте)
 
 #### Передача токенов в proxy:
 
-- Добавьте переменную:
+- Добавьте в `env` переменную окружения в секциях `trembita_seg_rest_api_pod:` и `trembita_proxy_pod:` :
 
 ```yaml
 UXP_TOKENS_PASS: "0:12345,ciplus-78-5:##ADMIN##123456789"

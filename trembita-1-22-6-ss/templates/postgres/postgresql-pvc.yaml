@@ -16,25 +16,3 @@ spec:
   storageClassName: {{ $cfg.storageClassName }}
   {{- end }}
 {{- end }}
-
-
-
-
-
-{{/*{{- with .Values.trembita_config.trembita_postgresql_pod }}*/}}
-{{/*apiVersion: v1*/}}
-{{/*kind: PersistentVolumeClaim*/}}
-{{/*metadata:*/}}
-{{/*  annotations:*/}}
-{{/*    "helm.sh/hook": pre-install*/}}
-{{/*  name: {{.persistentStorage.}}-pvc*/}}
-{{/*spec:*/}}
-{{/*  accessModes:*/}}
-{{/*    - ReadWriteOnce*/}}
-{{/*  resources:*/}}
-{{/*    requests:*/}}
-{{/*      storage: {{ .Values.postgresql.persistence.size }}*/}}
-{{/*  {{- if .Values.postgresql.persistence.storageClass}}*/}}
-{{/*  storageClassName: {{ .Values.postgresql.persistence.storageClass }}*/}}
-{{/*  {{- end }}*/}}
-{{/*{{- end }}*/}}
