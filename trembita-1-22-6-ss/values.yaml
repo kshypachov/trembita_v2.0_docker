@@ -11,46 +11,11 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-##
-#postgresql_init:
-#  initJob:
-#    containerImageName: kshypachov/trembita_ss_v1.22.6-pg-init
-#    containerImageVer: v1.0.8
-#    env:
-##      - name: PGHOST
-##        value: uxp-postgres
-#      - name: PGPORT
-#        value: 5432
-#      - name: PGROOT_USER
-#        value: postgres
-#      - name: PGROOT_PASSWORD
-#        value: mysecretpassword
-#      - name: SERVERCONF_DB_USER
-#        value: serverconf
-#      - name: SERVERCONF_DB_PASS
-#        value: serverconfp
-#      - name: MESSAGELOG_DB_USER
-#        value: messagelog
-#      - name: MESSAGELOG_DB_PASS
-#        value: messagelogp
-#      - name: IDENTITY_DB_USER
-#        value: identityprovider
-#      - name: IDENTITY_DB_PASS
-#        value: identityproviderp
-#      - name: OPMONITOR_DB_USER
-#        value: opmonitor
-#      - name: OPMONITOR_DB_PASS
-#        value: opmonitorp
-#      - name: OPMONITOR_ADMIN_DB_USER
-#        value: opmonitor_admin
-#      - name: OPMONITOR_ADMIN_DB_PASS
-#        value: opmonitor_adminp
-
-
-
 # Main config section for Trembita application
 trembita_config:
+  # initial jobs section consist configuration parameters for jobs which init file system or DB
   init_jobs:
+    # job for init DB, this job upload dumps of all needed databases and tables for trembita
     trembita_postgres:
       name: postgres-init-job
       image: kshypachov/trembita_ss_v1.22.6-pg-init:v1.0.9
@@ -59,70 +24,40 @@ trembita_config:
       secrets:
         - postgres
         - postgres4mon2adm
-
+    # job for initialize volumes which filled in section sharedVolumes:
+    # job copy files and directirys from base image to volumes
     trembita_volumes:
       name: trembita_volumes_init
       image: kshypachov/trembita_init_img:v1.0.2
 
-
-#  init_job:
-#    image: kshypachov/trembita_init_img:v1.0.2
-
-#  ss_to_db_access:
-#    PGPORT: 5432
-#    PGROOT_USER: postgres
-#    PGROOT_PASSWORD: mysecretpassword
-#    SERVERCONF_DB_USER: serverconf
-#    SERVERCONF_DB_PASS: serverconfp
-#    MESSAGELOG_DB_USER: messagelog
-#    MESSAGELOG_DB_PASS: messagelogp
-#    IDENTITY_DB_USER: identityprovider
-#    IDENTITY_DB_PASS: identityproviderp
-#    OPMONITOR_DB_USER: opmonitor
-#    OPMONITOR_DB_PASS: opmonitorp
-#    OPMONITOR_ADMIN_DB_USER: opmonitor_admin
-#    PMONITOR_ADMIN_DB_PASS: opmonitor_adminp
-
-
-
 # section for define config maps.Config maps will connect to all containers deployed this helm chart
   configMaps:
     enabled: true  # Disable all configmaps and related mountpoints. If all configmaps disabled - need to set @ false @ there
-    db_properties: # For testing only!!!!!! ConfigMap not suitable for storing sensitive data like a DB password
-      enabled: false
-      name: db-properties
-      mountPath: /etc/uxp/db.properties
-      subPath: db.properties
+    #ConfigMap not suitable for storing sensitive data like a DB password
 
-    local_ini:
+    local_ini: # This file readied by all components, there place for adding any configs for any components
       enabled: false
       name: local-ini
       mountPath: /etc/uxp/conf.d/local.ini
       subPath: local.ini
 
     default_uxp:
-      enabled: true
+      enabled: false
       name: default-uxp
       mountPath: /etc/nginx/sites-enabled/default-uxp
       subPath: default-uxp
 
     uxp_identity_provider_rest_api:
-      enabled: true
+      enabled: false
       name: uxp-identity-provider-rest-api
       mountPath: /etc/nginx/conf.d/uxp-identity-provider-rest-api-location.include
       subPath: uxp-identity-provider-rest-api-location.include
 
     uxp_seg_rest_api_ng_include:
-      enabled: true
+      enabled: false
       name: uxp-securityserver-rest-api
       mountPath: /etc/nginx/conf.d/uxp-securityserver-rest-api-location.include
       subPath: uxp-securityserver-rest-api-location.include
-
-    tokens_autologin:
-      enabled: false
-      name: tokens-autologin
-      mountPath: /usr/share/uxp/bin/tokens-autologin.py
-      subPath: tokens-autologin.py
 
     uxp_conf_client_logback:
       enabled: false
@@ -184,12 +119,13 @@ trembita_config:
       mountPath: /etc/uxp/configuration-anchor.xml
       subPath: configuration-anchor.xml
 
+    #license for uxp components.
     uxp_license:
       enabled: true
       name: uxp-license
       mountPath: /etc/uxp/license.lic
       subPath: license.lic
-
+    # config file for connecting Gryada 301 HSM
     osplm_ini:
       enabled: true
       name: osplm-ini
@@ -205,7 +141,8 @@ trembita_config:
     identity:
       enabled: true
       name: trembita-identity-provider
-      mountPath: /etc/uxp/conf.d
+      mountPath: /etc/uxp/conf.d/identity-provider.ini
+      subPath: identity-provider.ini
 
     postgres:
       enabled: true
@@ -422,61 +359,34 @@ trembita_config:
         size: 1Gi
         storageClass: ""
 
-
-
-
-
   sharedVolumes: # volumes which will connect to all trembita pods in this chart. Data will copy from original image (entire tembita server) during init phase
-#    etc-uxp:
-#      enabled: false
-#      initCopy: false
-#      size: 100Mi
-#      mountPath: /etc/uxp
-#      storageClassName: "longhorn-rwx"
-#      accessModes:
-#        - ReadWriteMany
-#
-#    usr-share-uxp:
-#      enabled: false
-#      initCopy: false
-#      size: 1.5Gi
-#      mountPath: /usr/share/uxp/
-#      storageClassName: "longhorn-rwx"
-#      accessModes:
-#        - ReadWriteMany
-#
-#    var-lib-uxp:
-#      enabled: false
-#      initCopy: false
-#      size: 15Gi
-#      mountPath: /var/lib/uxp/
-#      storageClassName: "longhorn-rwx"
-#      accessModes:
-#        - ReadWriteMany
-
+    # volume for store trensactions
     var-lib-uxp-messagelog:
       enabled: true
       initCopy: false
       size: 2Gi
       mountPath: /var/lib/uxp/messagelog/
+      # Storage class that provides ReadWriteMany access for multiple pods
       storageClassName: "longhorn-rwx"
       accessModes:
         - ReadWriteMany
-
+    # volume for store global configuration
     etc-uxp-globalconf:
       enabled: true
       initCopy: true
       size: 200Mi
       mountPath: /etc/uxp/globalconf/
+      # Storage class that provides ReadWriteMany access for multiple pods
       storageClassName: "longhorn-rwx"
       accessModes:
         - ReadWriteMany
-
+    # volume for store soft tokens
     etc-uxp-signer:
       enabled: true
       initCopy: true
       size: 50Mi
       mountPath: /etc/uxp/signer/
+      # Storage class that provides ReadWriteMany access for multiple pods
       storageClassName: "longhorn-rwx"
       accessModes:
         - ReadWriteMany
@@ -503,27 +413,3 @@ minio:
     enabled: true
     ingressClassName: "nginx"
     hostname: api.minio.trembita.office
-
-#postgresql:
-#  containerName: postgres
-#  image: postgres:16
-#  username: postgres
-#  password: mysecretpassword
-#  database: appdb
-#  port: 5432
-#  max_connections: 200
-#
-#  persistence:
-#    enabled: true
-#    size: 1Gi
-#    storageClass: ""
-#
-#  env:
-#    - name: PGDATA
-#      value: /var/lib/postgresql/data/pgdata
-#    - name: POSTGRES_USER
-#      value: postgres
-#    - name: POSTGRES_PASSWORD
-#      value: mysecretpassword
-#    - name: POSTGRES_DB
-#      value: appdb

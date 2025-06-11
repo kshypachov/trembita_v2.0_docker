@@ -24,9 +24,6 @@ spec:
               ID=$(head /dev/urandom | tr -dc a-z0-9 | head -c 32)
               SECRET=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64)
 
-              echo "Generated ID: $ID"
-              echo "Generated SECRET: $SECRET"
-
               echo "[identity-provider]" > /tmp/identity-provider.ini
               echo "security-server-client-id = $ID" >> /tmp/identity-provider.ini
               echo "security-server-client-secret = $SECRET" >> /tmp/identity-provider.ini
