@@ -149,3 +149,8 @@ PGPASSWORD="$PGROOT_PASSWORD" psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -
 PGPASSWORD="$PGROOT_PASSWORD" psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -d op-monitor < /op-monitor.sql
 
 echo "✅ All databases initialized successfully."
+
+# Отключение логина для суперпользователя после инициализации
+echo "🔒 Disabling login for root user '$PGROOT_USER'..."
+psql -h "$PGHOST" -p "$PGPORT" -U "$PGROOT_USER" -c "ALTER ROLE \"$PGROOT_USER\" NOLOGIN;"
+echo "✅ Root user '$PGROOT_USER' login disabled."
