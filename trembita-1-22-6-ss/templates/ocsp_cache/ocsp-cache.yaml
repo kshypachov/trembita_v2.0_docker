@@ -27,7 +27,7 @@ spec:
           ports:
             - containerPort: 6577    {{/*OCSP port over socat proxy*/}}
             - containerPort: 6766    {{/*admin port over socat proxy*/}}
-        - name: ocsp-cache
+        - name: {{.name}}
           image: {{.image}}
           imagePullPolicy: IfNotPresent
           {{if .env}}

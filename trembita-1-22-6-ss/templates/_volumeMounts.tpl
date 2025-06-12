@@ -6,7 +6,8 @@
 {{- $hasCM := and $root.Values.trembita_config.configMaps.enabled $start_context.configMaps }}
 {{- $hasSV := and $start_context.sharedVolumes $root.Values.trembita_config.sharedVolumes }}
 {{- $hasST := and $start_context.secrets $root.Values.trembita_config.secrets}}
-{{- if or $hasCM $hasSV $start_context.ephemeralVolumeRAM $hasST }}
+{{- $hasPV := $start_context.persistentStorage}}
+{{- if or $hasCM $hasSV $start_context.ephemeralVolumeRAM $hasST $hasPV}}
 
           volumeMounts:
             {{- range $key, $cm := $root.Values.trembita_config.configMaps }}
@@ -21,23 +22,34 @@
                 {{- end }}
               {{- end }}
             {{- end }}
+
             {{- range $name, $cfg := $root.Values.trembita_config.sharedVolumes }}
               {{- if and $cfg.enabled (has $name $start_context.sharedVolumes) }}
             - name: {{ $name }}-volume
               mountPath: {{ $cfg.mountPath }}
               {{- end }}
             {{- end }}
+
             {{- range  $start_context.ephemeralVolumeRAM}}
             - name: {{ .name }}-ram-vol
               mountPath: {{ .mountPath }}
               {{- end}}
+
             {{- range $name, $cfg := $root.Values.trembita_config.secrets }}
              {{- if and $cfg.enabled (has $name $start_context.secrets) }}
-            - name: {{ .name }}-secret-volume
+            - name: {{ $name }}-secret-volume
               mountPath: {{ $cfg.mountPath }}
+              {{- if $cfg.subPath}}
+              subPath: {{$cfg.subPath}}
+              {{- end }}
               readOnly: true
              {{- end }}
             {{- end }}
+
+            {{- range  $start_context.persistentStorage}}
+            - name: {{ .name }}-persistent
+              mountPath: {{ .mountPath }}
+              {{- end}}
 
       volumes:
          {{- range $key, $cm := $root.Values.trembita_config.configMaps }}
@@ -49,6 +61,7 @@
                {{- end }}
              {{- end }}
            {{- end }}
+
            {{- range $name, $cfg := $root.Values.trembita_config.sharedVolumes }}
              {{- if and $cfg.enabled (has $name $start_context.sharedVolumes) }}
          - name: {{ $name }}-volume
@@ -56,18 +69,27 @@
              claimName: {{ printf "%s-%s" (include "trembita-1-22-6-ss.fullname" $root) $name }}
              {{- end }}
            {{- end }}
+
            {{- range $start_context.ephemeralVolumeRAM}}
          - name: {{.name}}-ram-vol
            emptyDir:
              medium: Memory
              sizeLimit: {{ .sizeLimit }}
            {{- end }}
+
            {{- range $name, $cfg := $root.Values.trembita_config.secrets }}
              {{- if and $cfg.enabled (has $name $start_context.secrets) }}
-         - name: {{.name}}-secret-volume
+         - name: {{$name}}-secret-volume
            secret:
              secretName: {{.name}}-secret
              {{- end }}
            {{- end }}
+
+           {{- range $start_context.persistentStorage}}
+         - name: {{.name}}-persistent
+           persistentVolumeClaim:
+             claimName: {{.name}}-pvc
+           {{- end }}
+
      {{- end }}
 {{- end }}
