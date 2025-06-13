@@ -1,0 +1,61 @@
+{{- with .Values.trembita_config.secrets.postgres}}
+  {{- if .enabled}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-delete-policy": hook-succeeded
+  name: {{ .name }}-init-secrets
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .name }}-init-sa
+      restartPolicy: OnFailure
+      containers:
+        - name: generate-cert
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+
+              pass1=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32)
+              pass2=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32)
+              pass3=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32)
+              pass4=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32)
+              pass5=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32)
+
+              echo "Generated all 5 pass"
+
+              echo "serverconf.hibernate.jdbc.use_streams_for_binary = true" > /tmp/db.properties
+              echo "serverconf.hibernate.connection.driver_class = org.postgresql.Driver" >> /tmp/db.properties
+              echo "serverconf.hibernate.connection.url = jdbc:postgresql://postgres:5432/serverconf" >> /tmp/db.properties
+              echo "serverconf.hibernate.connection.username = serverconf" >> /tmp/db.properties
+              echo "serverconf.hibernate.connection.password = $pass1" >> /tmp/db.properties
+              echo "messagelog-metadata.hibernate.connection.driver_class = org.postgresql.Driver" >> /tmp/db.properties
+              echo "messagelog-metadata.hibernate.connection.url = jdbc:postgresql://postgres:5432/messagelog-metadata" >> /tmp/db.properties
+              echo "messagelog-metadata.hibernate.connection.username = messagelog" >> /tmp/db.properties
+              echo "messagelog-metadata.hibernate.connection.password = $pass2" >> /tmp/db.properties
+              echo "identity-provider.hibernate.connection.driver_class = org.postgresql.Driver" >> /tmp/db.properties
+              echo "identity-provider.hibernate.connection.url = jdbc:postgresql://postgres:5432/identity-provider" >> /tmp/db.properties
+              echo "identity-provider.hibernate.connection.username = identityprovider" >> /tmp/db.properties
+              echo "identity-provider.hibernate.connection.password = $pass3" >> /tmp/db.properties
+              echo "op-monitor.hibernate.jdbc.use_streams_for_binary = true" >> /tmp/db.properties
+              echo "op-monitor.hibernate.connection.driver_class = org.postgresql.Driver" >> /tmp/db.properties
+              echo "op-monitor.hibernate.jdbc.batch_size = 50" >> /tmp/db.properties
+              echo "op-monitor.hibernate.connection.url = jdbc:postgresql://postgres:5432/op-monitor" >> /tmp/db.properties
+              echo "op-monitor.hibernate.connection.username = opmonitor" >> /tmp/db.properties
+              echo "op-monitor.hibernate.connection.password = $pass4" >> /tmp/db.properties
+
+              echo "op-monitor-admin.username = opmonitor_admin" > /tmp/db.monitor-admin
+              echo "op-monitor-admin.password = $pass5" >> /tmp/db.monitor-admin
+
+              kubectl create secret generic {{ .name }}-secret \
+                --from-file=db.properties=/tmp/db.properties \
+                --from-file=db.monitor-admin=/tmp/db.monitor-admin \
+                --namespace={{ $.Release.Namespace }} \
+                --dry-run=client -o yaml | kubectl apply -f -
+{{- end}}
+{{- end}}

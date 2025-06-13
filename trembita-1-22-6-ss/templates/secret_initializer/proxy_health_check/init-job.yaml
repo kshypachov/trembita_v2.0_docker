@@ -1,4 +1,5 @@
-{{- with .Values.trembita_config.secrets.proxy_tls_healthcheck}}
+{{- with .Values.trembita_config.secrets.healthchecktls}}
+    {{- if .enabled}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -26,4 +27,5 @@ spec:
                 kubectl create secret tls {{ .name }}-secret \
                   --cert=/tmp/tls.crt --key=/tmp/tls.key \
                   --namespace={{ $.Release.Namespace }} --dry-run=client -o yaml | kubectl apply -f -
+{{- end}}
 {{- end}}
