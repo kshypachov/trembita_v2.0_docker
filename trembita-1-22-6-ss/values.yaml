@@ -102,7 +102,7 @@ trembita_config:
       subPath: proxy-logback.xml
 
     uxp_monitor_agent_logback:
-      enabled: true
+      enabled: false
       name: monitor-agent-logback
       mountPath: /app/proxy-monitor-agent-logback.xml
       subPath: proxy-monitor-agent-logback.xml
