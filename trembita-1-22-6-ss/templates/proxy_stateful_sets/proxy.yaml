@@ -22,24 +22,19 @@ spec:
         - name: sidecar
           image: alpine/socat
           command: [ "sh", "-c", "
-            socat -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577 &
-            socat -d TCP-LISTEN:5766,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_ocsp_cache_pod.name}}-admin-port-service:6766 &
-            socat -d TCP-LISTEN:2080,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-3080:3080 &
-            socat -d TCP-LISTEN:2082,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-3082:3082 &
-            socat -d TCP-LISTEN:5588,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-admin-port:6588
+            socat -d -d -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577 &
+            socat -d -d -d TCP-LISTEN:5766,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_ocsp_cache_pod.name}}-admin-port-service:6766 &
+            socat -d -d -d TCP-LISTEN:2080,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-3080:3080 &
+            socat -d -d -d TCP-LISTEN:2082,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-3082:3082 &
+            socat -d -d -d TCP-LISTEN:5588,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-admin-port:6588
           " ]
-          ports:
-            - containerPort: 5500   {{/*External API port for connection between SEGs*/}}
-            - containerPort: 80     {{/*Internal HTTP API port for internal connection clients*/}}
-            - containerPort: 443    {{/*Internal HTTPS API port for connection between SEGs, not used in k8s*/}}
-            - containerPort: 5566   {{/*Internal HTTP API port for admin porpuses, not used in k8s*/}}
           resources:
             requests:
-              cpu: 50m
-              memory: 64Mi
-            limits:
-              cpu: 100m
+              cpu: 200m
               memory: 128Mi
+            limits:
+              cpu: 400m
+              memory: 246Mi
         - name: {{.name}}
           image: {{.image}}
           imagePullPolicy: IfNotPresent
@@ -50,6 +45,12 @@ spec:
               value: {{ $v | quote }}
             {{- end }}
           {{- end }}
+          ports:
+            - containerPort: 5500   {{/*External API port for connection between SEGs*/}}
+            - containerPort: 80     {{/*Internal HTTP API port for internal connection clients*/}}
+            - containerPort: 443    {{/*Internal HTTPS API port for connection between SEGs, not used in k8s*/}}
+            - containerPort: 5566   {{/*Internal HTTP API port for admin porpuses, not used in k8s*/}}
+
           readinessProbe:
             exec:
               command:

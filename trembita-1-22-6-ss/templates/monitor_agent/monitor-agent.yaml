@@ -30,6 +30,13 @@ spec:
             - containerPort: 2080    {{/**/}}
             - containerPort: 2082    {{/**/}}
             - containerPort: 5588    {{/**/}}
+          resources:
+            requests:
+              cpu: 200m
+              memory: 128Mi
+            limits:
+              cpu: 400m
+              memory: 246Mi
         - name: {{.name}}
           image: {{.image}}
           imagePullPolicy: IfNotPresent
