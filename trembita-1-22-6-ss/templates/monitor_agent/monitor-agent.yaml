@@ -18,7 +18,12 @@ spec:
         app: {{.name}}
     spec:
       containers:
-        - name: sidecar
+        - name: socat
+          image: alpine/socat:1.8.0.1
+          command: [ "sh", "-c", "
+                      socat -d -d -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{ $.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577 &
+                    " ]
+        - name: nginx_proxy
           image: kshypachov/trembita_monitor_sidecar_nginx:v1.0.0
 {{/*          command: [ "sh", "-c", "*/}}
 {{/*            socat -d -d -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{ $.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577 &*/}}
