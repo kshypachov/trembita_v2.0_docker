@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{.name}}-service-3082
+  name: {{.name}}-service-2080
 spec:
   type: ClusterIP
   ports:
-    - port: 3082
-      targetPort: 3082 {{/*Port for access to monitor REST API*/}}
+    - port: 2080
+      targetPort: 2080 {{/*Port for access to monitor REST API*/}}
   selector:
     app: {{.name}}
 {{- end}}
