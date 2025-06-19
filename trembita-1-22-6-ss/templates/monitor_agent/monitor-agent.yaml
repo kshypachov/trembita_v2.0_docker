@@ -19,13 +19,13 @@ spec:
     spec:
       containers:
         - name: sidecar
-          image: alpine/socat
-          command: [ "sh", "-c", "
-            socat -d -d -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{ $.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577 &
-            socat -d -d -d TCP-LISTEN:3080,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:2080 &
-            socat -d -d -d TCP-LISTEN:3082,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:2082 &
-            socat -d -d -d TCP-LISTEN:6588,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:5588
-          " ]
+          image: kshypachov/trembita_monitor_sidecar_nginx:v1.0.0
+{{/*          command: [ "sh", "-c", "*/}}
+{{/*            socat -d -d -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{ $.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577 &*/}}
+{{/*            socat -d -d -d TCP-LISTEN:3080,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:2080 &*/}}
+{{/*            socat -d -d -d TCP-LISTEN:3082,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:2082 &*/}}
+{{/*            socat -d -d -d TCP-LISTEN:6588,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:5588*/}}
+{{/*          " ]*/}}
           ports:
             - containerPort: 2080    {{/**/}}
             - containerPort: 2082    {{/**/}}
@@ -73,8 +73,9 @@ spec:
             - "-Dlogback.configurationFile=/app/proxy-monitor-agent-logback.xml"
             - "-Duxp.proxy-monitoring-agent.monitor-agent-conf-file=/app/monitor-agent.ini"
             - "-Duser.country=UA"
-            - "-Duxp.proxy-monitoring-agent.admin-port=5588"
-            - "-Duxp.status-service.listen-port=2082"
+            - "-Duxp.proxy-monitoring-agent.admin-port=4588"
+            - "-Duxp.status-service.listen-port=1082"
+            - "-Duxp.proxy-monitoring-agent.port=1080"
             - "-Duxp.common.temp-files-path=/etc/uxp/tmp/"
             - "-Dorg.bytedeco.javacpp.maxPhysicalBytes=0"
             - "-cp"
