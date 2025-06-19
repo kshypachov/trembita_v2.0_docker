@@ -319,7 +319,7 @@ trembita_config:
     configMaps:  # add name of config maps which need to connect to this pod
       - uxp_anchor
       - uxp_license
-      - uxp_monitor_agent_logback
+#      - uxp_monitor_agent_logback
     secrets:
       - postgres
     ephemeralVolumeRAM:
