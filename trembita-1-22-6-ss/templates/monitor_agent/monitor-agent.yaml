@@ -46,7 +46,7 @@ spec:
               memory: "320Mi"   # garantee 256 МБ
             limits:
               cpu: "500m"       # max 0.2 ядра
-              memory: "512Mi"     # max 512 МБ
+              memory: "620Mi"     # max 512 МБ
           command: [ "/opt/java/openjdk/bin/java" ]
           args:
             - "-Xms50m"
