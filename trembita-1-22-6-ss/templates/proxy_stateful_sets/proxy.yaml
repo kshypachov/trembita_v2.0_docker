@@ -74,7 +74,7 @@ spec:
               command:
                 - token-initializer
             timeoutSeconds: 1000000
-            initialDelaySeconds: 30
+            initialDelaySeconds: 5
             periodSeconds: 20
             failureThreshold: 1
 
