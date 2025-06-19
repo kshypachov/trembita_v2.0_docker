@@ -56,7 +56,7 @@ spec:
               command:
                 [ "/bin/trembita-healthcheck" ]
             timeoutSeconds: 20
-            initialDelaySeconds: 20
+            initialDelaySeconds: 120
             periodSeconds: 10
             failureThreshold: 1
 
@@ -74,16 +74,16 @@ spec:
               command:
                 - token-initializer
             timeoutSeconds: 1000000
-            initialDelaySeconds: 20
+            initialDelaySeconds: 60
             periodSeconds: 20
             failureThreshold: 1
 
           resources:
             requests:
-              cpu: "1000m"       # garantee 1 core
+              cpu: "1500m"       # garantee 1.5 core
               memory: "512Mi"   # garantee 512 МБ
             limits:
-              cpu: "1500m"       # max 1.5 core
+              cpu: "2000m"       # max 2 core
               memory: "1024Mi"     # max 1024 МБ
           command: [ "authbind", "java" ]
           args:
