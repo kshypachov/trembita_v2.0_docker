@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: sidecar
-          image: alpine/socat
+          image: alpine/socat:1.8.0.0
           command: [ "sh", "-c", "
             socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork \
             TCP:{{ $.Values.trembita_config.trembita_identity_provider_rest_api_pod.name}}-service:8087 &

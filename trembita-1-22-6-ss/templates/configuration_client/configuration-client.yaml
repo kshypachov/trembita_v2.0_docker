@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: sidecar
-          image: alpine/socat
+          image: alpine/socat:1.8.0.0
           command: [ "sh", "-c", "
             socat -d TCP-LISTEN:6666,bind=0.0.0.0,reuseaddr,fork TCP:127.0.0.1:5666
           " ]
