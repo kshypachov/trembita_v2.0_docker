@@ -111,7 +111,7 @@ spec:
             - "/app/proxy.jar:/app/jlib/signature-xades.jar:/app/jlib/addon/certprofile-trembita.jar:/app/jlib/addon/proxy/metaservice-1.22.7.jar:/app/jlib/addon/proxy/monitoring-1.22.7.jar:/app/jlib/addon/proxy/cipher-jce-provider-1.22.7.jar:/app/jlib/addon/proxy/ciplus-jce/*"
             - "ee.cyber.uxp.proxy.ProxyMain"
 
-{{/*          securityContext:*/}}
-{{/*            readOnlyRootFilesystem: true*/}}
+          securityContext:
+            readOnlyRootFilesystem: true
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}

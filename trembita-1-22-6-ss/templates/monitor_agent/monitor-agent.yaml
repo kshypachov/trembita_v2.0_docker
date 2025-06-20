@@ -23,6 +23,14 @@ spec:
           command: [ "sh", "-c", "
                       socat -d -d -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{ $.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577
                     " ]
+          resources:
+            requests:
+              cpu: 100m
+              memory: 32Mi
+            limits:
+              cpu: 150m
+              memory: 64Mi
+
         - name: nginx-proxy
           image: kshypachov/trembita_monitor_sidecar_nginx:v1.0.0
 {{/*          command: [ "sh", "-c", "*/}}
@@ -37,11 +45,11 @@ spec:
             - containerPort: 5588    {{/**/}}
           resources:
             requests:
-              cpu: 200m
-              memory: 128Mi
+              cpu: 100m
+              memory: 32Mi
             limits:
-              cpu: 400m
-              memory: 246Mi
+              cpu: 150m
+              memory: 64Mi
         - name: {{.name}}
           image: {{.image}}
           imagePullPolicy: IfNotPresent
