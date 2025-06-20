@@ -20,17 +20,17 @@ spec:
     spec:
       containers:
         - name: sidecar
-          image: alpine/socat:1.8.0.1
+          image: alpine/socat:1.8.0.0
           command: [ "sh", "-c", "
                        sysctl -w net.ipv4.ip_local_port_range='10000 65000';
                        sysctl -w net.ipv4.tcp_tw_reuse=1;
                        ulimit -n 65535;
 
-                       socat -T 5 -d -d -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577,retry=5 &
-                       socat -T 5 -d -d -d TCP-LISTEN:5766,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_ocsp_cache_pod.name}}-admin-port-service:6766,retry=5 &
-                       socat -T 5 -d -d -d TCP-LISTEN:2080,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-2080:2080,retry=5 &
-                       socat -T 5 -d -d -d TCP-LISTEN:2082,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-2082:2082,retry=5 &
-                       socat -T 5 -d -d -d TCP-LISTEN:5588,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-admin-port:5588,retry=5
+                       socat -d TCP-LISTEN:5577,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_ocsp_cache_pod.name}}-service:6577,retry=5 &
+                       socat -d TCP-LISTEN:5766,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_ocsp_cache_pod.name}}-admin-port-service:6766,retry=5 &
+                       socat -d TCP-LISTEN:2080,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-2080:2080,retry=5 &
+                       socat -d TCP-LISTEN:2082,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-2082:2082,retry=5 &
+                       socat -d TCP-LISTEN:5588,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_monitor_pod.name}}-service-admin-port:5588,retry=5
                      " ]
           resources:
             requests:
