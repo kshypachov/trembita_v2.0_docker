@@ -94,7 +94,7 @@ spec:
             - "-cp"
             - "/app/jlib/monitoring-proxy-agent.jar:/app/jlib/signature-xades.jar:/app/jlib/addon/proxy/cipher-jce-provider-1.22.7.jar:/app/jlib/addon/proxy/ciplus-jce/*"
             - "ee.cyber.uxp.proxymonitoragent.ProxyMonitorAgentMain"
-          securityContext:
-            readOnlyRootFilesystem: true
+{{/*          securityContext:*/}}
+{{/*            readOnlyRootFilesystem: true*/}}
 {{- template "trembita.volumeMountsAndCM" (dict "ctx" . "root" $) }}
 {{- end}}
