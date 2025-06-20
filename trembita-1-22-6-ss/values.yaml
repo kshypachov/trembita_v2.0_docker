@@ -300,8 +300,8 @@ trembita_config:
       - healthchecktls
       - postgres
     ingress:
-      host: api.trembita.office
-      secure_host: secure-api.trembita.office
+      host: api.trembita1.office
+      secure_host: secure-api.trembita1.office
     ephemeralVolumeRAM:
       - name: proxy-java-cache
         mountPath: /tmp/bc_java/
@@ -338,7 +338,7 @@ trembita_config:
       - uxp_identity_provider_rest_api
       - uxp_seg_rest_api_ng_include
     ingress:
-      host: trembita.office
+      host: trembita1.office
     ephemeralVolumeRAM:
       - name: nginx-tmp # volume in tmpfs for store nginx tep files
         mountPath: /tmp/nginx
@@ -408,9 +408,9 @@ minio:
   ingress:
     enabled: true
     ingressClassName: "nginx"
-    hostname: minio.trembita.office
+    hostname: minio1.trembita.office
 
   apiIngress:
     enabled: true
     ingressClassName: "nginx"
-    hostname: api.minio.trembita.office
+    hostname: api.minio1.trembita.office
