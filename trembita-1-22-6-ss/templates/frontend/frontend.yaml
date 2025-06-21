@@ -18,25 +18,25 @@ spec:
         app: {{.name}}
     spec:
       containers:
-        - name: sidecar
-          image: alpine/socat:1.8.0.0
-          command: [ "sh", "-c", "
-            socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork \
-            TCP:{{ $.Values.trembita_config.trembita_identity_provider_rest_api_pod.name}}-service:8087 &
-            socat -d TCP-LISTEN:8085,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_seg_rest_api_pod.name}}-service:8085 &
-            socat -d TCP-LISTEN:8086,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_verifier_pod.name}}-service:8086
-          " ]
-          ports:
-            - containerPort: 8087 {{/*REST api uxp-identity*/}}
-            - containerPort: 8086 {{/*REST api uxp-verifier*/}}
-            - containerPort: 8085 {{/*SEG REST api port incoming conections*/}}
-          resources:
-            requests:
-              cpu: "10m"       # garantee 0.2 ядра
-              memory: "32Mi"   # garantee 256 МБ
-            limits:
-              cpu: "20m"       # max 0.3 ядра
-              memory: "64Mi"     # max 512 МБ
+{{/*        - name: sidecar*/}}
+{{/*          image: alpine/socat:1.8.0.0*/}}
+{{/*          command: [ "sh", "-c", "*/}}
+{{/*            socat -d TCP-LISTEN:8087,bind=127.0.0.1,reuseaddr,fork \*/}}
+{{/*            TCP:{{ $.Values.trembita_config.trembita_identity_provider_rest_api_pod.name}}-service:8087 &*/}}
+{{/*            socat -d TCP-LISTEN:8085,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_seg_rest_api_pod.name}}-service:8085 &*/}}
+{{/*            socat -d TCP-LISTEN:8086,bind=127.0.0.1,reuseaddr,fork TCP:{{$.Values.trembita_config.trembita_verifier_pod.name}}-service:8086*/}}
+{{/*          " ]*/}}
+{{/*          ports:*/}}
+{{/*            - containerPort: 8087 */}}{{/*REST api uxp-identity*/}}
+{{/*            - containerPort: 8086 */}}{{/*REST api uxp-verifier*/}}
+{{/*            - containerPort: 8085 */}}{{/*SEG REST api port incoming conections*/}}
+{{/*          resources:*/}}
+{{/*            requests:*/}}
+{{/*              cpu: "10m"       # garantee 0.2 ядра*/}}
+{{/*              memory: "32Mi"   # garantee 256 МБ*/}}
+{{/*            limits:*/}}
+{{/*              cpu: "20m"       # max 0.3 ядра*/}}
+{{/*              memory: "64Mi"     # max 512 МБ*/}}
         - name: {{.name}}
           image: {{.image}}
           imagePullPolicy: IfNotPresent
