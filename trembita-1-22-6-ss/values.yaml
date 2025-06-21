@@ -48,16 +48,22 @@ trembita_config:
       subPath: default-uxp
 
     uxp_identity_provider_rest_api:
-      enabled: false
+      enabled: true
       name: uxp-identity-provider-rest-api
       mountPath: /etc/nginx/conf.d/uxp-identity-provider-rest-api-location.include
       subPath: uxp-identity-provider-rest-api-location.include
 
     uxp_seg_rest_api_ng_include:
-      enabled: false
+      enabled: true
       name: uxp-securityserver-rest-api
       mountPath: /etc/nginx/conf.d/uxp-securityserver-rest-api-location.include
       subPath: uxp-securityserver-rest-api-location.include
+
+    uxp_verifier_rest_api:
+      enabled: true
+      name: uxp-verifier-rest-api
+      mountPath: /etc/nginx/conf.d/uxp-verifier-rest-api-location.include
+      subPath: uxp-verifier-rest-api-location.include
 
     uxp_conf_client_logback:
       enabled: false
@@ -334,9 +340,10 @@ trembita_config:
       TZ: Europe/Kyiv
     sharedVolumes: # add name of shared volumes which need to connect to this pod
     configMaps: # add name of config maps which need to connect to this pod
-      - default_uxp
+#      - default_uxp
       - uxp_identity_provider_rest_api
       - uxp_seg_rest_api_ng_include
+      - uxp_verifier_rest_api
     ingress:
       host: trembita1.office
     ephemeralVolumeRAM:

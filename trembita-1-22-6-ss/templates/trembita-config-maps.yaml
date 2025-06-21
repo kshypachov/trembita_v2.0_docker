@@ -38,7 +38,7 @@ data:
   {{default "uxp-identity-provider-rest-api-location.include" .uxp_identity_provider_rest_api.subPath}}: |
     # Identity Provider backend location.
     location /auth-api {
-      proxy_pass http://127.0.0.1:8087;
+      proxy_pass http://{{ $.Values.trembita_config.trembita_identity_provider_rest_api_pod.name}}-service:8087;
     #  proxy_set_header Host $host:$server_port;
     #  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     #  proxy_set_header X-Forwarded-Proto https;
@@ -47,7 +47,7 @@ data:
       client_max_body_size 5M;
 
       location ~* oauth2-redirect.html$ {
-        proxy_pass http://127.0.0.1:8087;
+        proxy_pass http://{{ $.Values.trembita_config.trembita_identity_provider_rest_api_pod.name}}-service:8087;
     #    proxy_set_header Host $host:$server_port;
     #    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     #    proxy_set_header X-Forwarded-Proto https;
@@ -73,7 +73,7 @@ data:
   {{default "uxp-securityserver-rest-api-location.include" .uxp_seg_rest_api_ng_include.subPath}}: |
     # REST API location.
       location /api {
-        proxy_pass http://127.0.0.1:8085;
+        proxy_pass http://{{$.Values.trembita_config.trembita_seg_rest_api_pod.name}}-service:8085;
         #proxy_set_header Host $host:$server_port;
         #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         #proxy_set_header X-Forwarded-Proto https;
@@ -82,7 +82,7 @@ data:
         #client_max_body_size 5M;
 
         location ~* oauth2-redirect.html$ {
-          proxy_pass http://127.0.0.1:8085;
+          proxy_pass http://{{$.Values.trembita_config.trembita_seg_rest_api_pod.name}}-service:8085;
           #proxy_set_header Host $host:$server_port;
           #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           #proxy_set_header X-Forwarded-Proto https;
@@ -92,6 +92,40 @@ data:
           add_header Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'self'; script-src 'self' 'unsafe-inline';" always;
         }
       }
+{{- end}}
+{{- end}}
+
+------
+
+{{- with .Values.trembita_config.configMaps}}
+{{- if and .enabled .uxp_verifier_rest_api.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .uxp_verifier_rest_api.name}}
+data:
+  {{default "uxp-verifier-rest-api-location.include" .uxp_verifier_rest_api.subPath}}: |
+    # REST API location.
+    location /verifier-api {
+      proxy_pass http://{{$.Values.trembita_config.trembita_verifier_pod.name}}-service:8086;
+      proxy_set_header Host $host:$server_port;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      #proxy_set_header X-Forwarded-Proto https;
+      proxy_set_header X-Forwarded-Port $server_port;
+      #proxy_redirect http:// https://;
+      client_max_body_size 5M;
+
+      location ~* oauth2-redirect.html$ {
+        proxy_pass http://{{$.Values.trembita_config.trembita_verifier_pod.name}}-service:8086;
+        proxy_set_header Host $host:$server_port;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        #proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Port $server_port;
+        #proxy_redirect http:// https://;
+        client_max_body_size 5M;
+        add_header Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'self'; script-src 'self' 'unsafe-inline';" always;
+      }
+    }
 {{- end}}
 {{- end}}
 
