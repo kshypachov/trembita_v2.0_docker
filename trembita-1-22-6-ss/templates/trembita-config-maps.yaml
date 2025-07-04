@@ -468,12 +468,11 @@ data:
       --BOUNDARY
       content-id: UXP-LICENSE
       license-version: 2.0
-
       {
         "common": {
-          "licenseNumber": "7304-2163-2956-3274",
+          "licenseNumber": "1355-4736-8876-9510",
           "licenseHolder": "Міністерство цифрової трансформації України",
-          "validUntil": "2025-06-30"
+          "validUntil": "2026-01-01"
         },
         "products": {
           "uxp-security-server": {
@@ -505,8 +504,7 @@ data:
       content-id: SIGNATURE
       signing-key: 035fdfc0-9b5e-4b78-9f73-bdc2d90363fe
       signing-algorithm: SHA512withRSA
-
-      bJUISmXgEGzsW5tB6DPkZc38y5MXUADmPojMbtLrg1v+eVaXmy1iqUA8pAPBgb9ogY4a3jMqyi3YW0bjwzMfGj8G2pGVxvhLp525zolbZV7wSnttA/LulQF9DJoaRySb3LrODMRLjIsUNTw4vxHNhgtTqqTrg1ItoirgruE5KN2zJVM3hTI6MrFkMnU5wwbCFADUPqsg89swKekNXO0Jo3g/uIFB193XT7xtejpBrjWtuORfS6PKaIqs0OQzKskSj9N4HiyHOJbFp3QAx52CDj2H2+R8alHJ8LMxVJTjPuLdxYuuVj77NCSzXFllCN9XKIsfgSBUc7z/9CpCiZWtqNzQRFPgizgBGWitXuXAed+55wGeEoXrEpoMi381Y/kZSRL/alPDu1368Nyvvc6lVE/q62MNFIo4HqlULrMet6zM5xklqFKx1bQH6qUq27qFPHXKLXbAU7+KjbY0N15wtQEKrRwqBdfgEZz5NBa4B05Kg1Sl0oFT+EKHBn3Bmn8EwFKIyb/OCIGoSKdLPWjbEWwCdgtO3lDi8wv12GoSCzGQnqr5AJBi3NdybdpnRXcVLQXmnY3lEM7e1BxynZWGdeIw/AgrzEIbwIUAGJqi1wOlA4SpKrF9YEZ/w9FkrK7lwBYE3NzcQOTAl9vtR9U0RSLvudxNYdmpurtfZMcz7lA=
+      fPsTfASJ+OyEDuUvfnIKb64HlHlYkgJH3hvmuXK6ETLmGiErgl9NsNnBSZxhX8JIoFApAN1Tw9gWLM65A1DY51/ADgErQZz/xSHeNSueSFc7cLFe+PE3W7TMwMbhCN4Q+lNqyqJ0K2HBFrMbWuTHqltWnFMgvH1pn6vB2Wv87krqNZtA/ybPf6a1FH+dNuy2MD2AJBpAnIibQ8gXBeF3epa5TIFSJng6aUPGNcOIWoklKuFI6VLX0SpRfTjeENC+RV5m5MZ05YqDhah6mNIMvojcbH2//pqtpbsfo8yDrtSQYrGLgDj5SqTAMSq9+r/mARot6uctopnR1t+001z/6ul75tCOJe5FPNkIWByq/M5akE4ir924Eri2KXfT/WphpMifIkO6zwKLxmK5XSlDxvod5UWHS1fofvaIW2Rprp9ClcG+zjPY8a3oyYDrTyWUKK54i0wo/nZ3YDDlJvqLiw3E0k7QxWt9uYi9SXdtJl/09ubmfdAAPiIQ0uGc8VBO2Auf/AD4QWlFtp90Kx+JBBqj3dELZ5oJ8li+mjbkDzquYGGq/k64Z61Es0SG0aTs1lQSNcqsHXQ7zcWhqQG1YD8lQTYYMcx0QgHXltK+u9qxaViwHEWgKgihwrDH9hS9haU1lUdJ7N6ATx6RtflOq0+pUzvCTAbx5mLuoJ595aQ=
       --BOUNDARY--
 {{- end}}
 {{- end}}
