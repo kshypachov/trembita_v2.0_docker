@@ -1,0 +1,43 @@
+{{/*apiVersion: autoscaling/v2*/}}
+{{/*kind: HorizontalPodAutoscaler*/}}
+{{/*metadata:*/}}
+{{/*  namespace: trembita28kirill*/}}
+{{/*  name: proxy-autoscaler*/}}
+{{/*spec:*/}}
+{{/*  scaleTargetRef:*/}}
+{{/*    kind: StatefulSet1*/}}
+{{/*    name: proxy*/}}
+{{/*    apiVersion: apps/v1*/}}
+{{/*  minReplicas: 1*/}}
+{{/*  maxReplicas: 10*/}}
+{{/*  metrics:*/}}
+{{/*    - type: Resource*/}}
+{{/*      resource:*/}}
+{{/*        name: cpu*/}}
+{{/*        target:*/}}
+{{/*          type: Utilization*/}}
+{{/*          averageUtilization: 50*/}}
+
+
+
+
+{{- with .Values.trembita_config.trembita_proxy_pod}}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{.name}}-hpa-autoscaler
+spec:
+  scaleTargetRef:
+    kind: StatefulSet
+    name: {{.name}}
+    apiVersion: apps/v1
+  minReplicas: {{.hpa.minReplicas}}
+  maxReplicas: {{.hpa.maxReplicas}}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{.hpa.averageUtilization}}
+{{- end}}

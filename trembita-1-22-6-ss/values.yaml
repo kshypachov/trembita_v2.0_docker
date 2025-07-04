@@ -312,6 +312,10 @@ trembita_config:
       - name: proxy-java-cache
         mountPath: /tmp/bc_java/
         sizeLimit: "100Mi"
+    hpa:
+      minReplicas: 1
+      maxReplicas: 10
+      averageUtilization: 50
 
 
   trembita_monitor_pod:
