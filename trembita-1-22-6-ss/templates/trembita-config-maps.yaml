@@ -465,47 +465,49 @@ metadata:
   name: {{ .uxp_license.name}}
 data:
   {{ default "license.lic" .uxp_license.subPath}}: |
-      --BOUNDARY
-      content-id: UXP-LICENSE
-      license-version: 2.0
-      {
-        "common": {
-          "licenseNumber": "1355-4736-8876-9510",
-          "licenseHolder": "Міністерство цифрової трансформації України",
-          "validUntil": "2026-01-01"
+    --BOUNDARY
+    content-id: UXP-LICENSE
+    license-version: 2.0
+
+    {
+      "common": {
+        "licenseNumber": "1355-4736-8876-9510",
+        "licenseHolder": "Міністерство цифрової трансформації України",
+        "validUntil": "2026-01-01"
+      },
+      "products": {
+        "uxp-security-server": {
+          "licensedOwners": [
+            {
+              "instances": [
+                "test1"
+              ]
+            }
+          ],
+          "maxClients": "unlimited"
         },
-        "products": {
-          "uxp-security-server": {
-            "licensedOwners": [
-              {
-                "instances": [
-                  "test1"
-                ]
-              }
-            ],
-            "maxClients": "unlimited"
-          },
-          "uxp-data-privacy-solution": {
-            "licensedMembers": [
-              {
-                "instances": [
-                  "test1"
-                ]
-              }
-            ],
-            "consentManagement": true,
-            "maxServices": "unlimited",
-            "maxProviders": "unlimited",
-            "maxClients": "unlimited"
-          }
+        "uxp-data-privacy-solution": {
+          "licensedMembers": [
+            {
+              "instances": [
+                "test1"
+              ]
+            }
+          ],
+          "consentManagement": true,
+          "maxServices": "unlimited",
+          "maxProviders": "unlimited",
+          "maxClients": "unlimited"
         }
       }
-      --BOUNDARY
-      content-id: SIGNATURE
-      signing-key: 035fdfc0-9b5e-4b78-9f73-bdc2d90363fe
-      signing-algorithm: SHA512withRSA
-      fPsTfASJ+OyEDuUvfnIKb64HlHlYkgJH3hvmuXK6ETLmGiErgl9NsNnBSZxhX8JIoFApAN1Tw9gWLM65A1DY51/ADgErQZz/xSHeNSueSFc7cLFe+PE3W7TMwMbhCN4Q+lNqyqJ0K2HBFrMbWuTHqltWnFMgvH1pn6vB2Wv87krqNZtA/ybPf6a1FH+dNuy2MD2AJBpAnIibQ8gXBeF3epa5TIFSJng6aUPGNcOIWoklKuFI6VLX0SpRfTjeENC+RV5m5MZ05YqDhah6mNIMvojcbH2//pqtpbsfo8yDrtSQYrGLgDj5SqTAMSq9+r/mARot6uctopnR1t+001z/6ul75tCOJe5FPNkIWByq/M5akE4ir924Eri2KXfT/WphpMifIkO6zwKLxmK5XSlDxvod5UWHS1fofvaIW2Rprp9ClcG+zjPY8a3oyYDrTyWUKK54i0wo/nZ3YDDlJvqLiw3E0k7QxWt9uYi9SXdtJl/09ubmfdAAPiIQ0uGc8VBO2Auf/AD4QWlFtp90Kx+JBBqj3dELZ5oJ8li+mjbkDzquYGGq/k64Z61Es0SG0aTs1lQSNcqsHXQ7zcWhqQG1YD8lQTYYMcx0QgHXltK+u9qxaViwHEWgKgihwrDH9hS9haU1lUdJ7N6ATx6RtflOq0+pUzvCTAbx5mLuoJ595aQ=
-      --BOUNDARY--
+    }
+    --BOUNDARY
+    content-id: SIGNATURE
+    signing-key: 035fdfc0-9b5e-4b78-9f73-bdc2d90363fe
+    signing-algorithm: SHA512withRSA
+
+    fPsTfASJ+OyEDuUvfnIKb64HlHlYkgJH3hvmuXK6ETLmGiErgl9NsNnBSZxhX8JIoFApAN1Tw9gWLM65A1DY51/ADgErQZz/xSHeNSueSFc7cLFe+PE3W7TMwMbhCN4Q+lNqyqJ0K2HBFrMbWuTHqltWnFMgvH1pn6vB2Wv87krqNZtA/ybPf6a1FH+dNuy2MD2AJBpAnIibQ8gXBeF3epa5TIFSJng6aUPGNcOIWoklKuFI6VLX0SpRfTjeENC+RV5m5MZ05YqDhah6mNIMvojcbH2//pqtpbsfo8yDrtSQYrGLgDj5SqTAMSq9+r/mARot6uctopnR1t+001z/6ul75tCOJe5FPNkIWByq/M5akE4ir924Eri2KXfT/WphpMifIkO6zwKLxmK5XSlDxvod5UWHS1fofvaIW2Rprp9ClcG+zjPY8a3oyYDrTyWUKK54i0wo/nZ3YDDlJvqLiw3E0k7QxWt9uYi9SXdtJl/09ubmfdAAPiIQ0uGc8VBO2Auf/AD4QWlFtp90Kx+JBBqj3dELZ5oJ8li+mjbkDzquYGGq/k64Z61Es0SG0aTs1lQSNcqsHXQ7zcWhqQG1YD8lQTYYMcx0QgHXltK+u9qxaViwHEWgKgihwrDH9hS9haU1lUdJ7N6ATx6RtflOq0+pUzvCTAbx5mLuoJ595aQ=
+    --BOUNDARY--
 {{- end}}
 {{- end}}
 
