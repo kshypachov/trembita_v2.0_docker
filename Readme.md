@@ -281,23 +281,14 @@ UXP_TOKENS_PASS: "0:12345,ciplus-78-5:##ADMIN##123456789"
 
 Для автоматичного масштабування proxy_pod при великому навантаженні на ШБО використовується служба proxy-hpa-autoscaler.
 Вона автоматично створює додаткові proxy_pod при збільшенні навантаження вище заданого рівня.
-Налаштування цієї служби виконується через її LiveManifest
+Налаштування цієї служби виконується в файлі `values.yaml` або через її LiveManifest:
 
 ```yaml
-spec:
-  maxReplicas: 10
-  metrics:
-    - resource:
-        name: cpu
-        target:
-          averageUtilization: 50
-          type: Utilization
-      type: Resource
-  minReplicas: 1
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: StatefulSet
-    name: proxy
+trembita_proxy_pod:  
+ hpa:    
+    minReplicas: 1    
+    maxReplicas: 10    
+    averageUtilization: 50
 ```
 
 де: maxReplicas: - максимально дозволена кількість proxy_pod;
