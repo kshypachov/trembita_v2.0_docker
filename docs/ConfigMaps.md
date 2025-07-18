@@ -1,14 +1,15 @@
-## Описание: ConfigMap
+## Опис: ConfigMap
 
-`ConfigMap` — это сущность Kubernetes, которая позволяет передавать внутрь Pod конфигурационные файлы. Один `ConfigMap` может монтироваться одновременно в несколько контейнеров и использоваться совместно.
+`ConfigMap` — це сутність Kubernetes, яка дозволяє передавати всередину Pod конфігураційні файли. Один `ConfigMap` може монтуватись одночасно в декілька контейнерів та використовуватись разом.
 
-В данном чарте применяется **модель объявления и описания**:
+В даному чарті застосовується **модель оголошення та опису**
 
 ---
 
-### 1. Объявление в `values.yaml`
+### 1. Оголошення в `values.yaml`
 
-Каждый `ConfigMap` объявляется в секции `trembita_config.configMaps`. Пример:
+Кожен `ConfigMap` оголошується в секції `trembita_config.configMaps`. 
+Наприклад:
 
 ```yaml
 local_ini:                              # Ключ 
@@ -20,9 +21,9 @@ local_ini:                              # Ключ
 
 ---
 
-### 2. Определение содержимого в `trembita-config-maps.yaml`
+### 2. Визначення вмісту в `trembita-config-maps.yaml`
 
-Файл `trembita-config-maps.yaml` содержит шаблон создания соответствующего Kubernetes ресурса:
+Файл `trembita-config-maps.yaml` містить шаблон для створення відповідного Kubernetes-ресурсу:
 
 ```yaml
 {{- if and .enabled .local_ini.enabled }}
@@ -52,9 +53,9 @@ data:
 
 ---
 
-### 3. Подключение к Pod
+### 3. Підключення до Pod
 
-Чтобы `ConfigMap` был смонтирован в Pod, его ключ (например `local_ini`) нужно добавить в секцию `configMaps` нужного Pod-а:
+Для того щоб  `ConfigMap` був змонтований в Pod, його ключ (наприклад `local_ini`) необхідно додати в секцію `configMaps` необхідного Pod:
 
 ```yaml
 trembita_configuration_client_pod:
@@ -64,8 +65,7 @@ trembita_configuration_client_pod:
     - local_ini  # ← добавлен ключ local_ini
 ```
 
-> Также убедитесь, что `enabled: true` для соответствующего ключа в секции `configMaps`.
+> **Важливо!** Також необхідно переконатись що `enabled: true` для відповідного ключа в секції `configMaps`.
 
 ---
 
-### Используйте эту технику для добавления собственных `ConfigMap`-ов в систему.
