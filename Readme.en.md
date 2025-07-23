@@ -6,12 +6,12 @@ This Helm Chart is intended for deploying the **Trembita 2.0** platform in a Kub
 
 This Helm Chart utilizes the following Kubernetes components:
 
-| Component               | Description                                                  | Documentation                       |
-|------------------------|--------------------------------------------------------------|--------------------------------------|
-| ConfigMap              | Configuration files                                          | [ConfigMap](docs/ConfigMaps.md)      |
-| Shared Volumes         | Persistent storage accessible from multiple Pods             | [Shared Volumes](docs/sharedVolumes.ua.md) |
-| Ephemeral RAM Volumes  | Temporary in-memory volumes                                  | [Ephemeral Volumes](docs/ephemeralVolumes.ua.md) |
-| Persistent Storage     | Persistent storage accessible by a single Pod                | [Persistent Storage](docs/persistentVolume.ua.md) |
+| Component               | Description                                                  | Documentation                                     |
+|------------------------|--------------------------------------------------------------|---------------------------------------------------|
+| ConfigMap              | Configuration files                                          | [ConfigMap](docs/ConfigMaps.en.md)                |
+| Shared Volumes         | Persistent storage accessible from multiple Pods             | [Shared Volumes](docs/sharedVolumes.en.md)        |
+| Ephemeral RAM Volumes  | Temporary in-memory volumes                                  | [Ephemeral Volumes](docs/ephemeralVolumes.en.md)  |
+| Persistent Storage     | Persistent storage accessible by a single Pod                | [Persistent Storage](docs/persistentVolume.en.md) |
 
 ## Preparation
 
@@ -105,7 +105,7 @@ PKCS11_PROXY_SOCKET: tcp://192.168.252.139:12345
 ```
 
 - If using **Gryda-301**, uncomment the `osplm_ini` configMap parameter in both `trembita_seg_rest_api_pod:` and `trembita_proxy_pod:`.
-- Edit the `osplm_ini` configMap with the correct values for your **Gryda-301** (see [ConfigMap documentation](docs/ConfigMaps.md)).
+- Edit the `osplm_ini` configMap with the correct values for your **Gryda-301** (see [ConfigMap documentation](docs/ConfigMaps.en.md)).
 
 #### Token passthrough to proxy:
 
