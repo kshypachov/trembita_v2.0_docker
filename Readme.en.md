@@ -1,36 +1,37 @@
 # Trembita 2.0 Helm Chart
 
-Этот Helm Chart предназначен для развертывания платформы **Trembita 2.0** в Kubernetes окружении.
-
----
-Данный Helm-чарт использует следующие сущности Kubernetes:
-
-| Компонент                | Описание                                            | Документация                   |
-|--------------------------|-----------------------------------------------------|--------------------------------|
-| ConfigMap                | Конфигурационные файлы                              | [ConfigMap](docs/ConfigMaps.md) |
-| Shared Volumes           | Постоянные хранилища, доступные из нескольких Pod  | [Shared Volumes](docs/sharedVolumes.md) |
-| Ephemeral RAM Volumes    | Временные тома в оперативной памяти                | [Ephemeral Volumes](docs/ephemeralVolumes.md) |
-| Persistent Storage       | Постоянное хранилище, доступное только одному Pod  | [Persistent Storage](docs/persistentVolume.md) |
-
-## Подготовка
-
-Перед установкой выполните следующие шаги:
-
-### 1. StorageClass с поддержкой ReadWriteMany
-
-Убедитесь, что в вашем кластере доступно хранилище с поддержкой **ReadWriteMany (RWX)**. Это необходимо для корректной работы shared volumes между подами.
-
-> Рекомендуемый и протестированный провайдер: **Longhorn**.
-
-Если вы используете Longhorn, но ещё не настроили RWX StorageClass, вы можете использовать [пример StorageClass](https://github.com/kshypachov/trembita_v2.0_docker/blob/main/longhorn_rwm_storege_class.yaml) из соответствующего репозитория.
+This Helm Chart is intended for deploying the **Trembita 2.0** platform in a Kubernetes environment.
 
 ---
 
-### 2. Сборка Docker образов
+This Helm Chart utilizes the following Kubernetes components:
 
-В чарте используются предсобранные образы, размещённые в публичных Docker Registry. **Настоятельно рекомендуется пересобрать их самостоятельно и загрузить в ваш внутренний реестр.**
+| Component               | Description                                                  | Documentation                       |
+|------------------------|--------------------------------------------------------------|--------------------------------------|
+| ConfigMap              | Configuration files                                          | [ConfigMap](docs/ConfigMaps.md)      |
+| Shared Volumes         | Persistent storage accessible from multiple Pods             | [Shared Volumes](docs/sharedVolumes.ua.md) |
+| Ephemeral RAM Volumes  | Temporary in-memory volumes                                  | [Ephemeral Volumes](docs/ephemeralVolumes.ua.md) |
+| Persistent Storage     | Persistent storage accessible by a single Pod                | [Persistent Storage](docs/persistentVolume.ua.md) |
 
-Исходные Dockerfile находятся в репозитории:
+## Preparation
+
+Before installation, complete the following steps:
+
+### 1. StorageClass with ReadWriteMany support
+
+Ensure that your cluster supports a **ReadWriteMany (RWX)**-capable storage provider. This is required for proper shared volume functionality between pods.
+
+> Recommended and tested provider: **Longhorn**.
+
+If you are using Longhorn but haven't configured an RWX StorageClass yet, you can use [this StorageClass example](https://github.com/kshypachov/trembita_v2.0_docker/blob/main/longhorn_rwm_storege_class.yaml) from the corresponding repository.
+
+---
+
+### 2. Docker image build
+
+The chart uses prebuilt images published in public Docker registries. **It is strongly recommended to rebuild them yourself and upload to your internal registry.**
+
+The original Dockerfiles are located in this repository:
 
 ```
 https://github.com/kshypachov/trembita_v2.0_separate_components_docker.git
@@ -38,15 +39,15 @@ https://github.com/kshypachov/trembita_v2.0_separate_components_docker.git
 
 ---
 
-### 3. DNS инфраструктура
+### 3. DNS infrastructure
 
-Все компоненты Trembita доступны только по **DNS-именам**. Убедитесь, что в вашей внутренней сети настроен DNS-сервер и доменные имена разрешаются.
+All Trembita components are accessible only via **DNS hostnames**. Ensure that a DNS server is configured in your internal network and domain names are resolvable.
 
 ---
 
-### 4. Поддержка HTTPS passthrough для mutual TLS (опционально)
+### 4. HTTPS passthrough for mutual TLS (optional)
 
-Если ваши веб-клиенты должны использовать **взаимную HTTPS-аутентификацию**, убедитесь, что ваш Ingress контроллер поддерживает passthrough:
+If your web clients require **mutual HTTPS authentication**, ensure that your Ingress controller supports passthrough:
 
 ```yaml
 nginx.ingress.kubernetes.io/ssl-passthrough: "true"
@@ -54,9 +55,9 @@ nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 
 ---
 
-## Установка Helm чарта
+## Helm Chart Installation
 
-### 1. Клонирование репозитория
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/kshypachov/trembita_v2.0_docker.git
@@ -64,61 +65,61 @@ git clone https://github.com/kshypachov/trembita_v2.0_docker.git
 
 ---
 
-### 2. Настройка values.yaml
+### 2. Configure values.yaml
 
-Редактируйте файл:
+Edit the following file:
 
 ```
 trembita-1-22-6-ss/values.yaml
 ```
 
-### 3. Обновите следующие параметры:
+### 3. Update the following parameters:
 
-> **Важно**: Все образы, указанные ниже, рекомендуется пересобрать и опубликовать в вашем реестре Docker.
+> **Important**: All images listed below should be rebuilt and published to your private Docker registry.
 
-| Параметр | Образ | Назначение                                                                            |
-|---------|-------|---------------------------------------------------------------------------------------|
-| `trembita_config.init_jobs.trembita_postgres.image` | db_init_container | Инициализация базы данных                                                             |
-| `trembita_config.init_jobs.trembita_volumes.image` | uxp-main | Создание структуры файловой системы                                                   |
-| `trembita_config.trembita_configuration_client_pod.image` | uxp-configuration-client | Служба загружает глобальную конфигурацию из источников указанных в якоре конфигурации |
-| `trembita_config.trembita_message_log_archiver_pod.image` | uxp-message-log-archiver | Архивирование транзакций в файловую систему или s3 хранилище                          |
-| `trembita_config.trembita_identity_provider_rest_api_pod.image` | uxp-identity-provider-rest-api | API OAuth авторизация пользователей веб интерфейса                                    |
-| `trembita_config.trembita_ocsp_cache_pod.image` | uxp-ocsp-cache | Кеширование OCSP ответов                                                              |
-| `trembita_config.trembita_verifier_pod.image` | uxp-verifier | Проверка транзакций                                                                   |
-| `trembita_config.trembita_seg_rest_api_pod.image` | uxp-seg-rest-api | REST API для управления ШБО Trembita 2.0                                              |
-| `trembita_config.trembita_proxy_pod.image` | uxp-proxy | Обработка транзакций (шифрование, дешифрование, подпись)                              |
-| `trembita_config.trembita_monitor_pod.image` | uxp-monitor | Мониторинг, агрегирование транзакционных логов                                        |
-| `trembita_config.trembita_frontend_pod.image` | uxp-frontend | Веб-интерфейс                                                                         |
-| `trembita_config.trembita_postgresql_pod.image` | postgres:16 | База данных                                                                           |
+| Parameter | Image | Purpose |
+|----------|-------|---------|
+| `trembita_config.init_jobs.trembita_postgres.image` | db_init_container | Database initialization |
+| `trembita_config.init_jobs.trembita_volumes.image` | uxp-main | Filesystem structure creation |
+| `trembita_config.trembita_configuration_client_pod.image` | uxp-configuration-client | Downloads global configuration from defined sources |
+| `trembita_config.trembita_message_log_archiver_pod.image` | uxp-message-log-archiver | Archives transactions to the filesystem or S3 |
+| `trembita_config.trembita_identity_provider_rest_api_pod.image` | uxp-identity-provider-rest-api | OAuth API for web interface user authentication |
+| `trembita_config.trembita_ocsp_cache_pod.image` | uxp-ocsp-cache | OCSP response caching |
+| `trembita_config.trembita_verifier_pod.image` | uxp-verifier | Transaction verification |
+| `trembita_config.trembita_seg_rest_api_pod.image` | uxp-seg-rest-api | REST API for managing Trembita 2.0 SEG |
+| `trembita_config.trembita_proxy_pod.image` | uxp-proxy | Handles transactions (encryption, decryption, signing) |
+| `trembita_config.trembita_monitor_pod.image` | uxp-monitor | Monitoring and log aggregation |
+| `trembita_config.trembita_frontend_pod.image` | uxp-frontend | Web interface |
+| `trembita_config.trembita_postgresql_pod.image` | postgres:16 | Database |
 
 ---
 
-### Дополнительно:
+### Additional:
 
-#### Использование HSM (Cipher или Gryda-301)
+#### HSM Support (Cipher or Gryda-301)
 
-- Добавьте в `env` переменную окружения в секциях `trembita_seg_rest_api_pod:` и `trembita_proxy_pod:` :
+- Add the following environment variable under `trembita_seg_rest_api_pod:` and `trembita_proxy_pod:`:
 
 ```yaml
 PKCS11_PROXY_SOCKET: tcp://192.168.252.139:12345
 ```
 
-- Если используется **Gryda-301**, раскомментируйте в секциях `trembita_seg_rest_api_pod:` и `trembita_proxy_pod:` в `configMaps` параметр `osplm_ini`.
-- Отредактируйте конфиг мап `osplm_ini` - вписав коректные значения вашей **Gryda-301** (как работают [конфиг мап](docs/ConfigMaps.md) в данном чарте)
+- If using **Gryda-301**, uncomment the `osplm_ini` configMap parameter in both `trembita_seg_rest_api_pod:` and `trembita_proxy_pod:`.
+- Edit the `osplm_ini` configMap with the correct values for your **Gryda-301** (see [ConfigMap documentation](docs/ConfigMaps.md)).
 
-#### Передача токенов в proxy:
+#### Token passthrough to proxy:
 
-- Добавьте в `env` переменную окружения в секциях `trembita_seg_rest_api_pod:` и `trembita_proxy_pod:` :
+- Add this environment variable under `trembita_seg_rest_api_pod:` and `trembita_proxy_pod:`:
 
 ```yaml
 UXP_TOKENS_PASS: "0:12345,ciplus-78-5:##ADMIN##123456789"
 ```
 
-> Формат передачи описан здесь: https://github.com/kshypachov/seg_init_tokens.git
+> Format details available at: https://github.com/kshypachov/seg_init_tokens.git
 
 ---
 
-### Настройка Ingress
+### Ingress Configuration
 
 #### Proxy:
 ```yaml
@@ -127,7 +128,7 @@ trembita_proxy_pod.ingress:
   secure_host: secure-api.trembita.office
 ```
 
-> Замените на актуальные домены вашей инфраструктуры.
+> Replace with your actual domain names.
 
 #### Frontend:
 ```yaml
@@ -136,34 +137,34 @@ trembita_frontend_pod.ingress.host: trembita.office
 
 ---
 
-### Хранилище PostgreSQL
+### PostgreSQL Storage
 
 ```yaml
 trembita_postgresql_pod.persistentStorage.size: 5Gi
 ```
 
-Обычно достаточно 5ГБ при выгрузке транзакций в S3 и очистке локального хранилища.
+5GB is usually sufficient if transactions are exported to S3 and local storage is cleaned up regularly.
 
 ---
 
 ### sharedVolumes
 
-Общие тома, которые подключаются к нескольким подам.
+Shared volumes mounted by multiple pods.
 
-- `var-lib-uxp-messagelog` — содержит транзакции и временные файлы.  
-  > Не изменяйте `initCopy`, `mountPath`, `storageClassName`.
+- `var-lib-uxp-messagelog` — stores transactions and temporary files.  
+  > Do not modify `initCopy`, `mountPath`, or `storageClassName`.
 
-- `etc-uxp-globalconf`, `etc-uxp-signer` — копируются с образа на этапе инициализации.
+- `etc-uxp-globalconf`, `etc-uxp-signer` — copied from the image during initialization.
 
 ---
 
 ### MinIO
 
-Настроен как отдельный модуль (Bitnami Helm chart).
+Configured as a separate module (Bitnami Helm chart).
 
-Подробнее: https://artifacthub.io/packages/helm/bitnami/minio
+More info: https://artifacthub.io/packages/helm/bitnami/minio
 
-Пример конфигурации:
+Example configuration:
 ```yaml
 minio:
   fullnameOverride: minio

@@ -5,12 +5,12 @@
 ---
 Данный Helm-чарт использует следующие сущности Kubernetes:
 
-| Компонент                | Описание                                            | Документация                   |
-|--------------------------|-----------------------------------------------------|--------------------------------|
-| ConfigMap                | Конфигурационные файлы                              | [ConfigMap](docs/ConfigMaps.md) |
-| Shared Volumes           | Постоянные хранилища, доступные из нескольких Pod  | [Shared Volumes](docs/sharedVolumes.md) |
-| Ephemeral RAM Volumes    | Временные тома в оперативной памяти                | [Ephemeral Volumes](docs/ephemeralVolumes.md) |
-| Persistent Storage       | Постоянное хранилище, доступное только одному Pod  | [Persistent Storage](docs/persistentVolume.md) |
+| Компонент                | Описание                                            | Документация                                   |
+|--------------------------|-----------------------------------------------------|------------------------------------------------|
+| ConfigMap                | Конфигурационные файлы                              | [ConfigMap](docs/ConfigMaps.ua.md)             |
+| Shared Volumes           | Постоянные хранилища, доступные из нескольких Pod  | [Shared Volumes](docs/sharedVolumes.ua.md)        |
+| Ephemeral RAM Volumes    | Временные тома в оперативной памяти                | [Ephemeral Volumes](docs/ephemeralVolumes.ua.md)  |
+| Persistent Storage       | Постоянное хранилище, доступное только одному Pod  | [Persistent Storage](docs/persistentVolume.ua.md) |
 
 ## Подготовка
 
