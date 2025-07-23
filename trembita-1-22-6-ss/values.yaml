@@ -312,7 +312,7 @@ trembita_config:
       - name: proxy-java-cache
         mountPath: /tmp/bc_java/
         sizeLimit: "100Mi"
-    hpa:
+    hpa: #HorizontalPodAutoscaler settings
       minReplicas: 1
       maxReplicas: 10
       averageUtilization: 50
