@@ -1,73 +1,73 @@
-## Описание: persistentStorage
+## Description: persistentStorage
 
-`persistentStorage` — это постоянное хранилище, подключаемое к Pod на основе Kubernetes `PersistentVolumeClaim`, предназначенное для **одиночного использования** (доступен только одному Pod в момент времени). В отличие от `sharedVolumes`, `persistentStorage` не может быть смонтировано одновременно в нескольких Pod'ах.
-
----
-
-### Текущие ограничения:
-
-- На данный момент используется **только в `trembita_postgresql_pod`**.
-- Также применяется в MinIO, но его конфигурация скрыта внутри Helm чарта Bitnami и **не описывается в данной документации**.
-- **Не является универсальным решением** — требует ручного добавления шаблонов для каждого нового Pod.
+`persistentStorage` refers to persistent storage mounted into a Pod using a Kubernetes `PersistentVolumeClaim`, designed for **exclusive use** — i.e., accessible by only one Pod at a time. Unlike `sharedVolumes`, `persistentStorage` cannot be mounted simultaneously in multiple Pods.
 
 ---
 
-### Пример конфигурации в `values.yaml`
+### Current Limitations:
+
+- Currently used **only in `trembita_postgresql_pod`**.
+- Also used in MinIO, but its configuration is encapsulated within the Bitnami Helm chart and **is not described in this documentation**.
+- **Not a universal solution** — requires manual addition of templates for each new Pod.
+
+---
+
+### Example configuration in `values.yaml`
 
 ```yaml
 trembita_postgresql_pod:
   name: postgres
   image: postgres:16
   persistentStorage:
-    - name: postgres                     # уникальное имя для PVC
-      mountPath: /var/lib/postgresql/data # путь монтирования в контейнер
-      size: 1Gi                          # размер PVC
-      storageClass: ""                  # указание StorageClass (можно оставить пустым для дефолтного)
+    - name: postgres                       # unique name for PVC
+      mountPath: /var/lib/postgresql/data # container mount path
+      size: 1Gi                            # PVC size
+      storageClass: ""                    # optional StorageClass (empty for default)
 ```
 
 ---
 
-### Создание PVC
+### PVC Creation
 
-За создание PVC отвечает шаблон:
+PVC creation is handled by the template:
 
 ```
 templates/postgres/postgresql-pvc.yaml
 ```
 
-> Для добавления `persistentStorage` к другому компоненту:
-> 1. Скопируйте `postgresql-pvc.yaml` в директорию соответствующего Pod.
-> 2. Переименуйте файл.
-> 3. Отредактируйте шаблон так, чтобы он брал значения из `values.yaml` вашего компонента.
+> To add `persistentStorage` to another component:
+> 1. Copy `postgresql-pvc.yaml` to the target Pod’s directory.
+> 2. Rename the file.
+> 3. Modify the template to read values from your component's `values.yaml`.
 
 ---
 
 ### Access Modes
 
-PVC создается с режимом доступа:
+The PVC is created with the following access mode:
 
 ```yaml
 accessModes:
   - ReadWriteOnce
 ```
 
-Это означает, что том может быть **использован только одним Pod одновременно**.
+This means the volume **can only be used by a single Pod at a time**.
 
 ---
 
-### Особенности установки
+### Installation Behavior
 
-Создание PVC возможно только во время установки Helm чарта благодаря аннотации:
+PVC creation occurs only during the Helm chart installation due to the annotation:
 
 ```yaml
 annotations:
   "helm.sh/hook": pre-install
 ```
 
-Если вы обновляете чарт, уже установленный в кластере, **PVC не будет создан автоматически**.
+If you are upgrading an already installed chart, **the PVC will not be created automatically**.
 
 ---
 
-### Вывод
+### Summary
 
-- `persistentStorage` подходит для компонентов с **уникальным хранилищем**, например PostgreSQL.
+- `persistentStorage` is suited for components that require **dedicated storage**, such as PostgreSQL.
