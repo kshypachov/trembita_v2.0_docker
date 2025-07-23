@@ -1,30 +1,30 @@
-## Описание: sharedVolumes
+## Description: sharedVolumes
 
-В данном Helm чарте под `sharedVolumes` понимаются **PersistentVolumeClaim (PVC)** ресурсы, использующие `StorageClass`, поддерживающий режим **ReadWriteMany (RWX)** — то есть возможность одновременного подключения к нескольким Pod'ам.
+In this Helm chart, `sharedVolumes` refer to **PersistentVolumeClaim (PVC)** resources that utilize a `StorageClass` supporting **ReadWriteMany (RWX)** mode — allowing simultaneous access by multiple Pods.
 
 ---
 
-### 1. Объявление в `values.yaml`
+### 1. Declaration in `values.yaml`
 
-Каждый shared volume объявляется в секции `sharedVolumes:` с параметрами:
+Each shared volume is declared under the `sharedVolumes:` section with the following parameters:
 
 ```yaml
 sharedVolumes:
-  var-lib-uxp-messagelog:       # ← ключ, используемый при подключении к Pod
-    enabled: true               # включает создание PVC
-    initCopy: false             # выполнять ли копирование данных из init-образа
-    size: 2Gi                   # запрашиваемый размер PVC
-    mountPath: /var/lib/uxp/messagelog/  # путь монтирования в контейнере
-    storageClassName: "longhorn-rwx"     # StorageClass с поддержкой RWX
+  var-lib-uxp-messagelog:       # ← key used for Pod attachment
+    enabled: true               # enables PVC creation
+    initCopy: false             # whether to copy data from init image
+    size: 2Gi                   # requested PVC size
+    mountPath: /var/lib/uxp/messagelog/  # mount path in the container
+    storageClassName: "longhorn-rwx"     # RWX-compatible StorageClass
     accessModes:
-      - ReadWriteMany           # режим доступа
+      - ReadWriteMany           # access mode
 ```
 
 ---
 
-### 2. Генерация PVC в шаблоне `trembita-shared-disk-pvc.yaml`
+### 2. PVC generation in `trembita-shared-disk-pvc.yaml` template
 
-Для каждого объявленного shared volume автоматически создаётся соответствующий `PersistentVolumeClaim` при установке чарта:
+For each declared shared volume, a corresponding `PersistentVolumeClaim` is automatically created during chart installation:
 
 ```yaml
 apiVersion: v1
@@ -32,7 +32,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ .Name }}
   annotations:
-    "helm.sh/hook": pre-install  # создаётся только на этапе установки Helm чарта
+    "helm.sh/hook": pre-install  # created only during Helm chart installation
 spec:
   accessModes:
     - ReadWriteMany
@@ -42,13 +42,13 @@ spec:
   storageClassName: {{ .StorageClassName }}
 ```
 
-> Обратите внимание: PVC создаются **только при установке** чарта, благодаря аннотации `helm.sh/hook: pre-install`.
+> Note: PVCs are created **only during installation**, thanks to the `helm.sh/hook: pre-install` annotation.
 
 ---
 
-### 3. Подключение sharedVolume к Pod
+### 3. Attaching sharedVolume to a Pod
 
-Чтобы подключить shared volume к Pod, необходимо добавить его ключ в секцию `sharedVolumes:` соответствующего Pod-а:
+To attach a shared volume to a Pod, add its key to the Pod’s `sharedVolumes:` section:
 
 ```yaml
 trembita_proxy_pod:
@@ -59,21 +59,21 @@ trembita_proxy_pod:
     UXP_TOKENS_PASS: "0:12345,ciplus-78-5:##ADMIN##123456789"
     PKCS11_PROXY_SOCKET: tcp://94.131.252.139:23454
   sharedVolumes:
-    - var-lib-uxp-messagelog   # ← подключённый shared volume
+    - var-lib-uxp-messagelog   # ← attached shared volume
 ```
 
 ---
 
-### 4. Особенности
+### 4. Key Features
 
-- При `initCopy: true` содержимое копируется из `init`-образа в shared volume.
-- Все shared volume-ы создаются до запуска Pod-ов, что гарантирует доступность данных на момент старта.
-- Убедитесь, что выбранный `StorageClass` (например, `longhorn-rwx`) поддерживает `ReadWriteMany`.
+- If `initCopy: true`, contents are copied from the `init` image into the shared volume.
+- All shared volumes are created before Pods start, ensuring data availability at launch time.
+- Ensure that the specified `StorageClass` (e.g., `longhorn-rwx`) supports `ReadWriteMany`.
 
 ---
 
-### Используйте данную модель для подключения общих директорий, таких как:
-- каталоги с логами
-- подписанные транзакции
-- глобальные конфигурации
-- токены и ключи
+### Use this model to mount shared directories such as:
+- log directories
+- signed transactions
+- global configurations
+- tokens and key material
