@@ -1,28 +1,28 @@
-## Описание: ConfigMap
+## Description: ConfigMap
 
-`ConfigMap` — это сущность Kubernetes, которая позволяет передавать внутрь Pod конфигурационные файлы. Один `ConfigMap` может монтироваться одновременно в несколько контейнеров и использоваться совместно.
+A `ConfigMap` is a Kubernetes resource that allows injecting configuration files into a Pod. A single `ConfigMap` can be mounted into multiple containers simultaneously and used jointly.
 
-В данном чарте применяется **модель объявления и описания**:
+This chart uses a **declarative definition model**, consisting of the following steps:
 
 ---
 
-### 1. Объявление в `values.yaml`
+### 1. Declaration in `values.yaml`
 
-Каждый `ConfigMap` объявляется в секции `trembita_config.configMaps`. Пример:
+Each `ConfigMap` is declared under the `trembita_config.configMaps` section. Example:
 
 ```yaml
-local_ini:                              # Ключ 
-  enabled: true                         # включает или отключает конфиг-мап
-  name: local-ini                       # имя для Kubernetes ресурса
-  mountPath: /etc/uxp/conf.d/local.ini # путь монтирования в контейнер
-  subPath: local.ini                   # имя файла внутри конфиг-мапа
+local_ini:                              # Key
+  enabled: true                         # enables or disables the ConfigMap
+  name: local-ini                       # name of the Kubernetes resource
+  mountPath: /etc/uxp/conf.d/local.ini # mount path inside the container
+  subPath: local.ini                    # file name inside the ConfigMap
 ```
 
 ---
 
-### 2. Определение содержимого в `trembita-config-maps.yaml`
+### 2. Content definition in `trembita-config-maps.yaml`
 
-Файл `trembita-config-maps.yaml` содержит шаблон создания соответствующего Kubernetes ресурса:
+The `trembita-config-maps.yaml` file contains the template for creating the corresponding Kubernetes resource:
 
 ```yaml
 {{- if and .enabled .local_ini.enabled }}
@@ -52,20 +52,20 @@ data:
 
 ---
 
-### 3. Подключение к Pod
+### 3. Mounting into Pod
 
-Чтобы `ConfigMap` был смонтирован в Pod, его ключ (например `local_ini`) нужно добавить в секцию `configMaps` нужного Pod-а:
+To mount the `ConfigMap` into a Pod, add its key (e.g., `local_ini`) into the target Pod's `configMaps` section:
 
 ```yaml
 trembita_configuration_client_pod:
   configMaps:
     - uxp_anchor
     - uxp_license
-    - local_ini  # ← добавлен ключ local_ini
+    - local_ini  # ← added key local_ini
 ```
 
-> Также убедитесь, что `enabled: true` для соответствующего ключа в секции `configMaps`.
+> Also make sure `enabled: true` is set for the corresponding key in the `configMaps` section.
 
 ---
 
-### Используйте эту технику для добавления собственных `ConfigMap`-ов в систему.
+### Use this technique to add your own `ConfigMap`s into the system.
