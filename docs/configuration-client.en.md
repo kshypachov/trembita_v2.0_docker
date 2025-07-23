@@ -1,58 +1,58 @@
 # uxp-configuration-client Kubernetes Deployment
 
-Этот каталог содержит шаблоны для развертывания службы `uxp-configuration-client` в Kubernetes.
+This directory contains templates for deploying the `uxp-configuration-client` service in a Kubernetes cluster.
 
-## Описание
+## Description
 
-Шаблон `configuration-client.yaml` описывает ресурс типа `Deployment`, состоящий из одного `Pod`, содержащего два контейнера:
+The `configuration-client.yaml` template defines a `Deployment` resource consisting of a single `Pod` with two containers:
 
-- **sidecar** — служит для проксирования локального порта;
-- **uxp-configuration-client** — основное Java-приложение для загрузки и обработки глобальной конфигурации X-Road (Trembita).
+- **sidecar** — used to proxy the local port;
+- **uxp-configuration-client** — the main Java application responsible for downloading and processing the X-Road (Trembita) global configuration.
 
-Поскольку основной контейнер слушает **порт 5666 на интерфейсе 127.0.0.1**, доступ к нему извне невозможен напрямую. Для решения этой задачи используется sidecar-контейнер с `socat`, который проксирует:
+Since the main container listens on **port 5666 bound to interface 127.0.0.1**, it is not directly accessible from outside. To resolve this, a sidecar container using `socat` is employed to proxy:
 
 ```
 0.0.0.0:6666 → 127.0.0.1:5666
 ```
 
-Это позволяет другим компонентам кластера обращаться к порту 5666 через сервис на 6666 порту.
+This allows other components in the cluster to access port 5666 via a service listening on port 6666.
 
-## Сервис
+## Service
 
-Файл `configuration-client-admin-port-service.yaml` содержит описание Kubernetes `Service`, обеспечивающего доступ к admin-порту контейнера через `socat`.
+The `configuration-client-admin-port-service.yaml` file defines a Kubernetes `Service` that provides access to the admin port of the container via `socat`.
 
-## Особенности конфигурации
+## Configuration Features
 
-- Основное Java-приложение запускается с явно заданными параметрами `command` и `args`, что позволяет легко документировать и изменять конфигурацию без пересборки контейнера.
-- Контейнер работает в **read-only** файловой системе. Для корректной работы необходимо примонтировать внешние тома:
-  - Для временных файлов Java и библиотеки `javacpp` (`/tmp/java`, `/var/tmp/uxp/`);
-  - Для хранения загруженной глобальной конфигурации.
+- The main Java application is launched with explicitly defined `command` and `args` parameters, making it easy to document and modify the configuration without rebuilding the container.
+- The container runs with a **read-only** filesystem. For proper operation, external volumes must be mounted:
+  - For Java temporary files and the `javacpp` library (`/tmp/java`, `/var/tmp/uxp/`);
+  - For storing the downloaded global configuration.
 
-## Ресурсы
+## Resources
 
 ### sidecar (socat)
 
-| Параметр  | Значение    |
-|-----------|-------------|
-| CPU       | 10m (req), 20m (limit) |
-| Memory    | 32Mi (req), 64Mi (limit) |
-| Порт      | 6666        |
+| Parameter | Value                  |
+|----------|------------------------|
+| CPU      | 10m (request), 20m (limit) |
+| Memory   | 32Mi (request), 64Mi (limit) |
+| Port     | 6666                   |
 
 ### uxp-configuration-client
 
-| Параметр  | Значение    |
-|-----------|-------------|
-| CPU       | 100m (req), 200m (limit) |
-| Memory    | 128Mi (req), 256Mi (limit) |
-| Порт      | 5666        |
+| Parameter | Value                     |
+|----------|---------------------------|
+| CPU      | 100m (request), 200m (limit) |
+| Memory   | 128Mi (request), 256Mi (limit) |
+| Port     | 5666                      |
 
-## Назначение
+## Purpose
 
-Служба используется для загрузки глобальной конфигурации X-Road и может быть вызвана другими службами системы через проксированный admin-порт.
+This service is used to download the global X-Road configuration and can be accessed by other system services through the proxied admin port.
 
 ---
 
-**Примечание:** Файл запуска `configuration-client.jar` использует дополнительные зависимости, переданные через `-cp`, включая `cipher-jce-provider`, `ciplus-jce`, и прочие.
+**Note:** The `configuration-client.jar` startup command includes additional dependencies passed via `-cp`, such as `cipher-jce-provider`, `ciplus-jce`, and others.
 
 ```bash
 java -Xmx50m \
