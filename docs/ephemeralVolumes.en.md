@@ -1,39 +1,39 @@
-## Описание: ephemeralVolumeRAM
+## Description: ephemeralVolumeRAM
 
-`ephemeralVolumeRAM` — это временные тома, реализованные через `emptyDir: { medium: "Memory" }`, то есть создаваемые в **оперативной памяти**. Используются для хранения временных данных, таких как:
+`ephemeralVolumeRAM` refers to temporary volumes implemented via `emptyDir: { medium: "Memory" }`, meaning they are created in **RAM**. These are used to store transient data such as:
 
-- распакованные Java библиотеки,
-- байткод,
-- кеши во время выполнения.
-
----
-
-### Особенности:
-
-- **Работают как tmpfs**: создаются в RAM, быстрые и не сохраняются между перезапусками Pod.
-- **Просты в использовании** — не требуют PVC или StorageClass.
-- **Создаются пустыми** — приложение должно самостоятельно создать структуру, если она требуется.
-- **Размер ограничен** — рекомендуется не более 100 МБ.
+- unpacked Java libraries,
+- bytecode,
+- runtime caches.
 
 ---
 
-### Пример объявления в `values.yaml`
+### Characteristics:
+
+- **Work like tmpfs**: created in memory (RAM), fast, and wiped out on Pod restart.
+- **Simple to use** — no PVC or StorageClass required.
+- **Created empty** — the application must create any required directory structure.
+- **Size-limited** — it is recommended to keep below 100 MB.
+
+---
+
+### Example declaration in `values.yaml`
 
 ```yaml
 trembita_proxy_pod:
   name: proxy
   image: kshypachov/trembita_jb_uxp-proxy-v1.22.7:v1.0.6
   ephemeralVolumeRAM:
-    - name: proxy-java-cache         # произвольное имя вольюма
-      mountPath: /tmp/bc_java/       # точка монтирования в контейнер
-      sizeLimit: "100Mi"             # лимит на размер в RAM
+    - name: proxy-java-cache         # arbitrary volume name
+      mountPath: /tmp/bc_java/       # mount path inside container
+      sizeLimit: "100Mi"             # size limit in RAM
 ```
 
-> Вы можете указать несколько таких томов для разных целей — кэширование, буферизация и т.п.
+> You can define multiple such volumes for different purposes — caching, buffering, etc.
 
 ---
 
-### Как это работает внутри шаблона
+### How it works in the template
 
 ```yaml
 - name: {{ .name }}
@@ -44,9 +44,9 @@ trembita_proxy_pod:
 
 ---
 
-### Где применяется
+### Where it is used
 
-Такие тома подключаются, например, в следующих компонентах:
+These volumes are mounted, for example, in the following components:
 
 - `trembita_proxy_pod`
 - `trembita_identity_provider_rest_api_pod`
@@ -55,12 +55,12 @@ trembita_proxy_pod:
 
 ---
 
-### Примечания
+### Notes
 
-- Эти тома **не поддерживают инициализацию данными**.
-- После перезапуска Pod они очищаются.
-- Использование в tmpfs снижает количество операций с диском, но не подходит для долговременных данных.
+- These volumes **do not support initialization with data**.
+- They are cleared after Pod restarts.
+- Using tmpfs reduces disk I/O but is unsuitable for persistent data.
 
---- 
+---
 
-**Используйте `ephemeralVolumeRAM`, когда нужно хранить временные файлы, не влияющие на постоянство данных.**
+**Use `ephemeralVolumeRAM` when you need to store temporary files that do not require persistence.**
